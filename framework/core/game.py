@@ -115,13 +115,9 @@ class Controller:
 		self.x_pressed = self.y_pressed = False # USE THESE!!! Yes but actually no
 		self.x_tick = self.y_tick = 0
 		
-		#self.y_axis_sr = 0 # special repeat; delayed repeat
-		#self.y_axis_phase1 = 0 # for the first, and longer, delay
-		#self.y_axis_phase2 = 0 # for the constant and shorter delay
-		
-		self.as_pressed = False
-		self.as_button = 0 # 'A' button single pulse
-		self.ar_button = 0 # 'A' button repeating pulse; haven't coded this in yet
+		self.y_axis_sr = 0 # special repeat; delayed repeat
+		self.y_axis_phase1 = 0 # for the first, and longer, delay
+		self.y_axis_phase2 = 0 # for the constant and shorter delay
 		
 		# buttons: A, B, X, Y
 		self.pressed_a_held = False
