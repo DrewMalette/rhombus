@@ -1,0 +1,23 @@
+
+
+	basic skills
+	- linux command line
+	- package management (Debian)
+	- shell scripting
+	- commands: cd, ls, mkdir, mv, cp, df, chmod, touch, echo, cat, less, grep, top, vim, git
+	
+	intermediate skills
+	- programming language/s
+	- lamp stack/host a server
+	- commands: python, gcc/g++, service/systemctl
+	
+	advanced/specialized skills
+	- software architecture design
+	- machine learning
+	- application development
+	- languages: python, php, C++, SQL
+	
+	special projects
+	- game engine
+	- actual video game
+	- learning C# via mono

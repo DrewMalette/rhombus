@@ -1,0 +1,49 @@
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	A game with a sophisticated computer program crafting system with haunted
+	servers and possessed robots.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	crack a server to discern os
+	if you know the os you can either use a program or virus if they're compatible
+	if you don't have a compatible program/virus you can use knowledge of the os
+	 to craft one
+	
+	If this hacking ability is going to be an important mechanic in the game, it
+	 needs to be justified. The world is going to revolve heavily around computers
+	 and hacking. People will have legitimate and not so legitimate requests for
+	 you to do. And the only way you can carry out these quests is by having the
+	 right program/virus. 
+	
+	the city-state you flee to will help you but they're strictly on the defence as
+	 they don't have the resources to launch an assault to cripple the empire's efforts
+	 
+	the empire targeted your town to exploit its resources and industry (it's heavily
+	 centred on electronics and weaponry)
+	 
+	Pursuing science and technology as a spiritual path while blending it with
+	 Gaianism.
+	 
+	Technology need not be at odds with the earth. Capitalism is truly the only
+	 ethical way to bottleneck the flow and need of resources required for
+	 a technological and earth-friendly society.
+	 
+	How to fit psionics into hacking?
+	Haunted computers? Haunted websites?
+	
+	"Somehow, a malevolent spirit attaches itself to an advanced AI and begins
+	 wreaking havoc on the network"
+	 
+	 
+	Predecessors: Short spooky stories. And maybe a Halloween game with a few
+	simple item collecting/dropping off mechanics. Maybe some choices.
+	Steal a creepypasta story. One that you can make a game out of.
+	
+	Clean up the code and launch it on github. Do a severe audit of the code and
+	beginning documenting the engine's architecture.
+	
+	In the meantime, learn principles of game design and world building, especially
+	since you're planning on building a sophisticated Hacker-ARPG.
+	
+	Maybe even make a simple arcade game.
+	
+	Port Schizophrenia III - Deadsville II to the new engine as an exercise.

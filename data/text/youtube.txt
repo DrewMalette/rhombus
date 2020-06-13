@@ -1,0 +1,8 @@
+
+
+	ideas for YouTube videos
+	
+	stack tutorials (python+pygame, gedit, gimp)
+	- scripting protocol for game development (non engine development)
+	program analysis and debugging (theory and techniques)
+	

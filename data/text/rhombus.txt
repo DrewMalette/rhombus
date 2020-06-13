@@ -1,0 +1,25 @@
+
+
+	rhombus - an action rpg framework written in python
+	
+	"Basically, I wanted to make a video game version of GURPS.
+	 The first working project name was 'GURPS Digital'." - DM
+	
+	** refine the code using UNIX philosophy **
+	
+	features
+	- smooth scrolling
+	- multi layered tilemaps
+	- collision detection at both the tilemap and sprite levels
+	- basic interaction function
+	- simple dialogue interface
+	
+	future targets
+	- inventory system
+	- character stat blocks
+	- equipment management system
+	- combat functionality
+	- game save system
+	
+	dreams
+	- network play
