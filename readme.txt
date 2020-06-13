@@ -2,7 +2,7 @@
 
 	rhombus - an action rpg framework written in python
 	
-	included is some sample content to demonstrate the framework
+	included is some sample content for demonstration
 	
 	current features
 	- smooth scrolling
