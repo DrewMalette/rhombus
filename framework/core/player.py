@@ -37,4 +37,4 @@ class Player(Mob):
 		
 		if self.game.controller.pressed_a == 1:
 			self.interact()
-			print(self.action)
+

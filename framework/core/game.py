@@ -34,6 +34,9 @@ class Game:
 		self.ui_font = pygame.font.Font(None, 24)
 		self.title_card = pygame.image.load(title_image_file)
 		self.music_tracks = {}
+		
+		self.debugging = -1
+		self.debug_font = pygame.font.Font(None, 20)
 
 	def load_scene(self, uid, map_filename):
 		
@@ -70,6 +73,20 @@ class Game:
 		if _.fader.faded_out or _.fader.faded_in:
 			_.script = _.next_script
 
+	def draw_debug_info(self):
+	
+		labels = []
+		labels.append(self.debug_font.render("player.x: "+str(self.player.x), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("player.y: "+str(self.player.y), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
+		
+		for i, label in enumerate(labels):
+			label.set_alpha(160)
+			self.display.blit(label, (10, 10 + (i * self.debug_font.get_height()))) 
+
 	def update(self):
 	
 		self.clock.tick(self.fps)
@@ -84,6 +101,7 @@ class Game:
 		
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_F1: self.debugging = -self.debugging
 				if event.key == pygame.K_RETURN:
 					for obj in self.obj_stack:
 						print(obj)
@@ -96,10 +114,8 @@ class Game:
 			else:
 				self.display.blit(obj, (0,0))
 		
-		# if self.debugging == 1:		
-		# 	r = (self.player.action.x - self.renderer.x, self.player.action.y - self.renderer.y, self.player.action.w, self.player.action.h)
-		# 	pygame.draw.rect(self.display, (0xff,0,0), r, 1)
-		#	draw_debug_info() # self.font.Render
+		if self.debugging == 1: self.draw_debug_info()
+		
 		pygame.display.flip()
 					
 class Controller:
@@ -125,6 +141,8 @@ class Controller:
 		self.held_a = 0
 		
 		self.exit = 0
+		
+		self.pressed_f1 = False
 		
 	def press(self, button):
 	
@@ -176,6 +194,8 @@ class Keyboard(Controller):
 			self.press("a")
 		elif keys[pygame.K_RCTRL] == 0 and self.pressed_a_held:
 			self.pressed_a_held = False
+			
+	#def check_key(self, key, button): if key == 1 and not (getattr(self, "pressed_"+
 
 		if keys[pygame.K_ESCAPE] == 1:
 			self.exit = 1
@@ -301,6 +321,10 @@ class Renderer(pygame.Rect):
 			for col in range(self.cols):
 				tile, x, y = self.tile_prep("top", col, row)
 				if tile != "0": self.game.display.blit(tile, (x, y))
+		
+		if self.game.debugging == 1:
+			r = (self.game.player.action.x - self.x, self.game.player.action.y - self.y, self.game.player.action.w, self.game.player.action.h)
+			pygame.draw.rect(self.game.display, (0xff,0,0), r, 1)
 				
 class Fader: # TODO make a white version
 
