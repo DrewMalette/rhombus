@@ -4,9 +4,9 @@ import xml.etree.ElementTree as ET
 
 import pygame
 
-from .tileset import Tileset
 from . import mob
 from . import filepaths
+from .tileset import Tileset
 
 def load_image(filename, colourkey=None):
 
