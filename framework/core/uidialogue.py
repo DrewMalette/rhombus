@@ -4,7 +4,7 @@ import pygame
 
 class UI_Dialogue(object):
 
-	def __init__(self, uid, game_obj, loc, size):
+	def __init__(self, uid, game_obj, loc, size): # spr_id
 		
 		self.uid = uid
 		self.game_obj = game_obj
