@@ -1,16 +1,14 @@
 #
 
-#from .mob import Mob
-#from .tileset import Tileset
 from . import filepaths
 from . import utilities
 
 class Scene:
 
-	def __init__(self, uid, game, filename):
+	def __init__(self, uid, game_obj, filename):
 
 		self.uid = uid
-		self.game = game
+		self.game_obj = game_obj
 		
 		self.mobs = {}
 		self.live_mobs = {}
@@ -19,12 +17,13 @@ class Scene:
 		self.furniture = {}
 		self.loot = {}
 		
-		#self.uid = map_filename		
+		#self.uid = filename		
 			
 		self.loot = {}
 		self.loot_count = 0
 		self.switches = {}
-		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }		
+		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }
+		self.tileset_obj = None
 		
 		utilities.load_tmx(filename, self)
 
@@ -36,9 +35,9 @@ class Scene:
 		self.loot[self.loot_count] = sprite.Loot(self, uid, filename, (px,py))
 		self.loot_count = (self.loot_count + 1) % 256
 		
-	def add_mob(self, mob):
+	def add_mob(self, mob_obj):
 	
-		self.mobs[mob.name] = mob
+		self.mobs[mob.name] = mob_obj
 	
 	def get_tile(self, layername, col, row):
 	
@@ -47,11 +46,11 @@ class Scene:
 			
 	def update(self):
 		
-		if not self.game.fader.fading:
+		if not self.game_obj.fader.fading:
 			for mob in self.live_mobs.values():	mob.update()
-			self.game.renderer.update()
+			self.game_obj.renderer.update()
 		
 	def render(self):
 	
-		self.game.renderer.render()
+		self.game_obj.renderer.render()
 

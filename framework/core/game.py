@@ -11,7 +11,7 @@ class Game:
 	fps = 60
 	display_size = (640,480)
 
-	def __init__(self, title_image_file):
+	def __init__(self):
 	
 		pygame.display.set_caption("rhombus framework")
 		self.display = pygame.display.set_mode(self.display_size)
@@ -32,15 +32,15 @@ class Game:
 		
 		self.ui = {}
 		self.ui_font = pygame.font.Font(None, 24)
-		self.title_card = pygame.image.load(title_image_file)
+		self.title_card = None
 		self.music_tracks = {}
 		
 		self.debugging = -1
 		self.debug_font = pygame.font.Font(None, 20)
 
-	def load_scene(self, uid, map_filename):
+	def load_scene(self, uid, filename):
 		
-		self.scene = scene.Scene(uid, self, map_filename)
+		self.scene = scene.Scene(uid, self, filename)
 		self.renderer.scene = self.scene
 		self.renderer.following = self.player
 		# assumes the tile is square
@@ -183,20 +183,11 @@ class Keyboard(Controller):
 			self.x_pressed = False
 		self.x_repeat = self.x_pressed and (pygame.time.get_ticks() - self.x_tick >= 800)
 
-		#if self.y_axis != 0 and not self.y_pressed:
-		#	self.y_tick = pygame.time.get_ticks()
-		#	self.y_pressed = True
-		##elif self.y_axis == 0 and self.y_pressed:
-		#	self.y_pressed = False
-		#self.y_repeat = self.y_pressed and (pygame.time.get_ticks() - self.y_tick >= 800)
-
 		if keys[pygame.K_RCTRL] == 1 and not self.pressed_a_held:
 			self.press("a")
 		elif keys[pygame.K_RCTRL] == 0 and self.pressed_a_held:
 			self.pressed_a_held = False
 			
-	#def check_key(self, key, button): if key == 1 and not (getattr(self, "pressed_"+
-
 		if keys[pygame.K_ESCAPE] == 1:
 			self.exit = 1
 
@@ -251,7 +242,7 @@ class Renderer(pygame.Rect):
 		y = row * self.tilesize - y_offset
 		
 		if index != "0":
-			tile = self.scene.tileset[index]
+			tile = self.scene.tileset_obj[index]
 			return (tile, x, y)
 		else:			
 			return ("0", x, y)
@@ -299,13 +290,13 @@ class Renderer(pygame.Rect):
 				r = row * self.tilesize - y_offset
 				
 				if bottom_i != "0":
-					bottom_t = self.scene.tileset[bottom_i]
+					bottom_t = self.scene.tileset_obj[bottom_i]
 					self.game.display.blit(bottom_t, (c,r))
 				elif bottom_i == "0":
 					self.game.display.blit(self.blank, (c,r))
 
 				if middle_i != "0":
-					middle_t = self.scene.tileset[middle_i]
+					middle_t = self.scene.tileset_obj[middle_i]
 					self.game.display.blit(middle_t, (c,r))
 
 		#if self.scene.loot: # TODO merge this with sprites for the y_sort

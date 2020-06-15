@@ -5,13 +5,13 @@ from .mob import *
 
 class Player(Mob):
 
-	def __init__(self, game, filename, name):
+	def __init__(self, uid, game_obj, filename):
 	
-		Mob.__init__(self, game, filename, name)
+		Mob.__init__(self, uid, game_obj, filename)
 		
 		self.action = pygame.Rect(0,0,12,12)
 		
-	def interact(self): # think of a better name (interact?)
+	def interact(self):
 
 		if self.facing == "north":
 			x = (self.x + self.w / 2) - (self.w / 2) + 1
@@ -33,8 +33,8 @@ class Player(Mob):
 	
 		self.base_update()
 		
-		self.move(self.game.controller.x_axis, self.game.controller.y_axis)
+		self.move(self.game_obj.controller.x_axis, self.game_obj.controller.y_axis)
 		
-		if self.game.controller.pressed_a == 1:
+		if self.game_obj.controller.pressed_a == 1:
 			self.interact()
 

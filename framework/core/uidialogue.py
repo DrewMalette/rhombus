@@ -4,10 +4,10 @@ import pygame
 
 class UI_Dialogue(object):
 
-	def __init__(self, uid, game, loc, size):
+	def __init__(self, uid, game_obj, loc, size):
 		
 		self.uid = uid
-		self.game = game
+		self.game_obj = game_obj
 		self.x, self.y = loc
 		self.w, self.h = size
 		self.visible = False
@@ -34,7 +34,7 @@ class UI_Dialogue(object):
 		self.setup()
 		
 		self.visible = True
-		self.game.controller.flush()
+		self.game_obj.controller.flush()
 		
 	def setup(self):
 	
@@ -59,11 +59,11 @@ class UI_Dialogue(object):
 	
 		self.visible = False
 		self._returned = True
-		self.game.controller.flush()
+		self.game_obj.controller.flush()
 	
 	def base_update(self):
 	
-		if self.writing and self.visible and self.game.tick % 2 == 0:
+		if self.writing and self.visible and self.game_obj.tick % 2 == 0:
 
 			index = self.text_line
 			limit = len(self.text_queue[index])
@@ -102,16 +102,12 @@ class UI_Dialogue(object):
 	def update(self): # override in classes derived
 	
 		if self.visible: # and self.engine.controlFocus == self:
-			aButton = self.game.controller.as_button
-		
-			if aButton == 1:
-				
+			if self.game_obj.controller.pressed_a == 1:
 				if self.writing:
 					self.writing = False
 					self.skip()
 					if not self.text_list[self.text_block:self.text_block+self.text_range]:
 						self.eot = True
-					
 				elif not self.writing:
 					self.writing = True
 					self.setup()
@@ -133,13 +129,13 @@ class UI_Dialogue(object):
 	
 		if self.visible:
 		
-			self.game.display.blit(self.back, (self.x, self.y))
+			self.game_obj.display.blit(self.back, (self.x, self.y))
 	
 			for i, l in enumerate(self.text_queue):
 				text = l[:self.text_cursors[i]]
 				if ">" in text:	text = re.sub(">", "", text)
-				rText = self.game.ui_font.render(text, 0, (255,255,255))
+				rText = self.game_obj.ui_font.render(text, 0, (255,255,255))
 				
 				x = self.x + 5 # padding
-				y = self.y + 5 * (i+1) + i * self.game.ui_font.get_height()
-				self.game.display.blit(rText, (x,y))
+				y = self.y + 5 * (i+1) + i * self.game_obj.ui_font.get_height()
+				self.game_obj.display.blit(rText, (x,y))

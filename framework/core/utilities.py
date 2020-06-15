@@ -6,7 +6,7 @@ import pygame
 
 from . import mob
 from . import filepaths
-from .tileset import Tileset
+from . import tileset
 
 def load_image(filename, colourkey=None):
 
@@ -72,17 +72,17 @@ def load_tmx(filename, scene_obj):
 	scene_obj.tileheight = int(root.attrib["tileheight"])
 	scene_obj.tilesize = scene_obj.tilewidth # assumes a square tile
 	
-	scene_obj.tileset = Tileset(scene_obj.tilewidth, scene_obj.tileheight)
+	scene_obj.tileset_obj = tileset.Tileset(scene_obj.tilewidth, scene_obj.tileheight)
 	
 	for tilesettag in root.iter("tileset"):
 		filename = tilesettag.attrib["source"]
-		tilestree = ET.parse(os.path.join(filepaths.scene_path, filename))
-		tilesroot = tilestree.getroot()
-		for tileset in tilesroot.iter("tileset"):
-			for i in tileset.iter("image"):
+		tsxtree = ET.parse(os.path.join(filepaths.scene_path, filename))
+		tsxroot = tsxtree.getroot()
+		for tsx in tsxroot.iter("tileset"):
+			for i in tsx.iter("image"):
 				filename = i.attrib["source"]
 				firstgid = tilesettag.attrib["firstgid"]
-				scene_obj.tileset.update(filename, firstgid) # ummmmmmm....?
+				scene_obj.tileset_obj.update(filename, firstgid)
 				
 	for layer in root.iter("layer"):
 		for data in layer.iter("data"):
@@ -108,12 +108,12 @@ def load_tmx(filename, scene_obj):
 			col = int(float(rectattribs["x"]) / scene_obj.tilewidth)
 			row = int(float(rectattribs["y"]) / scene_obj.tileheight)
 			if rectattribs["type"] == "player":
-				if scene_obj.game.player is None:
+				if scene_obj.game_obj.player is None:
 					print("player object is not defined")
 					print("exiting")
 					pygame.quit()
 					exit()
-				scene_obj.live_mobs["player"] = scene_obj.game.player
+				scene_obj.live_mobs["player"] = scene_obj.game_obj.player
 				scene_obj.live_mobs["player"].scene = scene_obj
 				scene_obj.live_mobs["player"].place(col, row)
 			elif rectattribs["type"] == "switch":

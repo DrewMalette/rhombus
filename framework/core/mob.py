@@ -18,9 +18,10 @@ class Mob(pygame.Rect):
 	pattern = [0,1,0,2]
 	facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
-	def __init__(self, game, filename, name):
+	def __init__(self, uid, game_obj, filename):
 	
-		self.game = game
+		self.uid = uid
+		self.game_obj = game_obj
 	
 		data = utilities.load_mob_sprite(filename)
 		pygame.Rect.__init__(self, data["rect"])
@@ -91,8 +92,8 @@ class Mob(pygame.Rect):
 	def base_update(self):
 
 		# self.statblock.upkeep() TODO move this to a derivative class
-		self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
-		self.frame += self.moving & (self.game.tick % 12 == 0) * 1
+		self.moving = bool(self.game_obj.controller.x_axis or self.game_obj.controller.y_axis)	
+		self.frame += self.moving & (self.game_obj.tick % 12 == 0) * 1
 		self.frame = self.frame % len(self.pattern) * self.moving
 		
 	def update(self): # overridden by classes derived

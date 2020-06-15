@@ -6,61 +6,64 @@ import pygame
 import framework.core
 from framework.core import filepaths
 	
-def newgame_init(game):
+def newgame_init(game_obj):
 
-	game.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
+	game_obj.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
 	
-	game.obj_stack = []
-	game.obj_stack.append(game.scene)
-	game.obj_stack.append(game.fader)
+	game_obj.obj_stack = []
+	game_obj.obj_stack.append(game_obj.scene)
+	game_obj.obj_stack.append(game_obj.fader)
 	
-	game.player.facing = "south"
-	game.renderer.following = game.player
+	game_obj.player.facing = "south"
+	game_obj.renderer.following = game_obj.player
 	
-	game.next_script = newgame_loop # eventually newgame will not have a loop
-	game.fader.fade_in()
+	game_obj.next_script = newgame_loop # eventually newgame will not have a loop
+	game_obj.fader.fade_in()
 	
-def newgame_loop(game):
+def newgame_loop(game_obj):
 
-	if game.controller.exit:
-		game.next_script = title_init
-		game.music_tracks["titletrack"].fadeout(1000)
-		game.fader.fade_out()
+	if game_obj.controller.exit:
+		game_obj.next_script = title_init
+		game_obj.music_tracks["titletrack"].fadeout(1000)
+		game_obj.fader.fade_out()
 
-def title_init(game): # inits always clear game.obj_stack
+def title_init(game_obj): # inits always clear game_obj.obj_stack
 
-	game.obj_stack = []
-	game.obj_stack.append(game.title_card)
-	game.obj_stack.append(game.ui["titleselect"])
-	game.obj_stack.append(game.fader)
+	game_obj.obj_stack = []
+	game_obj.obj_stack.append(game_obj.title_card)
+	game_obj.obj_stack.append(game_obj.ui["titleselect"])
+	game_obj.obj_stack.append(game_obj.fader)
 		
-	game.ui["titleselect"].start()
+	game_obj.ui["titleselect"].start()
 	
-	game.music_tracks["titletrack"].play(-1)
-	game.next_script = title_loop
-	game.fader.fade_in()
+	game_obj.music_tracks["titletrack"].play(-1)
+	game_obj.next_script = title_loop
+	game_obj.fader.fade_in()
 	
-def title_loop(game):
+def title_loop(game_obj):
 
-	if game.ui["titleselect"]._returned:
-		if game.ui["titleselect"].value == 0: # New Game
-			game.next_script = newgame_init
-			game.fader.fade_out()			
-		elif game.ui["titleselect"].value == 1: # Quit to Desktop
-			game.music_tracks["titletrack"].fadeout(1000)
-			game.next_script = game.exit
-			game.fader.fade_out()
-		game.ui["titleselect"].visible = False
+	if game_obj.ui["titleselect"]._returned:
+		if game_obj.ui["titleselect"].value == 0: # New Game
+			game_obj.next_script = newgame_init
+			game_obj.fader.fade_out()			
+		elif game_obj.ui["titleselect"].value == 1: # Quit to Desktop
+			game_obj.music_tracks["titletrack"].fadeout(1000)
+			game_obj.next_script = game_obj.exit
+			game_obj.fader.fade_out()
+		game_obj.ui["titleselect"].visible = False
 
 def init():
 
+	print("rhombus framework - June 2020")
+
 	pygame.init()
-	game = framework.core.Game(os.path.join(filepaths.image_path, "titlecard.png"))
-	game.ui["dialoguebox"] = framework.core.UI_Dialogue("dialoguebox", game, (170,360), (300,100))
-	game.ui["titleselect"] = framework.core.UI_Select("titleselect", game, (245,300), (150,54), ["New Game", "Quit to Desktop"])
-	game.player = framework.core.Player(game, os.path.join(filepaths.image_path, "spr_ark2.png"), "Ark")
-	game.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
+	game_obj = framework.core.Game()
+	game_obj.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
+	game_obj.ui["dialoguebox"] = framework.core.UI_Dialogue("dialoguebox", game_obj, (170,360), (300,100))
+	game_obj.ui["titleselect"] = framework.core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
+	game_obj.player = framework.core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
+	game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
 	
-	title_init(game)
-	game.main()
+	title_init(game_obj)
+	game_obj.main()
 
