@@ -1,4 +1,6 @@
-import re # REEEEEEEEEEEEEE
+#
+
+import re
 
 import pygame
 
