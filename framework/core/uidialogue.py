@@ -36,7 +36,9 @@ class UI_Dialogue(object):
 		self.visible = True
 		self.game_obj.controller.flush()
 		
-	def setup(self):
+	def setup(self, wait_for=None):
+	
+		self.wait_for = wait_for
 	
 		self.text_queue = []
 		self.text_cursors = []
@@ -57,6 +59,7 @@ class UI_Dialogue(object):
 		
 	def stop(self):
 	
+		# if self.wait_for and self.wait_for._returned:
 		self.visible = False
 		self._returned = True
 		self.game_obj.controller.flush()
@@ -101,7 +104,7 @@ class UI_Dialogue(object):
 							
 	def update(self): # override in classes derived
 	
-		if self.visible: # and self.engine.controlFocus == self:
+		if self.visible: # and not self.wait_for._returned
 			if self.game_obj.controller.pressed_a == 1:
 				if self.writing:
 					self.writing = False
