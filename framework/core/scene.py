@@ -26,6 +26,8 @@ class Scene:
 		self.tileset_obj = None
 		
 		utilities.load_tmx(filename, self)
+		
+		self.paused = False
 
 	def add_loot(self, filename, x, y):
 	
@@ -46,7 +48,7 @@ class Scene:
 			
 	def update(self):
 		
-		if not self.game_obj.fader.fading:
+		if not self.game_obj.fader.fading and not self.paused:
 			for mob in self.live_mobs.values():	mob.update()
 			self.game_obj.renderer.update()
 		

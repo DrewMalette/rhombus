@@ -25,6 +25,7 @@ class Game:
 		
 		self.obj_stack = [] # either a pygame.Surface or an object with a render method
 		
+		self.last_script = None # unimplemented
 		self.script = None
 		self.next_script = None # will it ever be used internally?
 		self.player = None

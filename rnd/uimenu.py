@@ -3,11 +3,11 @@ import pygame
 # declare this before UI_LiveMenu
 class UI_SubmenuPane(object):
 
-	def __init__(self, uid, loc, size, func_dict): # func_dict keys coorespond to a list in UI_LiveMenu
+	def __init__(self, uid, size, func_dict): # func_dict keys coorespond to a list in UI_LiveMenu
 	
 		self.uid = uid
 		#self.game = game
-		self.x, self.y = loc
+		self.x = self.y = 0
 		self.w, self.h = size
 		self.parent = None
 		self.func_dict = func_dict
@@ -46,6 +46,8 @@ class UI_LiveMenu(object):
 		self.child = child
 		self.child.value = self.labels[self.value].lower()
 		self.child.parent = self
+		self.child.x = self.x + self.back.get_width() + 10
+		self.child.y = self.y
 		
 	def start(self):
 	
@@ -130,13 +132,12 @@ if __name__ == "__main__":
 	
 	display = pygame.display.set_mode((640,480))
 	display.fill((0,0,0xff))
-	
-	
+		
 	func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save }
-	submenu = UI_SubmenuPane("submenu_pane", (140,10), (300,300), func_dict)
+	submenu = UI_SubmenuPane("submenu_pane", (300,300), func_dict)
 	
 	labels = [ "Inventory", "Status", "Gear", "Save" ]
-	livemenu = UI_LiveMenu("livemenu", (10,10), (120,300), submenu, labels)
+	livemenu = UI_LiveMenu("livemenu", (105,90), (120,100), submenu, labels)
 	
 	while 1:
 	
