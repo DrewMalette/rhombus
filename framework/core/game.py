@@ -116,6 +116,8 @@ class Game:
 				obj.render()
 			else:
 				self.display.blit(obj, (0,0))
+				
+		# keep fader here persistently?
 		
 		if self.debugging == 1: self.draw_debug_info()
 		
