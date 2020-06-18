@@ -33,6 +33,8 @@ class Game:
 		self.player = None
 		self.scene = None
 		
+		self.mob_orphans = []
+		
 		self.ui = {}
 		self.ui_font = pygame.font.Font(None, 24)
 		self.title_card = None
@@ -96,7 +98,6 @@ class Game:
 		self.tick = (self.tick + 1) % 4294967296
 		pygame.event.pump()
 		self.controller.update(pygame.key.get_pressed())
-		#if self.scene: self.scene.update()
 		for obj in self.obj_stack:
 			if getattr(obj, "update", None):
 				obj.update()
