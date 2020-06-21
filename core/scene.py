@@ -12,22 +12,18 @@ class Scene:
 		
 		self.mobs = {}
 		self.live_mobs = {}
-		
 		self.buildings = {}
 		self.furniture = {}
-		self.loot = {}
-		
-		#self.uid = filename		
-			
 		self.loot = {}
 		self.loot_count = 0
 		self.switches = {}
 		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }
 		self.tileset_obj = None
 		
-		utilities.load_tmx(filename, self)
+		self.filename = filename
+		utilities.load_tmx(self.filename, self)
 		
-		self.paused = False
+		self.paused = False # all this will do is pause gameplay (literally, only Scene)
 
 	def add_loot(self, filename, x, y):
 	

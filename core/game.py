@@ -43,6 +43,11 @@ class Game:
 		self.debugging = -1
 		self.debug_font = pygame.font.Font(None, 20)
 
+	def set_stack(self, *objs):
+	
+		self.obj_stack = []
+		for obj in objs: self.obj_stack.append(obj)
+
 	def load_scene(self, uid, filename):
 		
 		self.scene = scene.Scene(uid, self, filename)
@@ -81,10 +86,22 @@ class Game:
 	def draw_debug_info(self):
 	
 		labels = []
-		labels.append(self.debug_font.render("player.x: "+str(self.player.x), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("player.y: "+str(self.player.y), 0, (0xff,0xff,0xff)))
+		c = r = 0
+		
+		if self.scene:
+			labels.append(self.debug_font.render("Scene: "+self.scene.filename, 0, (0xff,0xff,0xff)))
+			c = int(self.player.x / self.scene.tilesize)
+			r = int(self.player.y / self.scene.tilesize)
+		else:
+			labels.append(self.debug_font.render("Scene: "+str(None), 0, (0xff,0xff,0xff)))
+				
+		labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("player.y (pixel): "+str(self.player.y), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("player.r (tile): "+str(r), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
 		
