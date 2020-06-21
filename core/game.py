@@ -94,14 +94,15 @@ class Game:
 			r = int(self.player.y / self.scene.tilesize)
 		else:
 			labels.append(self.debug_font.render("Scene: "+str(None), 0, (0xff,0xff,0xff)))
-				
-		labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("player.y (pixel): "+str(self.player.y), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("player.r (tile): "+str(r), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
-		labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
+		
+		if self.player:
+			labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("player.y (pixel): "+str(self.player.y), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("player.r (tile): "+str(r), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
 		
