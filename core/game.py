@@ -120,6 +120,8 @@ class Game:
 				obj.update()
 		self.script(self) # script
 		
+		self.fader.update()
+		
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_F1: self.debugging = -self.debugging
@@ -135,7 +137,7 @@ class Game:
 			else:
 				self.display.blit(obj, (0,0))
 				
-		# keep fader here persistently?
+		self.fader.render()
 		
 		if self.debugging == 1: self.draw_debug_info()
 		
