@@ -52,6 +52,7 @@ def init():
 
 	pygame.init()
 	game_obj = core.Game()
+	
 	game_obj.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
 	game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360), (300,100))
 	game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])

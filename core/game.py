@@ -93,7 +93,7 @@ class Game:
 			c = int(self.player.x / self.scene_obj.tilesize)
 			r = int(self.player.y / self.scene_obj.tilesize)
 		else:
-			labels.append(self.debug_font.render("Scene: "+str(None), 0, (0xff,0xff,0xff)))
+			labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
 		
 		if self.player:
 			labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
@@ -103,6 +103,7 @@ class Game:
 			labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
 			labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
 			labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
+			
 		labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
 		
