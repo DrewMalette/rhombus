@@ -12,6 +12,8 @@ class Player(Mob):
 		
 		self.action = pygame.Rect(0,0,12,12)
 		
+		self.in_dialogue = False
+		
 	def interact(self):
 
 		if self.facing == "north":

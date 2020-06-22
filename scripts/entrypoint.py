@@ -16,6 +16,11 @@ def newgame_init(game_obj):
 	
 	game_obj.next_script = gameplay_loop
 	game_obj.fader.fade_in()
+
+def gameplay_init(game_obj):
+
+	game_obj.set_stack(game_obj.scene_obj)
+	game_obj.script = gameplay_loop
 	
 def gameplay_loop(game_obj):
 
@@ -23,6 +28,21 @@ def gameplay_loop(game_obj):
 		game_obj.next_script = title_init
 		game_obj.music_tracks["titletrack"].fadeout(1000)
 		game_obj.fader.fade_out()
+		
+	if game_obj.controller.pressed_a and not game_obj.player.in_dialogue:
+		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
+		dialogue_init(game_obj, dialogue)
+		
+def dialogue_init(game_obj, dialogue):
+
+	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["dialoguebox"])
+	game_obj.ui["dialoguebox"].text_list = dialogue
+	game_obj.ui["dialoguebox"].start()
+	game_obj.script = dialogue_loop
+	
+def dialogue_loop(game_obj):
+
+	if game_obj.ui["dialoguebox"]._returned: gameplay_init(game_obj)
 
 def title_init(game_obj):
 
