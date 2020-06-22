@@ -31,7 +31,7 @@ class Game:
 		self.script = None
 		self.next_script = None # will it ever be used internally?
 		self.player = None
-		self.scene = None
+		self.scene_obj = None
 		
 		self.mob_orphans = []
 		
@@ -50,14 +50,14 @@ class Game:
 
 	def load_scene(self, uid, filename):
 		
-		self.scene = scene.Scene(uid, self, filename)
-		self.renderer.scene = self.scene
+		self.scene_obj = scene.Scene(uid, self, filename)
+		self.renderer.scene_obj = self.scene_obj
 		self.renderer.following = self.player
 		# assumes the tile is square
-		self.renderer.tilesize = self.scene.tilewidth
-		self.renderer.cols = int(self.renderer.w / self.scene.tilesize + 2)
-		self.renderer.rows = int(self.renderer.h / self.scene.tilesize + 2)
-		self.renderer.blank = pygame.Surface((self.scene.tilesize,self.scene.tilesize)).convert()
+		self.renderer.tilesize = self.scene_obj.tilewidth
+		self.renderer.cols = int(self.renderer.w / self.scene_obj.tilesize + 2)
+		self.renderer.rows = int(self.renderer.h / self.scene_obj.tilesize + 2)
+		self.renderer.blank = pygame.Surface((self.scene_obj.tilesize,self.scene_obj.tilesize)).convert()
 		self.renderer.blank.fill((0,0,0))
 		
 		#self.controller.flush()
@@ -88,10 +88,10 @@ class Game:
 		labels = []
 		c = r = 0
 		
-		if self.scene:
-			labels.append(self.debug_font.render("Scene: "+self.scene.filename, 0, (0xff,0xff,0xff)))
-			c = int(self.player.x / self.scene.tilesize)
-			r = int(self.player.y / self.scene.tilesize)
+		if self.scene_obj:
+			labels.append(self.debug_font.render("Scene: "+self.scene_obj.filename, 0, (0xff,0xff,0xff)))
+			c = int(self.player.x / self.scene_obj.tilesize)
+			r = int(self.player.y / self.scene_obj.tilesize)
 		else:
 			labels.append(self.debug_font.render("Scene: "+str(None), 0, (0xff,0xff,0xff)))
 		
@@ -252,7 +252,7 @@ class Renderer(pygame.Rect):
 		self.blank = None
 		self.following = None
 		
-		self.scene = None
+		self.scene_obj = None
 		
 	def tile_prep(self, layer, col, row):
 
@@ -262,18 +262,18 @@ class Renderer(pygame.Rect):
 		c_index = int(self.x / self.tilesize + col)
 		r_index = int(self.y / self.tilesize + row)
 	
-		index = self.scene.get_tile(layer, c_index, r_index)
+		index = self.scene_obj.get_tile(layer, c_index, r_index)
 
 		x = col * self.tilesize - x_offset
 		y = row * self.tilesize - y_offset
 		
 		if index != "0":
-			tile = self.scene.tileset_obj[index]
+			tile = self.scene_obj.tileset_obj[index]
 			return (tile, x, y)
 		else:			
 			return ("0", x, y)
 	
-	def y_sort(self): return sorted(self.game.scene.live_mobs.values(), key=operator.attrgetter('y'))
+	def y_sort(self): return sorted(self.game.scene_obj.live_mobs.values(), key=operator.attrgetter('y'))
 			
 	def update(self):
 	
@@ -289,13 +289,13 @@ class Renderer(pygame.Rect):
 		elif y <= self.h / 2:
 			self.y = 0
 	
-		if self.x + self.w > self.game.scene.cols * self.tilesize:
-			self.x = self.game.scene.cols * self.tilesize - self.w
+		if self.x + self.w > self.game.scene_obj.cols * self.tilesize:
+			self.x = self.game.scene_obj.cols * self.tilesize - self.w
 		elif self.x < 0:
 			self.x = 0
 			
-		if self.y + self.h > self.game.scene.rows * self.tilesize:
-			self.y = self.game.scene.rows * self.tilesize - self.h
+		if self.y + self.h > self.game.scene_obj.rows * self.tilesize:
+			self.y = self.game.scene_obj.rows * self.tilesize - self.h
 		elif self.y < 0:
 			self.y = 0
 
@@ -309,28 +309,28 @@ class Renderer(pygame.Rect):
 				c_index = int(self.x / self.tilesize + col)
 				r_index = int(self.y / self.tilesize + row)
 		
-				bottom_i = self.scene.get_tile("bottom", c_index, r_index)
-				middle_i = self.scene.get_tile("middle", c_index, r_index)
+				bottom_i = self.scene_obj.get_tile("bottom", c_index, r_index)
+				middle_i = self.scene_obj.get_tile("middle", c_index, r_index)
 
 				c = col * self.tilesize - x_offset
 				r = row * self.tilesize - y_offset
 				
 				if bottom_i != "0":
-					bottom_t = self.scene.tileset_obj[bottom_i]
+					bottom_t = self.scene_obj.tileset_obj[bottom_i]
 					self.game.display.blit(bottom_t, (c,r))
 				elif bottom_i == "0":
 					self.game.display.blit(self.blank, (c,r))
 
 				if middle_i != "0":
-					middle_t = self.scene.tileset_obj[middle_i]
+					middle_t = self.scene_obj.tileset_obj[middle_i]
 					self.game.display.blit(middle_t, (c,r))
 
-		#if self.scene.loot: # TODO merge this with sprites for the y_sort
-		#	for loot in self.scene.loot.values():
+		#if self.scene_obj.loot: # TODO merge this with sprites for the y_sort
+		#	for loot in self.scene_obj.loot.values():
 		#		loot.render(self.game.display, x_offset = -self.x, y_offset = -self.y)
 
-		if self.game.scene.live_mobs: # draw the sprites
-			#for sprite in self.scene.sprites.values():
+		if self.game.scene_obj.live_mobs: # draw the sprites
+			#for sprite in self.scene_obj.sprites.values():
 			for sprite in self.y_sort():
 				sprite.render(self.game.display, x_offset = -self.x, y_offset = -self.y)
 		

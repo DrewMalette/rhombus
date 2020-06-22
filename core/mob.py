@@ -24,7 +24,7 @@ class Mob(pygame.Rect):
 		self.uid = uid
 		self.game_obj = game_obj
 	
-		data = utilities.load_mob_sprite(filename)
+		data = utilities.load_mob(filename)
 		pygame.Rect.__init__(self, data["rect"])
 		self.cols = data["cols"]
 		self.rows = data["rows"]
@@ -34,25 +34,26 @@ class Mob(pygame.Rect):
 		self.moving = False
 		self.facing = "south"
 		self.frame = 0
-		self.scene = None
 		self.speed = 2
 
 		self.alive = True # going to StatBlock?
 		self.dying = False
 		self.opacity = 255
-				
+		
+		self.scene_obj = None
+						
 	def spawn(self):
 	
-		self.scene.live_mobs[self.name] = self
+		self.scene_obj.live_mobs[self.name] = self
 	
 	def kill(self):
 	
-		del self.scene.live_mobs[self.name]
+		del self.scene_obj.live_mobs[self.name]
 		
 	def place(self, col, row):
 		
-		self.x = col * self.scene.tilesize + (self.scene.tilesize - self.w) / 2
-		self.y = row * self.scene.tilesize + (self.scene.tilesize - self.h) - 4
+		self.x = col * self.scene_obj.tilesize + (self.scene_obj.tilesize - self.w) / 2
+		self.y = row * self.scene_obj.tilesize + (self.scene_obj.tilesize - self.h) - 4
 
 	def get_cell(self, col, row):
 
@@ -76,17 +77,17 @@ class Mob(pygame.Rect):
 			xm = ((self.x + x_axis * self.speed) + (c % 2) * self.w)
 			ym = ((self.y + y_axis * self.speed) + int(c / 2) * self.h)
 
-			col = int(xm / self.scene.tilesize) # is this slow?
-			row = int(ym / self.scene.tilesize)
+			col = int(xm / self.scene_obj.tilesize) # is this slow?
+			row = int(ym / self.scene_obj.tilesize)
 
-			if self.scene.get_tile("collide", col, row) != "0":
+			if self.scene_obj.get_tile("collide", col, row) != "0":
 				return True
 
-		for sprite in self.scene.live_mobs.values():
-			if sprite is not self:
+		for mob_obj in self.scene_obj.live_mobs.values():
+			if mob_obj is not self:
 				xm = self.speed * x_axis + self.x
 				ym = self.speed * y_axis + self.y
-				if sprite.colliderect((xm, ym, self.w, self.h)):
+				if mob_obj.colliderect((xm, ym, self.w, self.h)):
 					return True
 		return False
 		

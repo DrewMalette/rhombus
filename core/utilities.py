@@ -25,7 +25,7 @@ def load_image(filename, colourkey=None):
 
 	return image
 
-def load_mob_sprite(filename):
+def load_mob(filename):
 
 	image = pygame.image.load(filename)
 	image.convert()
@@ -115,7 +115,7 @@ def load_tmx(filename, scene_obj):
 					pygame.quit()
 					exit()
 				scene_obj.live_mobs["player"] = scene_obj.game_obj.player
-				scene_obj.live_mobs["player"].scene = scene_obj
+				scene_obj.live_mobs["player"].scene_obj = scene_obj
 				scene_obj.live_mobs["player"].place(col, row)
 			elif rectattribs["type"] == "switch":
 				x = int(float(rectattribs["x"]) / scene_obj.tilewidth) * scene_obj.tilewidth

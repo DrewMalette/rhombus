@@ -12,7 +12,7 @@ def newgame_init(game_obj):
 	game_obj.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
 	game_obj.renderer.following = game_obj.player
 		
-	game_obj.set_stack(game_obj.scene)
+	game_obj.set_stack(game_obj.scene_obj)
 	
 	game_obj.next_script = gameplay_loop
 	game_obj.fader.fade_in()
