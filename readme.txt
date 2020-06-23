@@ -3,7 +3,7 @@
 	rhombus - an action rpg framework written in python
 	
 	design philosophy: the framework is written modularly. this way, 
-	you can use only what you need, and modify if with ease
+	you can use only what you need, and modify it with ease
 	to fit your project
 	
 	included is some sample content for demonstration
