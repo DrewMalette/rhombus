@@ -1,4 +1,11 @@
-
+	
+	Game Designer's Checklist
+	- Players should be able to:
+	  go somewhere cool
+	  talk to someone interesting
+	  learn something new
+	  fight something
+	  get a reward
 
 	World Building
 	
