@@ -8,7 +8,7 @@ class Action(pygame.Rect):
 	
 		pygame.Rect.__init__(self, (0,0,12,12))
 		
-	def interact(self, mob): # this comes from the Player class
+	def interact(self, mob):
 
 		if mob.facing == "north":
 			x = (mob.x + mob.w / 2) - (mob.w / 2) + 1
