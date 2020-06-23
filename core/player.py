@@ -4,7 +4,6 @@ import pygame
 
 from .mob import *
 import mechanics
-from mechanics import action
 
 class Player(Mob):
 
@@ -17,7 +16,7 @@ class Player(Mob):
 		self.equip = None
 		self.in_dialogue = False
 		
-		action.Action(self)
+		self.action = mechanics.Action()
 		
 	def update(self):
 	
@@ -26,5 +25,5 @@ class Player(Mob):
 		self.move(self.game_obj.controller.x_axis, self.game_obj.controller.y_axis)
 		
 		if self.game_obj.controller.pressed_a == 1:
-			self.action.interact()
+			self.action.interact(self)
 

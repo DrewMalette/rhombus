@@ -14,7 +14,6 @@ class Equipment:
 	def __init__(self, mob):
 	
 		self.mob = mob
-		if self.mob: self.mob.equipment = self
 	
 		self.slots = { 0: None, 1: None, 2: None, 3: None }
 	
