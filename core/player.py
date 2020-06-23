@@ -3,6 +3,8 @@
 import pygame
 
 from .mob import *
+import mechanics
+from mechanics import action
 
 class Player(Mob):
 
@@ -10,27 +12,12 @@ class Player(Mob):
 	
 		Mob.__init__(self, uid, game_obj, filename)
 		
-		self.action = pygame.Rect(0,0,12,12)
-		
+		self.action = None
+		self.statblock = None
+		self.equip = None
 		self.in_dialogue = False
 		
-	def interact(self):
-
-		if self.facing == "north":
-			x = (self.x + self.w / 2) - (self.w / 2) + 1
-			y = self.y - self.action.h - 7
-		elif self.facing == "south":
-			x = (self.x + self.w / 2) - (self.action.w / 2) + 1
-			y = self.y + self.h
-		elif self.facing == "west":
-			x = self.x - self.action.w
-			y = (self.y + self.h / 2) - (self.action.h / 2) - 3
-		elif self.facing == "east":
-			x = self.x + self.w + 2
-			y = (self.y + self.h / 2) - (self.action.h / 2) - 3
-			
-		self.action.x = x
-		self.action.y = y
+		action.Action(self)
 		
 	def update(self):
 	
@@ -39,5 +26,5 @@ class Player(Mob):
 		self.move(self.game_obj.controller.x_axis, self.game_obj.controller.y_axis)
 		
 		if self.game_obj.controller.pressed_a == 1:
-			self.interact()
+			self.action.interact()
 
