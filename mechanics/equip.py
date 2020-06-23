@@ -11,9 +11,9 @@ class Armour:
 
 class Equipment:
 
-	def __init__(self, mob):
+	def __init__(self, mob_obj):
 	
-		self.mob = mob
+		self.mob_obj = mob_obj
 	
 		self.slots = { 0: None, 1: None, 2: None, 3: None }
 	
