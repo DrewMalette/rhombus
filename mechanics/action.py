@@ -6,7 +6,7 @@ class Action(pygame.Rect):
 
 	def __init__(self):
 	
-		pygame.Rect.__init__(self, (0,0,12,12))
+		pygame.Rect.__init__(self, (0,0,12,12)) # defaults to basic interaction rect
 		
 	def interact(self, mob):
 
@@ -25,3 +25,10 @@ class Action(pygame.Rect):
 			
 		self.x = x
 		self.y = y
+		self.w = 12
+		self.h = 12
+		
+	def attack(self, mob, target):
+	
+		# self.w, self.h = mob.weapon.get_size()
+		pass
