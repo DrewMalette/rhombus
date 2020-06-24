@@ -14,6 +14,9 @@ def draw_status(pane, surface): draw_wrapper(pane, surface)
 def draw_gear(pane, surface): draw_wrapper(pane, surface)
 def draw_save(pane, surface): draw_wrapper(pane, surface)
 
+func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save }
+labels = [ "Inventory", "Status", "Gear", "Save" ]
+
 # declare this before UI_LiveMenu
 class UI_SubmenuPane:
 
@@ -36,7 +39,7 @@ class UI_SubmenuPane:
 	
 		if self.visible:
 			self.game.display.blit(self.back, (self.x,self.y))
-			self.func_dict[self.value](self, surface)
+			self.func_dict[self.value](self, self.game.display)
 
 # NEEDS a child in order to work properly
 class UI_LiveMenu:
@@ -90,15 +93,12 @@ class UI_LiveMenu:
 				elif event.key == pygame.K_UP:
 					y_axis = -1
 					
-				if event.key == pygame.K_ESCAPE:
-					pygame.quit()
-					exit()
-	
 		if self.visible: # and not self.game.fader.fading:
 			#if self.game.controller.y_axis_sr != 0:			
 			if y_axis != 0:			
 				self.value = (self.value + y_axis) % len(self.labels)
 				self.child.value = self.labels[self.value].lower()
+			if self.game.controller.pressed_a:
 				print(self.child.value)
 		
 		#self.child.update()		
@@ -121,9 +121,9 @@ class UI_LiveMenu:
 				#label_image = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))
 				label_image = self.font.render(label, 0, (0xff,0xff,0xff))
 				#self.game.display.blit(label_image, (x,y))
-				surface.blit(label_image, (x,y))
+				self.game.display.blit(label_image, (x,y))
 				
-			self.child.render(surface)
+			self.child.render()
 
 if __name__ == "__main__":
 

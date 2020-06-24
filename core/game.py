@@ -106,6 +106,10 @@ class Game:
 			
 		labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
 		labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("pressed_b: "+str(self.controller.pressed_b), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("held_b: "+str(self.controller.held_b), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("pressed_x: "+str(self.controller.pressed_x), 0, (0xff,0xff,0xff)))
+		labels.append(self.debug_font.render("held_x: "+str(self.controller.held_x), 0, (0xff,0xff,0xff)))
 		
 		for i, label in enumerate(labels):
 			label.set_alpha(160)
@@ -127,10 +131,7 @@ class Game:
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_F1: self.debugging = -self.debugging
-				if event.key == pygame.K_RETURN:
-					for obj in self.obj_stack:
-						print(obj)
-		
+
 	def render(self):
 	
 		for obj in self.obj_stack:
@@ -167,6 +168,14 @@ class Controller:
 		self.pressed_a = 0
 		self.held_a = 0
 		
+		self.pressed_b_held = False
+		self.pressed_b = 0
+		self.held_b = 0
+		
+		self.pressed_x_held = False
+		self.pressed_x = 0
+		self.held_x = 0
+		
 		self.exit = 0
 		
 		self.pressed_f1 = False
@@ -196,10 +205,12 @@ class Keyboard(Controller):
 		self.y_axis_sr = 0
 		
 		# ["a","b","x","y"]
-		for button in ["a"]: setattr(self, "pressed_"+button, 0)
+		for button in ["a","b","x"]: setattr(self, "pressed_"+button, 0)
 			
 		#self.pressed_a = 0
 		self.held_a = keys[pygame.K_RCTRL]
+		self.held_b = keys[pygame.K_RSHIFT]
+		self.held_x = keys[pygame.K_RETURN]
 		
 		self.exit = 0
 		
@@ -214,7 +225,15 @@ class Keyboard(Controller):
 			self.press("a")
 		elif keys[pygame.K_RCTRL] == 0 and self.pressed_a_held:
 			self.pressed_a_held = False
-			
+		if keys[pygame.K_RSHIFT] == 1 and not self.pressed_b_held:
+			self.press("b")
+		elif keys[pygame.K_RSHIFT] == 0 and self.pressed_b_held:
+			self.pressed_b_held = False
+		if keys[pygame.K_RETURN] == 1 and not self.pressed_x_held:
+			self.press("x")
+		elif keys[pygame.K_RETURN] == 0 and self.pressed_x_held:
+			self.pressed_x_held = False
+					
 		if keys[pygame.K_ESCAPE] == 1:
 			self.exit = 1
 

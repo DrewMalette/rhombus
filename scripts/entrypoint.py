@@ -5,6 +5,25 @@ import os
 import pygame
 import core
 from core import filepaths
+
+def test_tmx_init(game_obj, filename):
+
+	# eventually I want to replace this with a generic onion sprite
+	game_obj.player = core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
+	game_obj.load_scene(filename, os.path.join(filepaths.scene_path, filename))
+	game_obj.renderer.following = game_obj.player
+	game_obj.debugging = 1
+	
+	game_obj.set_stack(game_obj.scene_obj)
+	game_obj.scene_obj.paused = False
+	game_obj.next_script = test_tmx_loop
+	game_obj.fader.fade_in()
+	
+def test_tmx_loop(game_obj):
+
+	if game_obj.controller.exit:
+		game_obj.next_script = game_obj.exit
+		game_obj.fader.fade_out()
 	
 def newgame_init(game_obj):
 
@@ -17,7 +36,19 @@ def newgame_init(game_obj):
 	game_obj.next_script = gameplay_loop
 	game_obj.fader.fade_in()
 
-def gameplay_init(game_obj):
+def playermenu_init(game_obj):
+
+	game_obj.scene_obj.paused = True
+	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["playermenu"])
+	game_obj.ui["playermenu"].value = 0
+	game_obj.script = playermenu_loop
+
+def playermenu_loop(game_obj):
+
+	if game_obj.controller.pressed_b:
+		gameplay_init(game_obj)
+
+def gameplay_init(game_obj): # returning to gameplay
 
 	game_obj.set_stack(game_obj.scene_obj)
 	game_obj.script = gameplay_loop
@@ -33,6 +64,8 @@ def gameplay_loop(game_obj):
 	if game_obj.controller.pressed_a and not game_obj.player.in_dialogue:
 		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
 		dialogue_init(game_obj, dialogue)
+	elif game_obj.controller.pressed_x:
+		playermenu_init(game_obj)
 		
 def dialogue_init(game_obj, dialogue):
 
@@ -67,18 +100,25 @@ def title_loop(game_obj):
 			game_obj.fader.fade_out()
 		game_obj.ui["titleselect"].visible = False
 
-def init():
+def init(filename=None):
 
 	print("rhombus framework - June 2020")
 
 	pygame.init()
 	game_obj = core.Game()
 	
-	game_obj.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
-	game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360), (300,100))
-	game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
-	game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
+	if filename == None:
+		game_obj.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
+		game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
 	
-	title_init(game_obj)
+		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360), (300,100))
+		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
+		game_obj.ui["playermenu"] = core.UI_LiveMenu("playermenu", game_obj, (105,90), (120,100), 
+													 core.UI_SubmenuPane("submenupane", game_obj, (300,300), core.func_dict),
+													 core.labels)
+		title_init(game_obj)
+	else:
+		test_tmx_init(game_obj, filename)
+
 	game_obj.main()
 

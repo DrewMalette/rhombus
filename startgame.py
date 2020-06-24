@@ -2,10 +2,13 @@
 
 import sys
 sys.path.append("./")
-
 import importlib
 
-entrypoint = importlib.import_module("scripts.entrypoint")
+try:
+	_, filename = sys.argv
+except:
+	filename = None
 
-entrypoint.init()
+entrypoint = importlib.import_module("scripts.entrypoint")
+entrypoint.init(filename) #main.init()
 
