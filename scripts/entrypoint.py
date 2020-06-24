@@ -1,4 +1,4 @@
-# entrypoint.py
+# entrypoint.py; rename to main.py
 
 import os
 
@@ -21,6 +21,7 @@ def gameplay_init(game_obj):
 
 	game_obj.set_stack(game_obj.scene_obj)
 	game_obj.script = gameplay_loop
+	game_obj.scene_obj.paused = False
 	
 def gameplay_loop(game_obj):
 
