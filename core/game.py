@@ -31,7 +31,7 @@ class Game:
 		self.script = None
 		self.next_script = None # will it ever be used internally?
 		self.player = None
-		self.scene_obj = None
+		self.scene_obj = None # TODO rename to self.scene; usage: self.scene = scene_obj
 		
 		self.mob_orphans = []
 		
