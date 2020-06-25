@@ -94,6 +94,8 @@ class Game:
 			r = int(self.player.y / self.scene_obj.tilesize)
 		else:
 			labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
+			
+		labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
 		
 		if self.player:
 			labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
@@ -148,7 +150,7 @@ class Game:
 					
 class Controller:
 
-	buttons = ["a"] # ["a","b","x","y"]
+	buttons = ["a", "b", "x"] # ["a","b","x","y"]
 
 	def __init__(self, game):
 	
@@ -204,8 +206,7 @@ class Keyboard(Controller):
 		self.y_axis = keys[pygame.K_DOWN] - keys[pygame.K_UP]
 		self.y_axis_sr = 0
 		
-		# ["a","b","x","y"]
-		for button in ["a","b","x"]: setattr(self, "pressed_"+button, 0)
+		self.flush()
 			
 		#self.pressed_a = 0
 		self.held_a = keys[pygame.K_RCTRL]
