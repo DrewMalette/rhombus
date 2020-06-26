@@ -13,7 +13,7 @@ class Player(Mob):
 		
 		self.action = None
 		self.statblock = None
-		self.equip = None
+		self.equip = None # I gotta find a different name for this
 		self.in_dialogue = False
 		
 		self.action = mechanics.Action()

@@ -79,24 +79,13 @@ class UI_LiveMenu:
 		self._returned = 1
 		#self.game.controller.flush()
 	
-	# each update needs to read the keystate of Engine
 	def update(self):
 	
 		self._returned = 0
-		
-		y_axis = 0
-		
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_DOWN:
-					y_axis = 1
-				elif event.key == pygame.K_UP:
-					y_axis = -1
-					
+
 		if self.visible: # and not self.game.fader.fading:
-			#if self.game.controller.y_axis_sr != 0:			
-			if y_axis != 0:			
-				self.value = (self.value + y_axis) % len(self.labels)
+			if self.game.controller.y_axis_sr != 0:			
+				self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.labels)
 				self.child.value = self.labels[self.value].lower()
 			if self.game.controller.pressed_a:
 				print(self.child.value)

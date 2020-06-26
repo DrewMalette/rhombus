@@ -36,9 +36,9 @@ class UI_Select(object):
 	
 		self._returned = 0
 	
-		if self.visible and not self.game_obj.fader.fading:
-			if self.game_obj.controller.y_axis_sr != 0:			
-				self.value = (self.value + self.game_obj.controller.y_axis_sr) % len(self.labels)
+		if self.visible: # and not self.game_obj.fader.fading:
+			if self.game_obj.controller.y_axis_sr != 0:
+				self.value = (self.value + self.game_obj.controller.y_axis_sr * self.game_obj.controller.y_axis) % len(self.labels)
 				
 			if self.game_obj.controller.pressed_a == 1:
 				self.stop()

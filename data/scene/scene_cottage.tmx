@@ -86,7 +86,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="5" name="collide" width="24" height="24" opacity="0.4">
+ <layer id="5" name="collide" width="24" height="24" visible="0" opacity="0.4">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -115,7 +115,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="rects">
-  <object id="1" name="$PLAYER" type="player" x="275.322" y="179.499">
+  <object id="1" name="$PLAYER" type="player" x="495.309" y="535.798">
    <point/>
   </object>
  </objectgroup>

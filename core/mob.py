@@ -1,7 +1,6 @@
 #
 
 import pygame
-#from .mechanics import Interactor, StatBlock
 from . import utilities
 
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
