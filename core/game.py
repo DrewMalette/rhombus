@@ -193,9 +193,18 @@ class Controller:
 	def flush(self):
 		
 		for button in self.buttons: setattr(self, "pressed_"+button, 0)
+		self.exit = 0
+		self.y_axis_sr = 0
 		
 	def base_update(self):
 	
+		if self.x_axis != 0 and not self.x_pressed:
+			self.x_tick = pygame.time.get_ticks()
+			self.x_pressed = True
+		elif self.x_axis == 0 and self.x_pressed:
+			self.x_pressed = False
+		self.x_repeat = self.x_pressed and (pygame.time.get_ticks() - self.x_tick >= 800)
+		
 		if self.y_axis != 0 and not self.y_pressed:
 			self.y_pressed = True
 			self.y_tick = pygame.time.get_ticks()
@@ -226,7 +235,6 @@ class Keyboard(Controller):
 		
 		self.x_axis = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] 
 		self.y_axis = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-		self.y_axis_sr = 0
 		
 		self.flush()
 			
@@ -235,15 +243,6 @@ class Keyboard(Controller):
 		self.held_b = keys[pygame.K_RSHIFT]
 		self.held_x = keys[pygame.K_RETURN]
 		
-		self.exit = 0
-		
-		if self.x_axis != 0 and not self.x_pressed:
-			self.x_tick = pygame.time.get_ticks()
-			self.x_pressed = True
-		elif self.x_axis == 0 and self.x_pressed:
-			self.x_pressed = False
-		self.x_repeat = self.x_pressed and (pygame.time.get_ticks() - self.x_tick >= 800)
-
 		if keys[pygame.K_RCTRL] == 1 and not self.pressed_a_held:
 			self.press("a")
 		elif keys[pygame.K_RCTRL] == 0 and self.pressed_a_held:
@@ -257,11 +256,9 @@ class Keyboard(Controller):
 		elif keys[pygame.K_RETURN] == 0 and self.pressed_x_held:
 			self.pressed_x_held = False
 					
-		if keys[pygame.K_ESCAPE] == 1:
-			self.exit = 1
+		if keys[pygame.K_ESCAPE] == 1: self.exit = 1
 			
 		self.base_update()
-		print("Yeehaw!")
 		
 class Renderer(pygame.Rect):
 
