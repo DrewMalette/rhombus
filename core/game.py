@@ -193,6 +193,28 @@ class Controller:
 	def flush(self):
 		
 		for button in self.buttons: setattr(self, "pressed_"+button, 0)
+		
+	def base_update(self):
+	
+		if self.y_axis != 0 and not self.y_pressed:
+			self.y_pressed = True
+			self.y_tick = pygame.time.get_ticks()
+			self.y_axis_sr = 1 # special repeat
+			self.y_axis_phase1 = 1
+		
+		if self.y_pressed:
+			if self.y_axis_phase1:
+				if pygame.time.get_ticks() - self.y_tick >= 800:
+					self.y_axis_phase2 = 1
+					self.y_axis_phase1 = 0
+					self.y_tick = pygame.time.get_ticks()
+			elif self.y_axis_phase2:
+				if pygame.time.get_ticks() - self.y_tick >= 100:
+					self.y_axis_sr = 1
+					self.y_tick = pygame.time.get_ticks()
+				
+		if self.y_axis == 0 and self.y_pressed:
+			self.y_pressed = False
 
 class Keyboard(Controller):
 
@@ -237,27 +259,10 @@ class Keyboard(Controller):
 					
 		if keys[pygame.K_ESCAPE] == 1:
 			self.exit = 1
-
-		if self.y_axis != 0 and not self.y_pressed:
-			self.y_pressed = True
-			self.y_tick = pygame.time.get_ticks()
-			self.y_axis_sr = 1 # special repeat
-			self.y_axis_phase1 = 1
+			
+		self.base_update()
+		print("Yeehaw!")
 		
-		if self.y_pressed:
-			if self.y_axis_phase1:
-				if pygame.time.get_ticks() - self.y_tick >= 800:
-					self.y_axis_phase2 = 1
-					self.y_axis_phase1 = 0
-					self.y_tick = pygame.time.get_ticks()
-			elif self.y_axis_phase2:
-				if pygame.time.get_ticks() - self.y_tick >= 100:
-					self.y_axis_sr = 1
-					self.y_tick = pygame.time.get_ticks()
-				
-		if self.y_axis == 0 and self.y_pressed:
-			self.y_pressed = False
-
 class Renderer(pygame.Rect):
 
 	def __init__(self, uid, game, x=0, y=0):
