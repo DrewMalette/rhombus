@@ -9,7 +9,7 @@
 	included is some sample content for demonstration
 	
 	current features
-	- smooth scrolling
+	- map scrolling
 	- multi layered tilemaps
 	- collision detection at both the tilemap and sprite levels
 	- basic interaction function
