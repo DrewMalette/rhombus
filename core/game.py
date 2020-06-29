@@ -20,7 +20,7 @@ class Game:
 		self.fader = Fader(self, self.display.get_size())
 		self.renderer = Renderer("renderer", self)
 		
-		self.controller = Keyboard(self)
+		self.controller = Gamepad(self)
 				
 		self.clock = pygame.time.Clock()
 		self.tick = 0
@@ -122,7 +122,7 @@ class Game:
 		self.clock.tick(self.fps)
 		self.tick = (self.tick + 1) % 4294967296
 		pygame.event.pump()
-		self.controller.update(pygame.key.get_pressed())
+		self.controller.update()
 		for obj in self.obj_stack:
 			if getattr(obj, "update", None):
 				obj.update()
@@ -225,13 +225,54 @@ class Controller:
 		if self.y_axis == 0 and self.y_pressed:
 			self.y_pressed = False
 
+class Gamepad(Controller):
+
+	def __init__(self, game_obj):
+	
+		Controller.__init__(self, game_obj)
+		
+		self.interface = pygame.joystick.Joystick(0)
+		self.interface.init()
+		
+	def update(self):
+	
+		self.x_axis = round(self.interface.get_axis(0))
+		self.y_axis = round(self.interface.get_axis(1))
+		
+		print(self.x_axis, self.y_axis)
+		
+		self.flush()
+		
+		self.held_a = self.interface.get_button(1)
+		self.held_b = self.interface.get_button(2)
+		self.held_x = self.interface.get_button(0)
+
+		if self.interface.get_button(1) and not self.pressed_a_held:
+			self.press("a")
+		elif not self.interface.get_button(1) and self.pressed_a_held:
+			self.pressed_a_held = False
+		if self.interface.get_button(2) and not self.pressed_b_held:
+			self.press("b")
+		elif not self.interface.get_button(2) and self.pressed_b_held:
+			self.pressed_b_held = False
+		if self.interface.get_button(0) and not self.pressed_x_held:
+			self.press("x")
+		elif not self.interface.get_button(0) and self.pressed_x_held:
+			self.pressed_x_held = False
+			
+		if self.interface.get_button(4) and self.interface.get_button(5): self.exit = 1
+		
+		self.base_update()
+
 class Keyboard(Controller):
 
 	def __init__(self, game):
 	
 		Controller.__init__(self, game)
 			
-	def update(self, keys):
+	def update(self):
+		
+		keys = pygame.key.get_pressed()
 		
 		self.x_axis = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] 
 		self.y_axis = keys[pygame.K_DOWN] - keys[pygame.K_UP]
