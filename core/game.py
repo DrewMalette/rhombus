@@ -239,8 +239,6 @@ class Gamepad(Controller):
 		self.x_axis = round(self.interface.get_axis(0))
 		self.y_axis = round(self.interface.get_axis(1))
 		
-		print(self.x_axis, self.y_axis)
-		
 		self.flush()
 		
 		self.held_a = self.interface.get_button(1)

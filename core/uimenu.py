@@ -13,9 +13,10 @@ def draw_inventory(pane, surface): draw_wrapper(pane, surface)
 def draw_status(pane, surface): draw_wrapper(pane, surface)
 def draw_gear(pane, surface): draw_wrapper(pane, surface)
 def draw_save(pane, surface): draw_wrapper(pane, surface)
+def draw_quit(pane, surface): draw_wrapper(pane, surface)
 
-func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save }
-labels = [ "Inventory", "Status", "Gear", "Save" ]
+func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save, "quit": draw_quit }
+labels = [ "Inventory", "Status", "Gear", "Save", "Quit" ]
 
 # declare this before UI_LiveMenu
 class UI_SubmenuPane:

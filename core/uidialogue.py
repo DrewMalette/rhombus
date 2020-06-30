@@ -13,7 +13,7 @@ class UI_Dialogue(object):
 		self.x, self.y = loc
 		self.w, self.h = size
 		self.visible = False
-		self.waiting_for = None
+		self.wait_for = None
 		self.eot = False # end of text_list
 		self.text_list = []
 		self._returned = False
@@ -21,7 +21,7 @@ class UI_Dialogue(object):
 		self.back = pygame.Surface(size).convert_alpha()
 		self.back.fill((0,0,0,128))		
 		
-	def start(self, target=None):
+	def start(self, target=None, wait_for=None):
 	
 		self.eot = False
 		self._returned = False
@@ -33,7 +33,7 @@ class UI_Dialogue(object):
 		self.pause_count = 0
 
 		if target: self.text_list = target.dialogueLines # TODO TODO TODO
-		self.setup()
+		self.setup(wait_for)
 		
 		self.visible = True
 		self.game_obj.controller.flush()
@@ -48,8 +48,7 @@ class UI_Dialogue(object):
 		index = self.text_block
 		self.text_queue = self.text_list[index:index+self.text_range]
 		
-		for i in self.text_queue:
-			self.text_cursors.append(0)
+		for i in self.text_queue: self.text_cursors.append(0)
 		
 	def skip(self):
 	
@@ -119,14 +118,12 @@ class UI_Dialogue(object):
 					
 				if not self.text_queue:
 					self.writing = False
-					self.stop()
+					if self.wait_for == None: self.stop()
 			
-			#if self.eot:
-			#	if self.waiting_for:
-			#		self.engine.controlFocus = self.waiting_for
-			#		self.waiting_for.start()
-			#		if self.waiting_for._returned:
-			#			self.engine.stop()
+			if self.eot	and self.wait_for:
+				self.wait_for.start()
+				if self.wait_for._returned:
+					self.stop()
 
 			self.base_update()
 			
