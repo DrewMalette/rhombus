@@ -11,3 +11,9 @@ class UI:
 		self.hud = {}
 		
 		self.active_dlg = None
+		
+		self.stack = []
+		
+	def set_stack(self, *dlgs):
+	
+		

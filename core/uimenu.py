@@ -62,7 +62,7 @@ class UI_LiveMenu:
 		self.font = pygame.font.Font(None, 24)
 		
 		self.child = child
-		self.child.value = self.labels[self.value].lower()
+		#self.child.value = self.labels[self.value].lower()
 		self.child.parent = self
 		self.child.x = self.x + self.back.get_width() + 10
 		self.child.y = self.y
@@ -72,6 +72,7 @@ class UI_LiveMenu:
 		self.visible = True
 		self.value = 0
 		self._returned = 0
+		self.child.value = self.labels[self.value].lower()
 		#self.game.controller.flush()
 	
 	def stop(self):

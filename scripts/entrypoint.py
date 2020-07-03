@@ -41,7 +41,7 @@ def playermenu_init(game_obj):
 
 	game_obj.scene_obj.paused = True
 	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["playermenu"])
-	game_obj.ui["playermenu"].value = 0
+	game_obj.ui["playermenu"].start()
 	game_obj.script = playermenu_loop
 
 def playermenu_loop(game_obj):

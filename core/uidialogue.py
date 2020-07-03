@@ -4,7 +4,7 @@ import re
 
 import pygame
 
-class UI_Dialogue(object):
+class UI_Dialogue:
 
 	def __init__(self, uid, game_obj, loc, size): # spr_id
 		
