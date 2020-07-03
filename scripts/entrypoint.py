@@ -140,8 +140,7 @@ def init(filename=None):
 		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296), (54,54), ["Yes","No"])
 		game_obj.ui["playermenu"] = core.UI_LiveMenu("playermenu", game_obj, (105,90), (120,120), 
-													 core.UI_SubmenuPane("submenupane", game_obj, (300,300), core.func_dict),
-													 core.labels)
+													 core.UI_SubmenuPane("submenupane", game_obj, (300,300), core.func_dict), core.labels)
 		title_init(game_obj)
 	else:
 		test_tmx_init(game_obj, filename)

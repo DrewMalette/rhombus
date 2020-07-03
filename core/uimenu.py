@@ -17,6 +17,7 @@ def draw_quit(pane, surface): draw_wrapper(pane, surface)
 
 func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save, "quit": draw_quit }
 labels = [ "Inventory", "Status", "Gear", "Save", "Quit" ]
+# this is to maintain the order
 
 # declare this before UI_LiveMenu
 class UI_SubmenuPane:
