@@ -37,6 +37,7 @@ class Game:
 		
 		self.ui = {}
 		self.ui_font = pygame.font.Font(None, 24)
+		self.active_uiobj = None
 		self.title_card = None
 		self.music_tracks = {}
 		
