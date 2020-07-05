@@ -12,7 +12,7 @@ def test_tmx_init(game_obj, filename):
 	pygame.display.set_caption(filename)
 	game_obj.player = core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
 	game_obj.load_scene(filename, os.path.join(filepaths.scene_path, filename))
-	game_obj.renderer.following = game_obj.player
+	game_obj.camera.following = game_obj.player
 	game_obj.debugging = 1
 	
 	game_obj.set_stack(game_obj.scene_obj)
@@ -30,7 +30,7 @@ def newgame_init(game_obj):
 
 	game_obj.player = core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
 	game_obj.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
-	game_obj.renderer.following = game_obj.player
+	game_obj.camera.following = game_obj.player
 		
 	game_obj.set_stack(game_obj.scene_obj)
 	
@@ -67,7 +67,7 @@ def gameplay_loop(game_obj):
 	#	game_obj.fader.fade_out()
 		
 	if game_obj.controller.pressed_a and not game_obj.player.in_dialogue:
-		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
+		dialogue = ["Greetings and>>> welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
 		dialogue_init(game_obj, dialogue)
 	elif game_obj.controller.pressed_x:
 		playermenu_init(game_obj)

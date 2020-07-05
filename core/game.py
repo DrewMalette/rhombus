@@ -18,7 +18,7 @@ class Game:
 		pygame.display.set_caption("rhombus framework")
 		self.display = pygame.display.set_mode(self.display_size)
 		self.fader = Fader(self, self.display.get_size())
-		self.renderer = Renderer("renderer", self)
+		self.camera = Camera("camera", self)
 		
 		self.controller = Gamepad(self)
 				
@@ -52,19 +52,19 @@ class Game:
 	def load_scene(self, uid, filename):
 		
 		self.scene_obj = scene.Scene(uid, self, filename)
-		self.renderer.scene_obj = self.scene_obj
-		self.renderer.following = self.player
+		self.camera.scene_obj = self.scene_obj
+		self.camera.following = self.player
 		# assumes the tile is square
-		self.renderer.tilesize = self.scene_obj.tilewidth
-		self.renderer.cols = int(self.renderer.w / self.scene_obj.tilesize + 2)
-		self.renderer.rows = int(self.renderer.h / self.scene_obj.tilesize + 2)
-		self.renderer.blank = pygame.Surface((self.scene_obj.tilesize,self.scene_obj.tilesize)).convert()
-		self.renderer.blank.fill((0,0,0))
+		self.camera.tilesize = self.scene_obj.tilewidth
+		self.camera.cols = int(self.camera.w / self.scene_obj.tilesize + 2)
+		self.camera.rows = int(self.camera.h / self.scene_obj.tilesize + 2)
+		self.camera.blank = pygame.Surface((self.scene_obj.tilesize,self.scene_obj.tilesize)).convert()
+		self.camera.blank.fill((0,0,0))
 		
 		#self.controller.flush()
 		self.player.moving = False
 		#self.sprites["player"].facing = "south" TODO put this somewhere else (like in a gamestate)
-		self.renderer.update()		
+		self.camera.update()		
 	
 	def main(self):
 	
@@ -299,7 +299,7 @@ class Keyboard(Controller):
 			
 		self.base_update()
 		
-class Renderer(pygame.Rect):
+class Camera(pygame.Rect):
 
 	def __init__(self, uid, game, x=0, y=0):
 	

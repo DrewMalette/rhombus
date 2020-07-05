@@ -46,9 +46,9 @@ class Scene:
 		
 		if not self.game_obj.fader.fading and not self.paused:
 			for mob in self.live_mobs.values():	mob.update()
-			self.game_obj.renderer.update()
+			self.game_obj.camera.update()
 		
 	def render(self):
 	
-		self.game_obj.renderer.render()
+		self.game_obj.camera.render()
 

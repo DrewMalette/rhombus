@@ -9,7 +9,7 @@ class UI_Dialogue:
 	def __init__(self, uid, game_obj, loc, size): # spr_id
 		
 		self.uid = uid
-		self.game_obj = game_obj
+		self.game = game_obj
 		self.x, self.y = loc
 		self.w, self.h = size
 		self.visible = False
@@ -37,7 +37,7 @@ class UI_Dialogue:
 		self.setup(wait_for)
 		
 		self.visible = True
-		self.game_obj.controller.flush()
+		self.game.controller.flush()
 		
 	def setup(self, wait_for=None):
 	
@@ -64,11 +64,11 @@ class UI_Dialogue:
 		# if self.wait_for and self.wait_for._returned:
 		self.visible = False
 		self._returned = True
-		#self.game_obj.controller.flush()
+		#self.game.controller.flush()
 	
 	def base_update(self):
 	
-		if self.writing and self.visible and self.game_obj.tick % 2 == 0:
+		if self.writing and self.visible and self.game.tick % 2 == 0:
 
 			index = self.text_line
 			limit = len(self.text_queue[index])
@@ -82,17 +82,13 @@ class UI_Dialogue:
 				
 				# check to see if there's still text to iterate over
 				# and increments the textCursor counter if so
-				if self.text_cursors[index] < limit:
-					self.text_cursors[index] += 1
+				if self.text_cursors[index] < limit: self.text_cursors[index] += 1
 					
-			if self.pausing:
-				if int((pygame.time.get_ticks() - self.pause_count) / 1000) == 1:
-					self.pausing = False
+			if self.pausing and int((pygame.time.get_ticks() - self.pause_count) / 1000) == 1: self.pausing = False
 					
 			# if there is no more text to iterate over
 			# we move to the next line in text_queue
-			if self.text_cursors[index] == limit:
-				self.text_line += 1
+			if self.text_cursors[index] == limit: self.text_line += 1
 			
 			# if there is no more text for the last item
 			# in text_queue to iterate over we set to move to the next block
@@ -101,18 +97,16 @@ class UI_Dialogue:
 				self.text_line = 0
 				self.text_block += self.text_range # TODO
 				
-				if not self.text_list[self.text_block:self.text_block+self.text_range]:
-					self.eot = True
+				if not self.text_list[self.text_block:self.text_block+self.text_range]:	self.eot = True
 							
 	def update(self): # override in classes derived
 	
 		if self.visible: # and not self.wait_for._returned
-			if self.game_obj.controller.pressed_a == 1:
+			if self.game.controller.pressed_a == 1:
 				if self.writing:
 					self.writing = False
 					self.skip()
-					if not self.text_list[self.text_block:self.text_block+self.text_range]:
-						self.eot = True
+					if not self.text_list[self.text_block:self.text_block+self.text_range]: self.eot = True
 				elif not self.writing:
 					self.writing = True
 					self.setup()
@@ -121,8 +115,7 @@ class UI_Dialogue:
 					self.writing = False
 					self.eot = True
 					self.skip()
-					if self.wait_for == None:
-						self.stop()
+					if self.wait_for == None: self.stop()
 			
 			if self.eot	and self.wait_for and not self.waiting:
 				self.wait_for.start()
@@ -134,13 +127,13 @@ class UI_Dialogue:
 	
 		if self.visible:
 		
-			self.game_obj.display.blit(self.back, (self.x, self.y))
+			self.game.display.blit(self.back, (self.x, self.y))
 	
 			for i, l in enumerate(self.text_queue):
 				text = l[:self.text_cursors[i]]
 				if ">" in text:	text = re.sub(">", "", text)
-				rText = self.game_obj.ui_font.render(text, 0, (255,255,255))
+				rText = self.game.ui_font.render(text, 0, (255,255,255))
 				
 				x = self.x + 5 # padding
-				y = self.y + 5 * (i+1) + i * self.game_obj.ui_font.get_height()
-				self.game_obj.display.blit(rText, (x,y))
+				y = self.y + 5 * (i+1) + i * self.game.ui_font.get_height()
+				self.game.display.blit(rText, (x,y))
