@@ -25,7 +25,7 @@ class Game:
 		self.clock = pygame.time.Clock()
 		self.tick = 0
 		
-		self.obj_stack = [] # either a pygame.Surface or an object with a render method
+		self.obj_stack = [] # list containing Surfaces or objects with render method
 		
 		self.last_script = None # unimplemented
 		self.script = None
@@ -33,21 +33,15 @@ class Game:
 		self.player = None
 		self.scene_obj = None # TODO rename to self.scene; usage: self.scene = scene_obj
 		
-		self.mob_orphans = []
+		self.mob_orphans = [] # unimplemented
 		
 		self.ui = {}
 		self.ui_font = pygame.font.Font(None, 24)
-		self.active_uiobj = None
 		self.title_card = None
 		self.music_tracks = {}
 		
 		self.debugging = -1
 		self.debug_font = pygame.font.Font(None, 20)
-
-	def set_stack(self, *objs):
-	
-		self.obj_stack = []
-		for obj in objs: self.obj_stack.append(obj)
 
 	def load_scene(self, uid, filename):
 		
@@ -99,6 +93,7 @@ class Game:
 		labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
 		
 		if self.player:
+			labels.append(self.debug_font.render("player.in_dialogue: "+str(self.player.in_dialogue), 0, (0xff,0xff,0xff)))
 			labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
 			labels.append(self.debug_font.render("player.y (pixel): "+str(self.player.y), 0, (0xff,0xff,0xff)))
 			labels.append(self.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))

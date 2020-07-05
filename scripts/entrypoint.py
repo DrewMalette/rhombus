@@ -1,5 +1,9 @@
 # entrypoint.py; rename to main.py
 
+# the loops are going to be removed
+# functions are going to be key-paired with uiselect labels and so forth
+# this code is so sloppy; I must clean it
+
 import os
 
 import pygame
@@ -15,7 +19,7 @@ def test_tmx_init(game_obj, filename):
 	game_obj.camera.following = game_obj.player
 	game_obj.debugging = 1
 	
-	game_obj.set_stack(game_obj.scene_obj)
+	game_obj.obj_stack = [ game_obj.scene_obj ]
 	game_obj.scene_obj.paused = False
 	game_obj.next_script = test_tmx_loop
 	game_obj.fader.fade_in()
@@ -32,7 +36,7 @@ def newgame_init(game_obj):
 	game_obj.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
 	game_obj.camera.following = game_obj.player
 		
-	game_obj.set_stack(game_obj.scene_obj)
+	game_obj.obj_stack = [ game_obj.scene_obj ]
 	
 	game_obj.next_script = gameplay_loop
 	game_obj.fader.fade_in()
@@ -40,7 +44,7 @@ def newgame_init(game_obj):
 def playermenu_init(game_obj):
 
 	game_obj.scene_obj.paused = True
-	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["playermenu"])
+	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["playermenu"] ]
 	game_obj.ui["playermenu"].start()
 	game_obj.script = playermenu_loop
 
@@ -55,26 +59,22 @@ def playermenu_loop(game_obj):
 
 def gameplay_init(game_obj): # returning to gameplay
 
-	game_obj.set_stack(game_obj.scene_obj)
+	game_obj.obj_stack = [ game_obj.scene_obj ]
 	game_obj.script = gameplay_loop
 	game_obj.scene_obj.paused = False
 	
 def gameplay_loop(game_obj):
-
-	#if game_obj.controller.exit:
-	#	game_obj.next_script = title_init
-	#	game_obj.music_tracks["titletrack"].fadeout(1000)
-	#	game_obj.fader.fade_out()
-		
+	
+	# TODO why did removing the in_dialogue portion break the game?
 	if game_obj.controller.pressed_a and not game_obj.player.in_dialogue:
-		dialogue = ["Greetings and>>> welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
+		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
 		dialogue_init(game_obj, dialogue)
 	elif game_obj.controller.pressed_x:
 		playermenu_init(game_obj)
 		
 def dialogue_init(game_obj, dialogue):
 
-	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["dialoguebox"])
+	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["dialoguebox"] ]
 	game_obj.ui["dialoguebox"].text_list = dialogue
 	game_obj.ui["dialoguebox"].start()
 	game_obj.script = dialogue_loop
@@ -85,7 +85,7 @@ def dialogue_loop(game_obj):
 
 def title_init(game_obj):
 
-	game_obj.set_stack(game_obj.title_card, game_obj.ui["titleselect"])
+	game_obj.obj_stack = [ game_obj.title_card, game_obj.ui["titleselect"] ]
 	
 	game_obj.ui["titleselect"].start()
 	
@@ -107,7 +107,7 @@ def title_loop(game_obj):
 
 def quit_init(game_obj):
 
-	game_obj.set_stack(game_obj.scene_obj, game_obj.ui["dialoguebox"], game_obj.ui["yesnobox"])
+	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["dialoguebox"], game_obj.ui["yesnobox"] ]
 	game_obj.scene_obj.paused = True
 	
 	game_obj.ui["dialoguebox"].text_list = ["Quit to menu?", " ", " "]
