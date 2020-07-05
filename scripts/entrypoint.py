@@ -124,6 +124,7 @@ def quit_loop(game_obj):
 			game_obj.fader.fade_out()	
 		elif game_obj.ui["yesnobox"].value == 1: #if game_obj.controller.exit:
 			gameplay_init(game_obj)
+		game_obj.ui["dialoguebox"].stop()
 			
 def init(filename=None):
 

@@ -24,6 +24,7 @@ class UI_Dialogue:
 	def start(self, target=None, wait_for=None):
 	
 		self.eot = False
+		self.waiting = False
 		self._returned = False
 		self.text_line = 0 # an int tracking which Line in the Queue is being iterated over
 		self.text_block = 0 # which Block of text from List to be put into Queue
@@ -63,7 +64,7 @@ class UI_Dialogue:
 		# if self.wait_for and self.wait_for._returned:
 		self.visible = False
 		self._returned = True
-		self.game_obj.controller.flush()
+		#self.game_obj.controller.flush()
 	
 	def base_update(self):
 	
@@ -118,12 +119,14 @@ class UI_Dialogue:
 					
 				if not self.text_queue:
 					self.writing = False
-					if self.wait_for == None: self.stop()
+					self.eot = True
+					self.skip()
+					if self.wait_for == None:
+						self.stop()
 			
-			if self.eot	and self.wait_for:
+			if self.eot	and self.wait_for and not self.waiting:
 				self.wait_for.start()
-				if self.wait_for._returned:
-					self.stop()
+				self.waiting = True
 
 			self.base_update()
 			

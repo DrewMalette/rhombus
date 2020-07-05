@@ -125,8 +125,7 @@ class Game:
 		pygame.event.pump()
 		self.controller.update()
 		for obj in self.obj_stack:
-			if getattr(obj, "update", None):
-				obj.update()
+			if getattr(obj, "update", None): obj.update()
 		self.script(self) # script
 		
 		self.fader.update()

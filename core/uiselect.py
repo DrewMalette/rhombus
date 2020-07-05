@@ -2,7 +2,7 @@
 
 import pygame
 
-class UI_Select(object):
+class UI_Select:
 
 	def __init__(self, uid, game_obj, loc, size, labels):
 	
@@ -33,18 +33,17 @@ class UI_Select(object):
 	
 	# each update needs to read the keystate of Engine
 	def update(self):
-	
+
 		self._returned = 0
 	
 		if self.visible: # and not self.game_obj.fader.fading:
-			print(self.uid)
 			if self.game_obj.controller.y_axis_sr != 0:
 				self.value = (self.value + self.game_obj.controller.y_axis_sr * self.game_obj.controller.y_axis) % len(self.labels)
-				
+			
 			if self.game_obj.controller.pressed_a == 1:
 				self.stop()
 				#list(self.tDict.values())[self.value]()
-				
+		
 	def render(self):
 	
 		if self.visible:
