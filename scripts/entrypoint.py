@@ -65,8 +65,8 @@ def gameplay_init(game_obj): # returning to gameplay
 	
 def gameplay_loop(game_obj):
 	
-	# TODO why did removing the in_dialogue portion break the game?
-	if game_obj.controller.pressed_a and not game_obj.player.in_dialogue:
+	# TODO why did removing the in_dialogue portion break the game? IT DOESN'T?????
+	if game_obj.controller.pressed_a:# and not game_obj.player.in_dialogue:
 		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
 		dialogue_init(game_obj, dialogue)
 	elif game_obj.controller.pressed_x:

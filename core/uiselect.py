@@ -36,7 +36,7 @@ class UI_Select:
 
 		self._returned = 0
 	
-		if self.visible: # and not self.game.fader.fading:
+		if self.visible and not self.game.fader.fading:
 			if self.game.controller.y_axis_sr != 0:
 				self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.labels)
 			
