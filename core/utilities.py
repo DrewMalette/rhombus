@@ -109,12 +109,12 @@ def load_tmx(filename, scene_obj):
 			col = int(float(rectattribs["x"]) / scene_obj.tilewidth)
 			row = int(float(rectattribs["y"]) / scene_obj.tileheight)
 			if rectattribs["type"] == "player":
-				if scene_obj.game_obj.player is None:
+				if scene_obj.game.player is None:
 					print("player object is not defined")
 					print("exiting")
 					pygame.quit()
 					exit()
-				scene_obj.live_mobs["player"] = scene_obj.game_obj.player
+				scene_obj.live_mobs["player"] = scene_obj.game.player
 				scene_obj.live_mobs["player"].scene_obj = scene_obj
 				scene_obj.live_mobs["player"].place(col, row)
 			elif rectattribs["type"] == "switch":

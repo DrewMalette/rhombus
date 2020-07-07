@@ -6,50 +6,44 @@ import pygame
 
 class UI_Dialogue:
 
-	def __init__(self, uid, game_obj, loc, size): # spr_id
+	def __init__(self, uid, game_obj, rect):
 		
 		self.uid = uid
 		self.game = game_obj
-		self.x, self.y = loc
-		self.w, self.h = size
-		self.visible = False
-		self.wait_for = None
-		self.eot = False # end of text_list
-		self.text_list = []
-		self._returned = False
+		self.x, self.y, self.w, self.h = rect
 		
-		self.back = pygame.Surface(size).convert_alpha()
-		self.back.fill((0,0,0,128))		
+		self.back = pygame.Surface((self.w,self.h)).convert_alpha()
+		self.back.fill((0,0,0,128))
 		
 	def start(self, target=None, wait_for=None):
 	
-		self.eot = False
-		self.waiting = False
-		self._returned = False
-		self.text_line = 0 # an int tracking which Line in the Queue is being iterated over
-		self.text_block = 0 # which Block of text from List to be put into Queue
-		self.text_range = 3 # the number of Lines to render per Block
+		if target:
+			self.text_list = target.dlg_text
+			
+		self.text_line = 0 # an int tracking which line in the queue is being iterated over
+		self.text_block = 0 # which block of text from list to be put into queue
+		self.text_range = 3 # the number of lines to render per block
 		self.writing = True
 		self.pausing = False
 		self.pause_count = 0
-
-		if target: self.text_list = target.dialogueLines # TODO TODO TODO
-		self.setup(wait_for)
-		
-		self.visible = True
+		self.visible = True # visible is needed
+		self.wait_for = wait_for
+		self.waiting = False
+		self.eot = False
+		self._returned = False # _returned is also needed; find a better name tho
+		self.setup()
 		self.game.controller.flush()
 		
-	def setup(self, wait_for=None):
-	
-		self.wait_for = wait_for
-	
+	def setup(self):
+		
 		self.text_queue = []
 		self.text_cursors = []
 		
 		index = self.text_block
 		self.text_queue = self.text_list[index:index+self.text_range]
 		
-		for i in self.text_queue: self.text_cursors.append(0)
+		for i in self.text_queue:
+			self.text_cursors.append(0)
 		
 	def skip(self):
 	
@@ -61,10 +55,8 @@ class UI_Dialogue:
 		
 	def stop(self):
 	
-		# if self.wait_for and self.wait_for._returned:
 		self.visible = False
 		self._returned = True
-		#self.game.controller.flush()
 	
 	def base_update(self):
 	
@@ -82,13 +74,16 @@ class UI_Dialogue:
 				
 				# check to see if there's still text to iterate over
 				# and increments the textCursor counter if so
-				if self.text_cursors[index] < limit: self.text_cursors[index] += 1
+				if self.text_cursors[index] < limit:
+					self.text_cursors[index] += 1
 					
-			if self.pausing and int((pygame.time.get_ticks() - self.pause_count) / 1000) == 1: self.pausing = False
+			if self.pausing and int((pygame.time.get_ticks() - self.pause_count) / 1000) == 1:
+				self.pausing = False
 					
 			# if there is no more text to iterate over
 			# we move to the next line in text_queue
-			if self.text_cursors[index] == limit: self.text_line += 1
+			if self.text_cursors[index] == limit:
+				self.text_line += 1
 			
 			# if there is no more text for the last item
 			# in text_queue to iterate over we set to move to the next block
@@ -97,16 +92,18 @@ class UI_Dialogue:
 				self.text_line = 0
 				self.text_block += self.text_range # TODO
 				
-				if not self.text_list[self.text_block:self.text_block+self.text_range]:	self.eot = True
+				if not self.text_list[self.text_block:self.text_block+self.text_range]:
+					self.eot = True
 							
-	def update(self): # override in classes derived
+	def update(self):
 	
-		if self.visible: # and not self.wait_for._returned
+		if self.visible:
 			if self.game.controller.pressed_a == 1:
 				if self.writing:
 					self.writing = False
 					self.skip()
-					if not self.text_list[self.text_block:self.text_block+self.text_range]: self.eot = True
+					if not self.text_list[self.text_block:self.text_block+self.text_range]:
+						self.eot = True
 				elif not self.writing:
 					self.writing = True
 					self.setup()
@@ -115,7 +112,8 @@ class UI_Dialogue:
 					self.writing = False
 					self.eot = True
 					self.skip()
-					if self.wait_for == None: self.stop()
+					if self.wait_for == None:
+						self.stop()
 			
 			if self.eot	and self.wait_for and not self.waiting:
 				self.wait_for.start()

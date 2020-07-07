@@ -124,6 +124,7 @@ def quit_loop(game_obj):
 			game_obj.fader.fade_out()	
 		elif game_obj.ui["yesnobox"].value == 1: #if game_obj.controller.exit:
 			gameplay_init(game_obj)
+		game_obj.ui["dialoguebox"].visible = False
 			
 def init(filename=None):
 
@@ -136,7 +137,7 @@ def init(filename=None):
 		game_obj.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
 		game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
 	
-		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360), (300,100))
+		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360,300,100))
 		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296), (54,54), ["Yes","No"])
 		game_obj.ui["playermenu"] = core.UI_LiveMenu("playermenu", game_obj, (105,90), (120,120), 

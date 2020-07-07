@@ -436,11 +436,12 @@ class Fader: # TODO make a white version
 		
 	def update(self):
 	
-		if self.faded_in: self.faded_in = False
-		if self.faded_out: self.faded_out = False
+		if self.faded_in:
+			self.faded_in = False
+		if self.faded_out:
+			self.faded_out = False
 		
-		if self.fading:
-		
+		if self.fading:		
 			self.opacity += self.velocity
 			
 			if self.opacity <= 0:

@@ -31,24 +31,22 @@ class UI_Select:
 		self._returned = 1
 		self.game.controller.flush()
 	
-	# each update needs to read the keystate of Engine
 	def update(self):
 
 		self._returned = 0
 	
 		if self.visible and not self.game.fader.fading:
-			if self.game.controller.y_axis_sr != 0:
-				self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.labels)
+			self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.labels)
 			
-			if self.game.controller.pressed_a == 1:	self.stop()
-				#list(self.tDict.values())[self.value]()
+			if self.game.controller.pressed_a == 1:
+				self.stop()
 		
 	def render(self):
 	
 		if self.visible:
 			self.game.display.blit(self.back, (self.x, self.y))
 				
-			for l, text in enumerate(self.labels): # self.tDict.keys()
+			for l, text in enumerate(self.labels):
 				if l == self.value:
 					label = text + " <"
 				else:

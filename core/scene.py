@@ -8,7 +8,7 @@ class Scene:
 	def __init__(self, uid, game_obj, filename):
 
 		self.uid = uid
-		self.game_obj = game_obj
+		self.game = game_obj
 		
 		self.mobs = {}
 		self.live_mobs = {}
@@ -23,8 +23,8 @@ class Scene:
 		self.filename = filename
 		utilities.load_tmx(self.filename, self)
 		
-		self.paused = False # all this will do is pause gameplay (literally, only Scene)
-
+		self.paused = False
+		
 	def add_loot(self, filename, x, y):
 	
 		uid = self.loot_count
@@ -44,11 +44,12 @@ class Scene:
 			
 	def update(self):
 		
-		if not self.game_obj.fader.fading and not self.paused:
-			for mob in self.live_mobs.values():	mob.update()
-			self.game_obj.camera.update()
+		if not self.game.fader.fading and not self.paused:
+			for mob in self.live_mobs.values():
+				mob.update()
+			self.game.camera.update()
 		
 	def render(self):
 	
-		self.game_obj.camera.render()
+		self.game.camera.render()
 
