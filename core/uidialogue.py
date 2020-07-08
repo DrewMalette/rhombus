@@ -23,7 +23,6 @@ class UI_Dialogue:
 		self.text_line = 0 # an int tracking which line in the queue is being iterated over
 		self.text_block = 0 # which block of text from list to be put into queue
 		self.text_range = 3 # the number of lines to render per block
-		self.writing = True
 		self.pausing = False
 		self.pause_count = 0
 		self.visible = True # visible is needed
@@ -44,6 +43,8 @@ class UI_Dialogue:
 		
 		for i in self.text_queue:
 			self.text_cursors.append(0)
+			
+		self.writing = True
 		
 	def skip(self):
 	
@@ -52,6 +53,7 @@ class UI_Dialogue:
 		
 		self.text_line = 0	
 		self.text_block += self.text_range
+		self.writing = False
 		
 	def stop(self):
 	
@@ -100,16 +102,13 @@ class UI_Dialogue:
 		if self.visible:
 			if self.game.controller.pressed_a == 1:
 				if self.writing:
-					self.writing = False
 					self.skip()
 					if not self.text_list[self.text_block:self.text_block+self.text_range]:
 						self.eot = True
 				elif not self.writing:
-					self.writing = True
 					self.setup()
 					
 				if not self.text_queue:
-					self.writing = False
 					self.eot = True
 					self.skip()
 					if self.wait_for == None:
