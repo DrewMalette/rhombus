@@ -220,6 +220,10 @@ class Controller:
 		if self.y_axis == 0 and self.y_pressed:
 			self.y_pressed = False
 
+	def y_ax_sr(self):
+	
+		return self.y_axis_sr * self.y_axis
+
 class Gamepad(Controller):
 
 	def __init__(self, game_obj):

@@ -23,10 +23,10 @@ class UI_Dialogue:
 		self.text_line = 0 # an int tracking which line in the queue is being iterated over
 		self.text_block = 0 # which block of text from list to be put into queue
 		self.text_range = 3 # the number of lines to render per block
-		self.pausing = False
 		self.pause_count = 0
-		self.visible = True # visible is needed
 		self.wait_for = wait_for
+		self.pausing = False # ">" in a string slows down the speed by one second
+		self.visible = True # visible is needed
 		self.waiting = False
 		self.eot = False
 		self._returned = False # _returned is also needed; find a better name tho
@@ -68,12 +68,12 @@ class UI_Dialogue:
 			limit = len(self.text_queue[index])
 			
 			string = self.text_queue[index]
-			charPoint = self.text_cursors[index]
+			char_point = self.text_cursors[index]
 			if not self.pausing:
-				if string[charPoint:charPoint+1] == ">":
-					self.pausing = True
+				if string[char_point:char_point+1] == ">":
 					self.pause_count = pygame.time.get_ticks()
-				
+					self.pausing = True
+					
 				# check to see if there's still text to iterate over
 				# and increments the textCursor counter if so
 				if self.text_cursors[index] < limit:
@@ -105,12 +105,12 @@ class UI_Dialogue:
 					self.skip()
 					if not self.text_list[self.text_block:self.text_block+self.text_range]:
 						self.eot = True
-				elif not self.writing:
+				elif not self.writing: # else?
 					self.setup()
 					
 				if not self.text_queue:
-					self.eot = True
 					self.skip()
+					self.eot = True
 					if self.wait_for == None:
 						self.stop()
 			
