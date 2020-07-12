@@ -15,7 +15,6 @@ class Game:
 
 	def __init__(self):
 	
-		pygame.display.set_caption("rhombus framework")
 		self.display = pygame.display.set_mode(self.display_size)
 		self.fader = Fader(self, self.display.get_size())
 		self.camera = Camera("camera", self)
