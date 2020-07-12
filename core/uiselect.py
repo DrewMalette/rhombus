@@ -4,7 +4,7 @@ import pygame
 
 class UI_Select:
 
-	def __init__(self, uid, game_obj, loc, size, labels):
+	def __init__(self, uid, game_obj, loc, size, labels): # TODO bindings here
 	
 		self.uid = uid
 		self.game = game_obj

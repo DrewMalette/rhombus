@@ -15,6 +15,8 @@ class UI_Dialogue:
 		self.back = pygame.Surface((self.w,self.h)).convert_alpha()
 		self.back.fill((0,0,0,128))
 		
+		self.func = None
+		
 	def start(self, target=None, wait_for=None):
 	
 		if target:

@@ -2,7 +2,6 @@
 
 # the loops are going to be removed
 # functions are going to be key-paired with uiselect labels and so forth
-# this code is so sloppy; I must clean it
 
 import os
 
@@ -56,6 +55,7 @@ def playermenu_loop(game_obj):
 
 	if game_obj.controller.pressed_b:
 		gameplay_init(game_obj)
+		#game_obj.script = game_obj.last_script
 
 def gameplay_init(game_obj): # returning to gameplay
 
@@ -63,7 +63,7 @@ def gameplay_init(game_obj): # returning to gameplay
 	game_obj.script = gameplay_loop
 	game_obj.scene_obj.paused = False
 	
-def gameplay_loop(game_obj):
+def gameplay_loop(game_obj): # game.script will still exist but only in a minor way
 	
 	# TODO why did removing the in_dialogue portion break the game? IT DOESN'T?????
 	if game_obj.controller.pressed_a:# and not game_obj.player.in_dialogue:
@@ -79,9 +79,10 @@ def dialogue_init(game_obj, dialogue):
 	game_obj.ui["dialoguebox"].start()
 	game_obj.script = dialogue_loop
 	
-def dialogue_loop(game_obj):
+def dialogue_loop(game_obj): # I'll have to bind functions to dialogueboxes too
 
-	if game_obj.ui["dialoguebox"]._returned: gameplay_init(game_obj)
+	if game_obj.ui["dialoguebox"]._returned:
+		gameplay_init(game_obj)
 
 def title_init(game_obj):
 
@@ -140,8 +141,8 @@ def init(filename=None):
 		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360,300,100))
 		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296), (54,54), ["Yes","No"])
-		game_obj.ui["playermenu"] = core.UI_LiveMenu("playermenu", game_obj, (105,90), (120,120), 
-													 core.UI_SubmenuPane("submenupane", game_obj, (300,300), core.func_dict), core.labels)
+		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), core.bindings)
+		game_obj.ui["childpane"] = core.UI_SubMenuPane("childpane", game_obj.ui["playermenu"], (300,300))
 		title_init(game_obj)
 	else:
 		test_tmx_init(game_obj, filename)

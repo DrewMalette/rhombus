@@ -40,7 +40,7 @@ class Game:
 		self.title_card = None
 		self.music_tracks = {}
 		
-		self.debugging = -1
+		self.debug_info_on = -1
 		self.debug_font = pygame.font.Font(None, 20)
 
 	def load_scene(self, uid, filename):
@@ -75,8 +75,8 @@ class Game:
 
 	def fade_loop(self, _):
 	
-		if _.fader.faded_out or _.fader.faded_in:
-			_.script = _.next_script
+		if self.fader.faded_out or self.fader.faded_in:
+			self.script = self.next_script
 
 	def draw_debug_info(self):
 	
@@ -117,17 +117,21 @@ class Game:
 	
 		self.clock.tick(self.fps)
 		self.tick = (self.tick + 1) % 4294967296
+		
 		pygame.event.pump()
 		self.controller.update()
+		
 		for obj in self.obj_stack:
 			if getattr(obj, "update", None): obj.update()
-		self.script(self) # script
+		
+		if self.script:
+			self.script(self) # script
 		
 		self.fader.update()
 		
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_F1: self.debugging = -self.debugging
+				if event.key == pygame.K_F1: self.debug_info_on = -self.debug_info_on
 
 	def render(self):
 	
@@ -139,7 +143,7 @@ class Game:
 				
 		self.fader.render()
 		
-		if self.debugging == 1: self.draw_debug_info()
+		if self.debug_info_on == 1: self.draw_debug_info()
 		
 		pygame.display.flip()
 					
@@ -400,7 +404,7 @@ class Camera(pygame.Rect):
 				tile, x, y = self.tile_prep("top", col, row)
 				if tile != "0": self.game.display.blit(tile, (x, y))
 		
-		if self.game.debugging == 1:
+		if self.game.debug_info_on == 1:
 			r = (self.game.player.action.x - self.x, self.game.player.action.y - self.y, self.game.player.action.w, self.game.player.action.h)
 			pygame.draw.rect(self.game.display, (0xff,0,0), r, 1)
 				
