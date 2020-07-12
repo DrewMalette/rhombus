@@ -130,7 +130,7 @@ def quit_yes(game_obj):
 def start(filename=None):
 
 	pygame.init()
-	pygame.display.set_caption("rhombus 0.0.2 (Jul 12 2020, 18:29:46)")
+	pygame.display.set_caption("rhombus 1.0.2 (Jul 12 2020, 18:29:46)")
 	game_obj = core.Game()
 	
 	if filename == None:
