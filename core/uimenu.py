@@ -15,16 +15,13 @@ def draw_gear(pane, surface): draw_wrapper(pane, surface)
 def draw_save(pane, surface): draw_wrapper(pane, surface)
 def draw_quit(pane, surface): draw_wrapper(pane, surface)
 
-#func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save, "quit": draw_quit }
-#labels = [ "Inventory", "Status", "Gear", "Save", "Quit" ]
-# not using a dict because this way preserves order
+# not using a dict because lists preserve order
 bindings = [ ["Inventory", draw_inventory],
 			 ["Status", draw_status],
 			 ["Gear", draw_gear],
 			 ["Save", draw_save],
 			 ["Quit", draw_quit]
 			]
-# bindings to consolidate and replace func_dict and labels
 
 # declare a UI_PlayerMenu before declaring UI_SubMenuPane
 class UI_PlayerMenu:
