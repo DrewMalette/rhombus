@@ -84,27 +84,26 @@ def dialogue_loop(game_obj): # I'll have to bind functions to dialogueboxes too
 	if game_obj.ui["dialoguebox"]._returned:
 		gameplay_init(game_obj)
 
-def title_init(game_obj):
+def title_init(game_obj): # so when you exit to this during gameplay it's getting repeated infinitely for some reason
 
 	game_obj.obj_stack = [ game_obj.title_card, game_obj.ui["titleselect"] ]
 	
 	game_obj.ui["titleselect"].start()
 	
 	game_obj.music_tracks["titletrack"].play(-1)
-	game_obj.next_script = title_loop
+	game_obj.next_script = None
 	game_obj.fader.fade_in()
-	
-def title_loop(game_obj):
 
-	if game_obj.ui["titleselect"]._returned:
-		if game_obj.ui["titleselect"].value == 0: # New Game
-			game_obj.next_script = newgame_init
-			game_obj.fader.fade_out()			
-		elif game_obj.ui["titleselect"].value == 1: # Quit to Desktop
-			game_obj.music_tracks["titletrack"].fadeout(1000)
-			game_obj.next_script = game_obj.exit
-			game_obj.fader.fade_out()
-		game_obj.ui["titleselect"].visible = False
+def title_newgame(game_obj):
+
+	game_obj.next_script = newgame_init
+	game_obj.fader.fade_out()
+	
+def title_quit(game_obj):
+
+	game_obj.music_tracks["titletrack"].fadeout(1000)
+	game_obj.next_script = game_obj.exit
+	game_obj.fader.fade_out()
 
 def quit_init(game_obj):
 
@@ -114,24 +113,24 @@ def quit_init(game_obj):
 	game_obj.ui["dialoguebox"].text_list = ["Quit to menu?", " ", " "]
 	game_obj.ui["dialoguebox"].start(wait_for=game_obj.ui["yesnobox"])
 	
-	game_obj.script = quit_loop
+	game_obj.script = None
+
+def quit_no(game_obj):
+
+	gameplay_init(game_obj)
+	game_obj.ui["dialoguebox"].visible = False
 	
-def quit_loop(game_obj):
+def quit_yes(game_obj):
 
-	if game_obj.ui["yesnobox"]._returned:
-		if game_obj.ui["yesnobox"].value == 0:
-			game_obj.next_script = title_init
-			game_obj.music_tracks["titletrack"].fadeout(1000)
-			game_obj.fader.fade_out()	
-		elif game_obj.ui["yesnobox"].value == 1: #if game_obj.controller.exit:
-			gameplay_init(game_obj)
-		game_obj.ui["dialoguebox"].visible = False
+	game_obj.next_script = title_init
+	game_obj.music_tracks["titletrack"].fadeout(1000)
+	game_obj.fader.fade_out()
+	game_obj.ui["dialoguebox"].visible = False
 			
-def init(filename=None):
-
-	print("rhombus framework - June 2020")
+def start(filename=None):
 
 	pygame.init()
+	pygame.display.set_caption("rhombus 0.0.2 (Jul 12 2020, 18:29:46)")
 	game_obj = core.Game()
 	
 	if filename == None:
@@ -139,8 +138,10 @@ def init(filename=None):
 		game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
 	
 		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360,300,100))
-		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300), (150,54), ["New Game", "Quit to Desktop"])
-		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296), (54,54), ["Yes","No"])
+		title_bindings = [ ["New Game", title_newgame], ["Quit to Desktop", title_quit] ]
+		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300,150,54), title_bindings)
+		quit_bindings = [ ["No", quit_no], ["Yes", quit_yes] ]
+		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296,54,54), quit_bindings)
 		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), core.bindings)
 		game_obj.ui["childpane"] = core.UI_SubMenuPane("childpane", game_obj.ui["playermenu"], (300,300))
 		title_init(game_obj)

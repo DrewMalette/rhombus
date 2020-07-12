@@ -9,6 +9,6 @@ try:
 except:
 	filename = None
 
-entrypoint = importlib.import_module("scripts.entrypoint")
-entrypoint.init(filename) #main.init()
+main = importlib.import_module("scripts.main")
+main.start(filename)
 
