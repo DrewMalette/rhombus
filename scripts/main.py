@@ -16,7 +16,7 @@ def test_tmx_init(game_obj, filename):
 	game_obj.player = core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
 	game_obj.load_scene(filename, os.path.join(filepaths.scene_path, filename))
 	game_obj.camera.following = game_obj.player
-	game_obj.debugging = 1
+	game_obj.debug_info_on = 1
 	
 	game_obj.obj_stack = [ game_obj.scene_obj ]
 	game_obj.scene_obj.paused = False

@@ -126,7 +126,7 @@ class Game:
 		if self.script:
 			self.script(self) # script
 		
-		self.fader.update()
+		self.fader.update() # put this back into the obj_stack; too rigid, may need it on different layer
 		
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
@@ -142,7 +142,8 @@ class Game:
 				
 		self.fader.render()
 		
-		if self.debug_info_on == 1: self.draw_debug_info()
+		if self.debug_info_on == 1:
+			self.draw_debug_info()
 		
 		pygame.display.flip()
 					
