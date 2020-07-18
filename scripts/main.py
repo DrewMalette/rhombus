@@ -1,8 +1,5 @@
 # entrypoint.py; rename to main.py
 
-# the loops are going to be removed
-# functions are going to be key-paired with uiselect labels and so forth
-
 import os
 
 import pygame
@@ -31,7 +28,7 @@ def test_tmx_loop(game_obj):
 
 def draw_wrapper(pane, surface):
 
-	label = pane.parent.font.render(pane.parent.bindings[pane.value][0], 0, (0xff,0xff,0xff))
+	label = pane.parent.font.render(pane.parent.v_string, 0, (0xff,0xff,0xff))
 	
 	x = pane.x + ((pane.w - label.get_width()) / 2)
 	y = pane.y + ((pane.h - label.get_height()) / 2)
@@ -60,18 +57,8 @@ def playermenu_init(game_obj):
 	game_obj.scene_obj.paused = True
 	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["playermenu"] ]
 	game_obj.ui["playermenu"].start()
-	game_obj.script = playermenu_loop
-	#game_obj.script = None
-
-def playermenu_loop(game_obj):
-
-	if game_obj.controller.pressed_a:
-		if game_obj.ui["playermenu"].value == 4:
-			quit_init(game_obj)
-
-	if game_obj.controller.pressed_b:
-		gameplay_init(game_obj)
-		#game_obj.script = game_obj.last_script
+	#game_obj.script = playermenu_loop
+	game_obj.script = None
 
 def gameplay_init(game_obj): # returning to gameplay
 
@@ -81,7 +68,6 @@ def gameplay_init(game_obj): # returning to gameplay
 	
 def gameplay_loop(game_obj): # game.script will still exist but only in a minor way
 	
-	# TODO why did removing the in_dialogue portion break the game? IT DOESN'T?????
 	if game_obj.controller.pressed_a:# and not game_obj.player.in_dialogue:
 		dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
 		dialogue_init(game_obj, dialogue)
@@ -100,7 +86,7 @@ def dialogue_loop(game_obj): # I'll have to bind functions to dialogueboxes too
 	if game_obj.ui["dialoguebox"]._returned:
 		gameplay_init(game_obj)
 
-def title_init(game_obj): # so when you exit to this during gameplay it's getting repeated infinitely for some reason
+def title_init(game_obj):
 
 	game_obj.obj_stack = [ game_obj.title_card, game_obj.ui["titleselect"] ]
 	
@@ -154,13 +140,17 @@ def start(filename=None):
 		game_obj.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
 	
 		game_obj.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game_obj, (170,360,300,100))
-		title_bindings = [ ["New Game", title_newgame], ["Quit to Desktop", title_quit] ]
+		
+		title_bindings = { "New Game": title_newgame, "Quit to Desktop": title_quit }
 		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300,150,54), title_bindings)
-		quit_bindings = [ ["No", quit_no], ["Yes", quit_yes] ]
+		
+		quit_bindings = { "No": quit_no, "Yes": quit_yes }
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296,54,54), quit_bindings)
-		menu_bindings = { "Inventory": draw_inventory, "Status": draw_status, "Gear": draw_gear, "Save": draw_save, "Quit": draw_quit }
+		
+		menu_bindings = { "Inventory": draw_inventory, "Status": draw_status, "Gear": draw_gear, "Save": draw_save, "Quit": quit_init }
 		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), menu_bindings, gameplay_init)
 		game_obj.ui["childpane"] = core.UI_SubMenuPane("childpane", game_obj.ui["playermenu"], (300,300))
+		
 		title_init(game_obj)
 	else:
 		test_tmx_init(game_obj, filename)
