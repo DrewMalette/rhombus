@@ -140,7 +140,7 @@ class Game:
 			else:
 				self.display.blit(obj, (0,0))
 				
-		self.fader.render()
+		self.fader.render() # TODO put this back into obj_stack; rigid; need dynamics
 		
 		if self.debug_info_on == 1:
 			self.draw_debug_info()
@@ -211,12 +211,12 @@ class Controller:
 			self.y_axis_phase1 = 1
 		
 		if self.y_pressed:
-			if self.y_axis_phase1:
+			if self.y_axis_phase1 == 1:
 				if pygame.time.get_ticks() - self.y_tick >= 800:
 					self.y_axis_phase2 = 1
 					self.y_axis_phase1 = 0
 					self.y_tick = pygame.time.get_ticks()
-			elif self.y_axis_phase2:
+			elif self.y_axis_phase2 == 1:
 				if pygame.time.get_ticks() - self.y_tick >= 100:
 					self.y_axis_sr = 1
 					self.y_tick = pygame.time.get_ticks()
