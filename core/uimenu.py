@@ -15,15 +15,14 @@ def draw_gear(pane, surface): draw_wrapper(pane, surface)
 def draw_save(pane, surface): draw_wrapper(pane, surface)
 def draw_quit(pane, surface): draw_wrapper(pane, surface)
 
-#func_dict = { "status": draw_status, "inventory": draw_inventory, "gear": draw_gear, "save": draw_save, "quit": draw_quit }
-#labels = [ "Inventory", "Status", "Gear", "Save", "Quit" ]
 # not using a dict because this way preserves order
-bindings = [ ["Inventory", draw_inventory],
-			 ["Status", draw_status],
-			 ["Gear", draw_gear],
-			 ["Save", draw_save],
-			 ["Quit", draw_quit]
-			]
+# apparently dicts now preserve orders. TIL...
+bindings = { "Inventory": draw_inventory,
+			 "Status": draw_status,
+			 "Gear": draw_gear,
+			 "Save": draw_save,
+			 "Quit": draw_quit
+			}
 # bindings to consolidate and replace func_dict and labels
 
 # declare a UI_PlayerMenu before declaring UI_SubMenuPane
@@ -33,13 +32,13 @@ class UI_PlayerMenu:
 	
 		self.uid = uid
 		self.game = game_obj
+		self.x, self.y = rect[:2]
+		self.bindings = bindings # []
 		
 		self.value = 0
 		self.visible = True
 		self._returned = 0
 
-		self.x, self.y = rect[:2]
-		self.bindings = bindings # []
 		self.back = pygame.Surface(rect[2:]).convert_alpha()
 		self.back.fill((0,0,0,127))
 		
@@ -81,16 +80,15 @@ class UI_PlayerMenu:
 	
 		if self.visible:
 			self.game.display.blit(self.back, (self.x, self.y))
-				
-			for l, text in enumerate(self.bindings): # self.tDict.keys()
-				if l == self.value:
-					label = text[0] + " <"
-				else:
-					label = text[0]
+			
+			for b in range(len(self.bindings)):	
+			#for l, text in enumerate(self.bindings): # self.tDict.keys()
+				text = list(self.bindings.keys())[b]
+				if b == self.value: text += " <"
 				x = self.x + 5 # padding
-				y = self.y + 7 * (l+1) + l * self.font.get_height() # 0:15; 1:40; 2:65
+				y = self.y + 7 * (b+1) + b * self.font.get_height() # 0:15; 1:40; 2:65
 				#label_image = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))
-				label_image = self.font.render(label, 0, (0xff,0xff,0xff))
+				label_image = self.font.render(text, 0, (0xff,0xff,0xff))
 				#self.game.display.blit(label_image, (x,y))
 				self.game.display.blit(label_image, (x,y))
 				
@@ -122,7 +120,7 @@ class UI_SubMenuPane:
 	
 		if self.visible:
 			self.game.display.blit(self.back, (self.x,self.y))
-			self.bindings[self.value][1](self, self.game.display)
+			self.bindings[self.value](self, self.game.display)
 
 if __name__ == "__main__":
 
