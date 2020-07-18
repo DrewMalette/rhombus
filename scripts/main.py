@@ -28,7 +28,22 @@ def test_tmx_loop(game_obj):
 	if game_obj.controller.exit:
 		game_obj.next_script = game_obj.exit
 		game_obj.fader.fade_out()
+
+def draw_wrapper(pane, surface):
+
+	label = pane.parent.font.render(pane.parent.bindings[pane.value][0], 0, (0xff,0xff,0xff))
 	
+	x = pane.x + ((pane.w - label.get_width()) / 2)
+	y = pane.y + ((pane.h - label.get_height()) / 2)
+	
+	surface.blit(label, (x,y))
+	
+def draw_inventory(pane, surface): draw_wrapper(pane, surface)
+def draw_status(pane, surface): draw_wrapper(pane, surface)
+def draw_gear(pane, surface): draw_wrapper(pane, surface)
+def draw_save(pane, surface): draw_wrapper(pane, surface)
+def draw_quit(pane, surface): draw_wrapper(pane, surface)
+
 def newgame_init(game_obj):
 
 	game_obj.player = core.Player("Ark", game_obj, os.path.join(filepaths.image_path, "spr_ark2.png"))
@@ -46,6 +61,7 @@ def playermenu_init(game_obj):
 	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["playermenu"] ]
 	game_obj.ui["playermenu"].start()
 	game_obj.script = playermenu_loop
+	#game_obj.script = None
 
 def playermenu_loop(game_obj):
 
@@ -142,7 +158,8 @@ def start(filename=None):
 		game_obj.ui["titleselect"] = core.UI_Select("titleselect", game_obj, (245,300,150,54), title_bindings)
 		quit_bindings = [ ["No", quit_no], ["Yes", quit_yes] ]
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296,54,54), quit_bindings)
-		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), core.bindings)
+		menu_bindings = { "Inventory": draw_inventory, "Status": draw_status, "Gear": draw_gear, "Save": draw_save, "Quit": draw_quit }
+		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), menu_bindings, gameplay_init)
 		game_obj.ui["childpane"] = core.UI_SubMenuPane("childpane", game_obj.ui["playermenu"], (300,300))
 		title_init(game_obj)
 	else:
