@@ -8,23 +8,6 @@ def draw_wrapper(pane, surface):
 	y = pane.y + ((pane.h - label.get_height()) / 2)
 	
 	surface.blit(label, (x,y))
-<<<<<<< HEAD
-	
-def draw_inventory(pane, surface): draw_wrapper(pane, surface)
-def draw_status(pane, surface): draw_wrapper(pane, surface)
-def draw_gear(pane, surface): draw_wrapper(pane, surface)
-def draw_save(pane, surface): draw_wrapper(pane, surface)
-def draw_quit(pane, surface): draw_wrapper(pane, surface)
-
-# not using a dict because lists preserve order
-bindings = [ ["Inventory", draw_inventory],
-			 ["Status", draw_status],
-			 ["Gear", draw_gear],
-			 ["Save", draw_save],
-			 ["Quit", draw_quit]
-			]
-=======
->>>>>>> uibindings
 
 # declare a UI_PlayerMenu before declaring UI_SubMenuPane
 class UI_PlayerMenu:
@@ -67,13 +50,11 @@ class UI_PlayerMenu:
 	
 		self._returned = 0
 
-		if self.visible: # and not self.game.fader.fading:
+		if self.visible:
 			if self.game.controller.y_axis_sr != 0:			
 				self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
 				self.v_string = list(self.bindings.keys())[self.value]
-				#self.child.value = self.value
 			if self.game.controller.pressed_a:
-				print(self.v_string)
 				self.bindings[self.v_string](self.game)
 			if self.game.controller.pressed_b:
 				self.b_func(self.game)
@@ -118,4 +99,3 @@ class UI_SubMenuPane:
 	
 		if self.visible:
 			self.game.display.blit(self.back, (self.x,self.y))
-

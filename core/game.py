@@ -126,7 +126,7 @@ class Game:
 		if self.script:
 			self.script(self) # script
 		
-		self.fader.update() # put this back into the obj_stack; too rigid, may need it on different layer
+		self.fader.update()
 		
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
@@ -140,10 +140,9 @@ class Game:
 			else:
 				self.display.blit(obj, (0,0))
 				
-		self.fader.render() # TODO put this back into obj_stack; rigid; need dynamics
+		self.fader.render()
 		
-		if self.debug_info_on == 1:
-			self.draw_debug_info()
+		if self.debug_info_on == 1: self.draw_debug_info()
 		
 		pygame.display.flip()
 					
@@ -211,12 +210,12 @@ class Controller:
 			self.y_axis_phase1 = 1
 		
 		if self.y_pressed:
-			if self.y_axis_phase1 == 1:
+			if self.y_axis_phase1:
 				if pygame.time.get_ticks() - self.y_tick >= 800:
 					self.y_axis_phase2 = 1
 					self.y_axis_phase1 = 0
 					self.y_tick = pygame.time.get_ticks()
-			elif self.y_axis_phase2 == 1:
+			elif self.y_axis_phase2:
 				if pygame.time.get_ticks() - self.y_tick >= 100:
 					self.y_axis_sr = 1
 					self.y_tick = pygame.time.get_ticks()
