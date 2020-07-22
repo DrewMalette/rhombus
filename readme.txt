@@ -6,6 +6,9 @@
 	
 	included is some sample content for demonstration
 	
+	design goal: to develop a framework for an action role-playing-game
+	in as few lines of code as possible
+	
 	current features
 	- map scrolling
 	- multi layered tilemaps
