@@ -22,5 +22,8 @@
 	- equipment management system
 	- combat functionality
 	- game save system
-
-
+	
+	has been tested and runs on:
+	 Ubuntu 18.04 on python 3.6.9
+	 FreeBSD 12.1-RELEASE on python 3.7
+	  with the py37-game package
