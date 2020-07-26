@@ -19,7 +19,7 @@ class Game:
 		self.fader = Fader(self, self.display.get_size())
 		self.camera = Camera("camera", self)
 		
-		self.controller = Gamepad(self)
+		self.controller = Keyboard(self)
 				
 		self.clock = pygame.time.Clock()
 		self.tick = 0

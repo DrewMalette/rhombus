@@ -148,7 +148,7 @@ def start(filename=None):
 		game_obj.ui["yesnobox"] = core.UI_Select("yesnobox", game_obj, (170,296,54,54), quit_bindings)
 		
 		menu_bindings = { "Inventory": draw_inventory, "Status": draw_status, "Gear": draw_gear, "Save": draw_save, "Quit": quit_init }
-		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,120), menu_bindings, gameplay_init)
+		game_obj.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game_obj, (105,90,120,124), menu_bindings, gameplay_init)
 		game_obj.ui["childpane"] = core.UI_SubMenuPane("childpane", game_obj.ui["playermenu"], (300,300))
 		
 		title_init(game_obj)
