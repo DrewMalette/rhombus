@@ -1,0 +1,15 @@
+algorithms.txt
+20-7-31
+
+enemy ai
+````````
+acquire target (player)
+flip a coin for axis of reference (x or y)
+if x, determine if target is left or right;
+check to see of path is clear
+if no then determine if up or down
+move in appropriate direction
+check every tile if path clears
+if yes then move on x axis again
+continue checking for clear paths
+when target is in range, attack
