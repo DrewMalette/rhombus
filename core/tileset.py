@@ -23,8 +23,8 @@ class Tileset:
 				
 	def __getitem__(self, key=-1):
 	
-		if key is -1:
+		if key == -1:
 			return self.textures
-		if key is not -1:
+		if key != -1:
 			return self.textures[key]
 
