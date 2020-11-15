@@ -69,11 +69,11 @@ def load_tmx(filename, scene_obj):
 	scene_obj.cols = int(root.attrib["width"])
 	scene_obj.rows = int(root.attrib["height"])
 	
-	scene_obj.tilewidth = int(root.attrib["tilewidth"])
-	scene_obj.tileheight = int(root.attrib["tileheight"])
-	scene_obj.tilesize = scene_obj.tilewidth # assumes a square tile
+	scene_obj.tile_w = int(root.attrib["tilewidth"])
+	scene_obj.tile_h = int(root.attrib["tileheight"])
+	scene_obj.tilesize = scene_obj.tile_w # assumes a square tile
 	
-	scene_obj.tileset_obj = tileset.Tileset(scene_obj.tilewidth, scene_obj.tileheight)
+	scene_obj.tileset = tileset.Tileset(scene_obj.tile_w, scene_obj.tile_h)
 	
 	for tilesettag in root.iter("tileset"):
 		filename = tilesettag.attrib["source"]
@@ -83,7 +83,7 @@ def load_tmx(filename, scene_obj):
 			for i in tsx.iter("image"):
 				filename = i.attrib["source"]
 				firstgid = tilesettag.attrib["firstgid"]
-				scene_obj.tileset_obj.update(filename, firstgid)
+				scene_obj.tileset.update(filename, firstgid)
 				
 	for layer in root.iter("layer"):
 		for data in layer.iter("data"):
@@ -106,8 +106,8 @@ def load_tmx(filename, scene_obj):
 					rectattribs[index] = value
 			
 			uid = rectattribs["id"]
-			col = int(float(rectattribs["x"]) / scene_obj.tilewidth)
-			row = int(float(rectattribs["y"]) / scene_obj.tileheight)
+			col = int(float(rectattribs["x"]) / scene_obj.tile_w)
+			row = int(float(rectattribs["y"]) / scene_obj.tile_h)
 			if rectattribs["type"] == "player":
 				if scene_obj.game.player is None:
 					print("player object is not defined")
@@ -118,16 +118,16 @@ def load_tmx(filename, scene_obj):
 				scene_obj.live_mobs["player"].scene_obj = scene_obj
 				scene_obj.live_mobs["player"].place(col, row)
 			elif rectattribs["type"] == "switch":
-				x = int(float(rectattribs["x"]) / scene_obj.tilewidth) * scene_obj.tilewidth
-				y = int(float(rectattribs["y"]) / scene_obj.tileheight) * scene_obj.tileheight
+				x = int(float(rectattribs["x"]) / scene_obj.tile_w) * scene_obj.tile_w
+				y = int(float(rectattribs["y"]) / scene_obj.tile_h) * scene_obj.tile_h
 				facing = rectattribs["facing"]
 				try:
 					c = int(rectattribs["col"])
 					r = int(rectattribs["row"])
-					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tilewidth,scene_obj.tileheight)), rectattribs["Filename"], (c,r), facing]
+					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tile_w,scene_obj.tile_h)), rectattribs["Filename"], (c,r), facing]
 				except:
 					#print("defaulting to map defined placement position")
-					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tilewidth,scene_obj.tileheight)), rectattribs["Filename"], None, facing]
+					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tile_w,scene_obj.tile_h)), rectattribs["Filename"], None, facing]
 			elif rectattribs["type"] == "mob":
 				scene_obj.live_mobs[uid] = mob.Mob("content/image/" + rectattribs["Filename"], rectattribs["name"])
 				scene_obj.live_mobs[uid].scene_obj = scene_obj

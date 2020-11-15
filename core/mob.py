@@ -28,7 +28,7 @@ class Mob(pygame.Rect):
 		self.cols = data["cols"]
 		self.rows = data["rows"]
 		self.cells = data["cells"]
-		self.x_offset, self.y_offset = data["offsets"]
+		self.x_off, self.y_off = data["offsets"]
 				
 		self.moving = False
 		self.facing = "south"
@@ -101,10 +101,10 @@ class Mob(pygame.Rect):
 
 		self.base_update()
 		
-	def render(self, surface, x_offset=0, y_offset=0):
+	def render(self, surface, x_off=0, y_off=0):
 
-		x = (self.x - self.x_offset) + x_offset
-		y = (self.y - self.y_offset) + y_offset
+		x = (self.x - self.x_off) + x_off
+		y = (self.y - self.y_off) + y_off
 		frame = self.pattern[self.frame]
 		facing = self.facings[self.facing]
 		surface.blit(self.get_cell(frame, facing), (x,y))

@@ -18,7 +18,7 @@ class Scene:
 		self.loot_count = 0
 		self.switches = {}
 		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }
-		self.tileset_obj = None
+		self.tileset = None
 		
 		self.filename = filename
 		utilities.load_tmx(self.filename, self)
@@ -47,7 +47,7 @@ class Scene:
 		if not self.game.fader.fading and not self.paused:
 			for mob in self.live_mobs.values():
 				mob.update()
-			self.game.camera.update()
+			self.game.camera.update() # this is reeeeeeetarded
 		
 	def render(self):
 	

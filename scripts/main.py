@@ -15,8 +15,8 @@ def test_tmx_init(game_obj, filename):
 	game_obj.camera.following = game_obj.player
 	game_obj.debug_info_on = 1
 	
-	game_obj.obj_stack = [ game_obj.scene_obj ]
-	game_obj.scene_obj.paused = False
+	game_obj.obj_stack = [ game_obj.scene ]
+	game_obj.scene.paused = False
 	game_obj.next_script = test_tmx_loop
 	game_obj.fader.fade_in()
 	
@@ -47,24 +47,24 @@ def newgame_init(game_obj):
 	game_obj.load_scene("scene1", os.path.join(filepaths.scene_path, "scene_cottage.tmx"))
 	game_obj.camera.following = game_obj.player
 		
-	game_obj.obj_stack = [ game_obj.scene_obj ]
+	game_obj.obj_stack = [ game_obj.scene ]
 	
 	game_obj.next_script = gameplay_loop
 	game_obj.fader.fade_in()
 
 def playermenu_init(game_obj):
 
-	game_obj.scene_obj.paused = True
-	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["playermenu"] ]
+	game_obj.scene.paused = True
+	game_obj.obj_stack = [ game_obj.scene, game_obj.ui["playermenu"] ]
 	game_obj.ui["playermenu"].start()
 	#game_obj.script = playermenu_loop
 	game_obj.script = None
 
 def gameplay_init(game_obj): # returning to gameplay
 
-	game_obj.obj_stack = [ game_obj.scene_obj ]
+	game_obj.obj_stack = [ game_obj.scene ]
 	game_obj.script = gameplay_loop
-	game_obj.scene_obj.paused = False
+	game_obj.scene.paused = False
 	
 def gameplay_loop(game_obj): # game.script will still exist but only in a minor way
 	
@@ -76,7 +76,7 @@ def gameplay_loop(game_obj): # game.script will still exist but only in a minor 
 		
 def dialogue_init(game_obj, dialogue):
 
-	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["dialoguebox"] ]
+	game_obj.obj_stack = [ game_obj.scene, game_obj.ui["dialoguebox"] ]
 	game_obj.ui["dialoguebox"].text_list = dialogue
 	game_obj.ui["dialoguebox"].start()
 	game_obj.script = dialogue_loop
@@ -109,8 +109,8 @@ def title_quit(game_obj):
 
 def quit_init(game_obj):
 
-	game_obj.obj_stack = [ game_obj.scene_obj, game_obj.ui["dialoguebox"], game_obj.ui["yesnobox"] ]
-	game_obj.scene_obj.paused = True
+	game_obj.obj_stack = [ game_obj.scene, game_obj.ui["dialoguebox"], game_obj.ui["yesnobox"] ]
+	game_obj.scene.paused = True
 	
 	game_obj.ui["dialoguebox"].text_list = ["Quit to menu?", " ", " "]
 	game_obj.ui["dialoguebox"].start(wait_for=game_obj.ui["yesnobox"])
