@@ -18,8 +18,8 @@ class Player(Mob):
         self.action = mechanics.Action()
         
     def update(self):
-        self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
         self.base_update()
+        self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
         self.move(self.game.controller.x_axis, self.game.controller.y_axis)
         if self.game.controller.pressed_a == 1:
             self.action.interact(self)
