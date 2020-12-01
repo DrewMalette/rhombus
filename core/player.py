@@ -11,6 +11,7 @@ class Player(Mob):
 	
 		Mob.__init__(self, filename, game)
 		self.uid = "player" # overrides the uid set by filename
+		self.game.mob_db[self.uid] = self
 		
 		self.action = None
 		self.statblock = None

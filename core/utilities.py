@@ -114,8 +114,7 @@ def load_tmx(filename, scene):
 					print("exiting")
 					pygame.quit()
 					exit()
-				scene.live_mobs["player"] = scene.game.player
-				scene.live_mobs["player"].scene = scene
+				scene.mob_filenames.append("player")
 				scene.defaults["player"] = (col,row)
 			elif rectattribs["type"] == "switch":
 				x = int(float(rectattribs["x"]) / scene.tile_w) * scene.tile_w
@@ -129,9 +128,8 @@ def load_tmx(filename, scene):
 					#print("defaulting to map defined placement position")
 					scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), rectattribs["Filename"], None, facing]
 			elif rectattribs["type"] == "mob":
-				scene.live_mobs[uid] = mob.Mob("content/image/" + rectattribs["Filename"], rectattribs["name"])
-				scene.live_mobs[uid].scene = scene
-				utilities.place(scene.live_mobs[uid], col, row, scene) # TODO
+				scene.game.mob_db[uid] = mob.Mob(rectattribs["Filename"], rectattribs["name"])
+				scene.defaults[uid] = (col,row)
 			#elif rectattribs["type"] == "static":
 			#	filepath = "content/image/" + rectattribs["Filename"]
 			#	name = rectattribs["name"]

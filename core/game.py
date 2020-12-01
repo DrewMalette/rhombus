@@ -33,7 +33,7 @@ class Game:
         self.scene = None # TODO rename to self.scene; usage: self.scene = scene_obj
         
         self.scene_db = {}
-        #self.mob_db = {} # unimplemented
+        self.mob_db = {} # unimplemented
         
         self.ui = {}
         self.ui_font = pygame.font.Font(None, 24)
@@ -58,9 +58,10 @@ class Game:
         self.camera.blank = pygame.Surface((self.scene.tilesize,self.scene.tilesize)).convert()
         self.camera.blank.fill((0,0,0))
         
-        #self.controller.flush()
+        for mob_fn in self.scene.mob_filenames:
+            self.mob_db[mob_fn].spawn(filename)
+        
         self.player.moving = False
-        #self.sprites["player"].facing = "south" TODO put this somewhere else (like in a gamestate)
         self.camera.update()
     
     def main(self):
@@ -93,7 +94,7 @@ class Game:
         else:
             labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
             
-        #labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
+        if self.script: labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
         
         if self.player:
             labels.append(self.debug_font.render("player.in_dialogue: "+str(self.player.in_dialogue), 0, (0xff,0xff,0xff)))
@@ -105,7 +106,9 @@ class Game:
             labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
             labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
         
-        labels.append(self.debug_font.render("paused: "+str(self.scene.paused), 0, (0xff,0xff,0xff)))
+        if self.scene: labels.append(self.debug_font.render("paused: "+str(self.scene.paused), 0, (0xff,0xff,0xff)))
+        labels.append(self.debug_font.render("obj_stack: "+str(self.obj_stack), 0, (0xff,0xff,0xff)))
+        labels.append(self.debug_font.render("fading: "+str(self.fader.fading), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("player: "+str(self.player), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("scene: "+str(self.scene), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("camera.following: "+str(self.camera.following), 0, (0xff,0xff,0xff)))    
@@ -345,7 +348,7 @@ class Camera(pygame.Rect):
         else:			
             return ("0", x, y)
     
-    def y_sort(self): return sorted(self.game.scene.live_mobs.values(), key=operator.attrgetter('y'))
+    def y_sort(self): return sorted(self.game.scene.get_mobs(), key=operator.attrgetter('y'))
             
     def update(self):
     
@@ -401,7 +404,7 @@ class Camera(pygame.Rect):
         #	for loot in self.scene.loot.values():
         #		loot.render(self.game.display, x_offset = -self.x, y_offset = -self.y)
 
-        if self.game.scene.live_mobs: # draw the sprites
+        if self.game.scene.mob_filenames: # draw the sprites
             #for sprite in self.scene.sprites.values():
             for sprite in self.y_sort():
                 sprite.render(self.game.display, x_off = -self.x, y_off = -self.y)
