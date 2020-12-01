@@ -5,9 +5,9 @@ from . import utilities
 
 class Scene:
 
-	def __init__(self, uid, game_obj, filename):
+	def __init__(self, filename, game_obj):
 
-		self.uid = uid
+		self.uid = filename
 		self.game = game_obj
 		
 		self.mobs = {}
@@ -20,8 +20,7 @@ class Scene:
 		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }
 		self.tileset = None
 		
-		self.filename = filename
-		utilities.load_tmx(self.filename, self)
+		utilities.load_tmx(self.uid, self)
 		
 		self.paused = False
 		

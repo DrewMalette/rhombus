@@ -61,19 +61,19 @@ def load_tileset(filename, width, height, firstgid=1):
 	
 	return textures
 	
-def load_tmx(filename, scene_obj):
+def load_tmx(filename, scene):
 
-	tree = ET.parse(filename)
+	tree = ET.parse(os.path.join(filepaths.scene_path, filename))
 	root = tree.getroot()
 	
-	scene_obj.cols = int(root.attrib["width"])
-	scene_obj.rows = int(root.attrib["height"])
+	scene.cols = int(root.attrib["width"])
+	scene.rows = int(root.attrib["height"])
 	
-	scene_obj.tile_w = int(root.attrib["tilewidth"])
-	scene_obj.tile_h = int(root.attrib["tileheight"])
-	scene_obj.tilesize = scene_obj.tile_w # assumes a square tile
+	scene.tile_w = int(root.attrib["tilewidth"])
+	scene.tile_h = int(root.attrib["tileheight"])
+	scene.tilesize = scene.tile_w # assumes a square tile
 	
-	scene_obj.tileset = tileset.Tileset(scene_obj.tile_w, scene_obj.tile_h)
+	scene.tileset = tileset.Tileset(scene.tile_w, scene.tile_h)
 	
 	for tilesettag in root.iter("tileset"):
 		filename = tilesettag.attrib["source"]
@@ -83,7 +83,7 @@ def load_tmx(filename, scene_obj):
 			for i in tsx.iter("image"):
 				filename = i.attrib["source"]
 				firstgid = tilesettag.attrib["firstgid"]
-				scene_obj.tileset.update(filename, firstgid)
+				scene.tileset.update(filename, firstgid)
 				
 	for layer in root.iter("layer"):
 		for data in layer.iter("data"):
@@ -92,7 +92,7 @@ def load_tmx(filename, scene_obj):
 			cleandata = []
 			for tile in rawdata:
 				cleandata.append(tile.strip())
-			scene_obj.layerdata[name] = cleandata
+			scene.layerdata[name] = cleandata
 			
 	for layer in root.iter("objectgroup"):
 		for rect in layer.iter("object"):
@@ -106,32 +106,32 @@ def load_tmx(filename, scene_obj):
 					rectattribs[index] = value
 			
 			uid = rectattribs["id"]
-			col = int(float(rectattribs["x"]) / scene_obj.tile_w)
-			row = int(float(rectattribs["y"]) / scene_obj.tile_h)
+			col = int(float(rectattribs["x"]) / scene.tile_w)
+			row = int(float(rectattribs["y"]) / scene.tile_h)
 			if rectattribs["type"] == "player":
-				if scene_obj.game.player is None:
+				if scene.game.player is None:
 					print("player object is not defined")
 					print("exiting")
 					pygame.quit()
 					exit()
-				scene_obj.live_mobs["player"] = scene_obj.game.player
-				scene_obj.live_mobs["player"].scene_obj = scene_obj
-				scene_obj.live_mobs["player"].place(col, row)
+				scene.live_mobs["player"] = scene.game.player
+				scene.live_mobs["player"].scene = scene
+				scene.live_mobs["player"].place(col, row)
 			elif rectattribs["type"] == "switch":
-				x = int(float(rectattribs["x"]) / scene_obj.tile_w) * scene_obj.tile_w
-				y = int(float(rectattribs["y"]) / scene_obj.tile_h) * scene_obj.tile_h
+				x = int(float(rectattribs["x"]) / scene.tile_w) * scene.tile_w
+				y = int(float(rectattribs["y"]) / scene.tile_h) * scene.tile_h
 				facing = rectattribs["facing"]
 				try:
 					c = int(rectattribs["col"])
 					r = int(rectattribs["row"])
-					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tile_w,scene_obj.tile_h)), rectattribs["Filename"], (c,r), facing]
+					scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), rectattribs["Filename"], (c,r), facing]
 				except:
 					#print("defaulting to map defined placement position")
-					scene_obj.switches[uid] = [pygame.Rect((x,y,scene_obj.tile_w,scene_obj.tile_h)), rectattribs["Filename"], None, facing]
+					scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), rectattribs["Filename"], None, facing]
 			elif rectattribs["type"] == "mob":
-				scene_obj.live_mobs[uid] = mob.Mob("content/image/" + rectattribs["Filename"], rectattribs["name"])
-				scene_obj.live_mobs[uid].scene_obj = scene_obj
-				utilities.place(scene_obj.live_mobs[uid], col, row, scene_obj)
+				scene.live_mobs[uid] = mob.Mob("content/image/" + rectattribs["Filename"], rectattribs["name"])
+				scene.live_mobs[uid].scene = scene
+				utilities.place(scene.live_mobs[uid], col, row, scene)
 			#elif rectattribs["type"] == "static":
 			#	filepath = "content/image/" + rectattribs["Filename"]
 			#	name = rectattribs["name"]

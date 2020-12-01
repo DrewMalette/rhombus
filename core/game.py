@@ -32,7 +32,8 @@ class Game:
         self.player = None
         self.scene = None # TODO rename to self.scene; usage: self.scene = scene_obj
         
-        self.mob_orphans = [] # unimplemented
+        #self.scn_db = {}
+        #self.mob_db = {} # unimplemented
         
         self.ui = {}
         self.ui_font = pygame.font.Font(None, 24)
@@ -42,9 +43,11 @@ class Game:
         self.debug_info_on = -1
         self.debug_font = pygame.font.Font(None, 20)
 
-    def load_scene(self, uid, filename):
+    def load_scene(self, filename):
         
-        self.scene = scene.Scene(uid, self, filename)
+        # if filename not in self.scene_db
+        self.scene = scene.Scene(filename, self)
+        print(self.scene)
         self.camera.scene = self.scene
         self.camera.following = self.player
         # assumes the tile is square

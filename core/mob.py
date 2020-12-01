@@ -18,10 +18,10 @@ class Mob(pygame.Rect):
 	pattern = [0,1,0,2]
 	facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
-	def __init__(self, uid, game_obj, filename):
+	def __init__(self, uid, game, filename):
 	
 		self.uid = uid
-		self.game_obj = game_obj
+		self.game = game
 	
 		data = utilities.load_mob(filename)
 		pygame.Rect.__init__(self, data["rect"])
@@ -39,20 +39,20 @@ class Mob(pygame.Rect):
 		self.dying = False
 		self.opacity = 255
 		
-		self.scene_obj = None
+		self.scene = None
 						
 	def spawn(self):
 	
-		self.scene_obj.live_mobs[self.name] = self
+		self.scene.live_mobs[self.name] = self
 	
 	def kill(self):
 	
-		del self.scene_obj.live_mobs[self.name]
+		del self.scene.live_mobs[self.name]
 		
 	def place(self, col, row):
 		
-		self.x = col * self.scene_obj.tilesize + (self.scene_obj.tilesize - self.w) / 2
-		self.y = row * self.scene_obj.tilesize + (self.scene_obj.tilesize - self.h) - 4
+		self.x = col * self.scene.tilesize + (self.scene.tilesize - self.w) / 2
+		self.y = row * self.scene.tilesize + (self.scene.tilesize - self.h) - 4
 
 	def get_cell(self, col, row):
 
@@ -76,25 +76,25 @@ class Mob(pygame.Rect):
 			xm = ((self.x + x_axis * self.speed) + (c % 2) * self.w)
 			ym = ((self.y + y_axis * self.speed) + int(c / 2) * self.h)
 
-			col = int(xm / self.scene_obj.tilesize) # is this slow?
-			row = int(ym / self.scene_obj.tilesize)
+			col = int(xm / self.scene.tilesize) # is this slow?
+			row = int(ym / self.scene.tilesize)
 
-			if self.scene_obj.get_tile("collide", col, row) != "0":
+			if self.scene.get_tile("collide", col, row) != "0":
 				return True
 
-		for mob_obj in self.scene_obj.live_mobs.values():
-			if mob_obj is not self:
+		for mob in self.scene.live_mobs.values():
+			if mob is not self:
 				xm = self.speed * x_axis + self.x
 				ym = self.speed * y_axis + self.y
-				if mob_obj.colliderect((xm, ym, self.w, self.h)):
+				if mob.colliderect((xm, ym, self.w, self.h)):
 					return True
 		return False
 		
 	def base_update(self):
 
 		# self.statblock.upkeep() TODO move this to a derivative class
-		self.moving = bool(self.game_obj.controller.x_axis or self.game_obj.controller.y_axis)	
-		self.frame += self.moving & (self.game_obj.tick % 12 == 0) * 1
+		self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
+		self.frame += self.moving & (self.game.tick % 12 == 0) * 1
 		self.frame = self.frame % len(self.pattern) * self.moving
 		
 	def update(self): # overridden by classes derived

@@ -7,9 +7,9 @@ import mechanics
 
 class Player(Mob):
 
-	def __init__(self, uid, game_obj, filename):
+	def __init__(self, uid, game, filename):
 	
-		Mob.__init__(self, uid, game_obj, filename)
+		Mob.__init__(self, uid, game, filename)
 		
 		self.action = None
 		self.statblock = None
@@ -22,9 +22,9 @@ class Player(Mob):
 	
 		self.base_update()
 		
-		self.move(self.game_obj.controller.x_axis,
-				  self.game_obj.controller.y_axis)
+		self.move(self.game.controller.x_axis,
+				  self.game.controller.y_axis)
 		
-		if self.game_obj.controller.pressed_a == 1:
+		if self.game.controller.pressed_a == 1:
 			self.action.interact(self)
 
