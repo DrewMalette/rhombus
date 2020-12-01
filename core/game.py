@@ -32,7 +32,7 @@ class Game:
         self.player = None
         self.scene = None # TODO rename to self.scene; usage: self.scene = scene_obj
         
-        #self.scn_db = {}
+        self.scene_db = {}
         #self.mob_db = {} # unimplemented
         
         self.ui = {}
@@ -45,9 +45,10 @@ class Game:
 
     def load_scene(self, filename):
         
-        # if filename not in self.scene_db
-        self.scene = scene.Scene(filename, self)
-        print(self.scene)
+        if filename not in self.scene_db:
+            self.scene_db[filename] = scene.Scene(filename, self)
+            print("loading '{}'".format(filename))            
+        self.scene = self.scene_db[filename]
         self.camera.scene = self.scene
         self.camera.following = self.player
         # assumes the tile is square
@@ -60,7 +61,7 @@ class Game:
         #self.controller.flush()
         self.player.moving = False
         #self.sprites["player"].facing = "south" TODO put this somewhere else (like in a gamestate)
-        self.camera.update()		
+        self.camera.update()
     
     def main(self):
     
@@ -86,13 +87,13 @@ class Game:
         c = r = 0
         
         if self.scene:
-            labels.append(self.debug_font.render("Scene: "+self.scene.filename, 0, (0xff,0xff,0xff)))
+            labels.append(self.debug_font.render("Scene: "+self.scene.uid, 0, (0xff,0xff,0xff)))
             c = int(self.player.x / self.scene.tilesize)
             r = int(self.player.y / self.scene.tilesize)
         else:
             labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
             
-        labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
         
         if self.player:
             labels.append(self.debug_font.render("player.in_dialogue: "+str(self.player.in_dialogue), 0, (0xff,0xff,0xff)))
@@ -103,13 +104,17 @@ class Game:
             labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
             labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
             labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
-            
-        labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("pressed_b: "+str(self.controller.pressed_b), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("held_b: "+str(self.controller.held_b), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("pressed_x: "+str(self.controller.pressed_x), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("held_x: "+str(self.controller.held_x), 0, (0xff,0xff,0xff)))
+        
+        labels.append(self.debug_font.render("paused: "+str(self.scene.paused), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("player: "+str(self.player), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("scene: "+str(self.scene), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("camera.following: "+str(self.camera.following), 0, (0xff,0xff,0xff)))    
+        #labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("pressed_b: "+str(self.controller.pressed_b), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("held_b: "+str(self.controller.held_b), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("pressed_x: "+str(self.controller.pressed_x), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("held_x: "+str(self.controller.held_x), 0, (0xff,0xff,0xff)))
         
         for i, label in enumerate(labels):
             label.set_alpha(160)
@@ -465,6 +470,7 @@ class Fader: # TODO make a white version
 
             if self.faded_in or self.faded_out:
                 self.fading = False
+                if self.game.scene: self.game.scene.paused = False
                 
     def render(self):
     

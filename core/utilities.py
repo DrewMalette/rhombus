@@ -120,7 +120,7 @@ def load_tmx(filename, scene):
 			elif rectattribs["type"] == "switch":
 				x = int(float(rectattribs["x"]) / scene.tile_w) * scene.tile_w
 				y = int(float(rectattribs["y"]) / scene.tile_h) * scene.tile_h
-				facing = rectattribs["facing"]
+				facing = rectattribs["facing"] # TODO
 				try:
 					c = int(rectattribs["col"])
 					r = int(rectattribs["row"])
@@ -131,7 +131,7 @@ def load_tmx(filename, scene):
 			elif rectattribs["type"] == "mob":
 				scene.live_mobs[uid] = mob.Mob("content/image/" + rectattribs["Filename"], rectattribs["name"])
 				scene.live_mobs[uid].scene = scene
-				utilities.place(scene.live_mobs[uid], col, row, scene)
+				utilities.place(scene.live_mobs[uid], col, row, scene) # TODO
 			#elif rectattribs["type"] == "static":
 			#	filepath = "content/image/" + rectattribs["Filename"]
 			#	name = rectattribs["name"]

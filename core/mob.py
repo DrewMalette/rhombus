@@ -1,6 +1,8 @@
 #
 
+import os
 import pygame
+from . import filepaths
 from . import utilities
 
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
@@ -18,12 +20,12 @@ class Mob(pygame.Rect):
 	pattern = [0,1,0,2]
 	facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
-	def __init__(self, uid, game, filename):
+	def __init__(self, filename, game):
 	
-		self.uid = uid
+		self.uid = filename
 		self.game = game
 	
-		data = utilities.load_mob(filename)
+		data = utilities.load_mob(os.path.join(filepaths.image_path, filename))
 		pygame.Rect.__init__(self, data["rect"])
 		self.cols = data["cols"]
 		self.rows = data["rows"]

@@ -7,9 +7,9 @@ import mechanics
 
 class Player(Mob):
 
-	def __init__(self, uid, game, filename):
+	def __init__(self, filename, game):
 	
-		Mob.__init__(self, uid, game, filename)
+		Mob.__init__(self, filename, game)
 		
 		self.action = None
 		self.statblock = None
