@@ -19,10 +19,12 @@ class Scene:
 		self.switches = {}
 		self.layerdata = { "bottom": None, "middle": None, "top": None, "collide": None }
 		self.tileset = None
+		self.defaults = {}
 		
 		utilities.load_tmx(self.uid, self)
 		
 		self.paused = False
+		
 		
 	def add_loot(self, filename, x, y):
 	

@@ -48,6 +48,12 @@ def newgame_init(game):
         
     game.obj_stack = [ game.scene ]
     
+    for mob in game.scene.live_mobs.values():
+        col, row = game.scene.defaults[mob.uid]
+        game.scene.live_mobs[mob.uid].place(col, row)
+        mob.facing = "south"
+    game.scene.update()                
+    
     game.next_script = gameplay_loop
     game.fader.fade_in()
 

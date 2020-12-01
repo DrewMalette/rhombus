@@ -116,7 +116,7 @@ def load_tmx(filename, scene):
 					exit()
 				scene.live_mobs["player"] = scene.game.player
 				scene.live_mobs["player"].scene = scene
-				scene.live_mobs["player"].place(col, row)
+				scene.defaults["player"] = (col,row)
 			elif rectattribs["type"] == "switch":
 				x = int(float(rectattribs["x"]) / scene.tile_w) * scene.tile_w
 				y = int(float(rectattribs["y"]) / scene.tile_h) * scene.tile_h
