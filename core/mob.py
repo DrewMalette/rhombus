@@ -98,14 +98,12 @@ class Mob(pygame.Rect):
     def base_update(self):
 
         # self.statblock.upkeep() TODO move this to a derivative class
-        self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
         self.frame += self.moving & (self.game.tick % 12 == 0) * 1
         self.frame = self.frame % len(self.pattern) * self.moving
         
     def update(self): # overridden by classes derived
 
         self.base_update()
-        print("mob update")
         
     def render(self, surface, x_off=0, y_off=0):
 
