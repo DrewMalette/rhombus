@@ -16,8 +16,9 @@ east_rect = lambda mob: (mob.x + mob.w, mob.y)
 
 talk_rect = { "north": north_rect, "south": south_rect, "west": west_rect, "east": east_rect }
 
+# basic mob class; enough to appear in a Scene,
+#  but no other functionality, not even mechanics.Action
 class Mob(pygame.Rect):
-
     pattern = [0,1,0,2]
     facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
@@ -32,12 +33,7 @@ class Mob(pygame.Rect):
             sprite.Sprite(self.sprite, game)
             print("spritesheet '{}' not found; loading".format(self.sprite))
     
-        #data = utilities.load_mob(os.path.join(filepaths.image_path, filename))
-        pygame.Rect.__init__(self, self.game.sprite_db[self.sprite])
-        #self.cols = data["cols"]
-        #self.rows = data["rows"]
-        #self.cells = data["cells"]
-        #self.x_off, self.y_off = data["offsets"]
+        pygame.Rect.__init__(self, self.game.sprite_db[self.sprite].rect)
                 
         self.moving = False
         self.facing = "south"
@@ -50,40 +46,23 @@ class Mob(pygame.Rect):
         
         self.scene = None
                         
-    def spawn(self, filename): # filename = Scene.uid and dict key
-    
+    def spawn(self, filename): # filename = Scene.uid and dict key    
         self.scene = self.game.scene_db[filename]
         col, row = self.scene.defaults[self.uid]
         self.place(col, row)
         self.facing = "south"
-    
-    def kill(self):
-    
-        del self.scene.live_mobs[self.name]
         
-    def place(self, col, row):
-        
+    def place(self, col, row):        
         self.x = col * self.scene.tilesize + (self.scene.tilesize - self.w) / 2
         self.y = row * self.scene.tilesize + (self.scene.tilesize - self.h) - 4
 
-    def get_cell(self, col, row):
-
-        if (col >= 0 and col < self.cols) and (row >= 0 and row < self.rows):
-            return self.cells[self.cols*row+col]
-        else:
-            print("col or row out of sprite's bounds")
-            pygame.quit()
-            exit()
-
     def move(self, x_axis, y_axis):
-
         x = (not self.collision(x_axis * self.speed, 0)) * (x_axis * self.speed)
         y = (not self.collision(0, y_axis * self.speed)) * (y_axis * self.speed)
         self.move_ip(x*self.moving, y*self.moving)
         if x_axis != 0 or y_axis != 0: self.facing = heading[(x_axis,y_axis)]
 
     def collision(self, x_axis, y_axis):
-
         for c in range(4):
             xm = ((self.x + x_axis * self.speed) + (c % 2) * self.w)
             ym = ((self.y + y_axis * self.speed) + int(c / 2) * self.h)
@@ -103,17 +82,14 @@ class Mob(pygame.Rect):
         return False
         
     def base_update(self):
-
         # self.statblock.upkeep() TODO move this to a derivative class
         self.frame += self.moving & (self.game.tick % 12 == 0) * 1
         self.frame = self.frame % len(self.pattern) * self.moving
         
     def update(self): # overridden by classes derived
-
         self.base_update()
         
     def render(self, surface, x_off=0, y_off=0):
-
         x = (self.x - self.game.sprite_db[self.sprite].x_off) + x_off
         y = (self.y - self.game.sprite_db[self.sprite].y_off) + y_off
         frame = self.pattern[self.frame]
