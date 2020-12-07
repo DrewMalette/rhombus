@@ -11,7 +11,6 @@ class Sprite(pygame.Rect):
         self.game.sprite_db[self.filename] = self
         
         data = utilities.load_mob(os.path.join(filepaths.image_path, filename))
-        print(data["rect"])
         pygame.Rect.__init__(self, data["rect"])
         self.cols = data["cols"]
         self.rows = data["rows"]

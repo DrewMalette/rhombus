@@ -53,7 +53,6 @@ class Mob(pygame.Rect):
     def spawn(self, filename): # filename = Scene.uid and dict key
     
         self.scene = self.game.scene_db[filename]
-        print(self.scene.defaults)
         col, row = self.scene.defaults[self.uid]
         self.place(col, row)
         self.facing = "south"

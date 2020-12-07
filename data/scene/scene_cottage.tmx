@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="3">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="4">
  <tileset firstgid="1" source="a-frame-house.tsx"/>
  <tileset firstgid="101" source="apartment1.tsx"/>
  <layer id="1" name="bottom" width="32" height="32">
@@ -151,6 +151,12 @@
    <point/>
   </object>
   <object id="2" name="Reg" type="mob" x="204.965" y="203.135">
+   <properties>
+    <property name="Filename" value="spr_ark2.png"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" name="Bob" type="mob" x="364.178" y="170.194">
    <properties>
     <property name="Filename" value="spr_ark2.png"/>
    </properties>
