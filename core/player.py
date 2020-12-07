@@ -7,8 +7,8 @@ import mechanics
 
 class Player(Mob):
 
-    def __init__(self, filename, game):
-        Mob.__init__(self, filename, game)
+    def __init__(self, game, filename):
+        Mob.__init__(self, game, filename)
         self.uid = "player" # overrides the uid set by filename
         self.game.mob_db[self.uid] = self
         self.action = None

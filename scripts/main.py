@@ -148,7 +148,7 @@ def start(filename=None):
         game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124), menu_bindings, gameplay_init)
         game.ui["childpane"] = core.UI_SubMenuPane("childpane", game.ui["playermenu"], (300,300))
         
-        game.player = core.Player("spr_ark2.png", game)
+        game.player = core.Player(game, "spr_ark2.png")
                     
         title_init(game)
     else:

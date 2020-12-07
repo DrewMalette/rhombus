@@ -2,8 +2,9 @@
 
 import os
 import pygame
-from . import filepaths
+from . import filepaths # TODO remove this?
 from . import utilities
+from . import sprite
 
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
             (-1,-1): "north", (1,1): "south", (-1,1): "west", (1,-1): "east" }
@@ -20,17 +21,23 @@ class Mob(pygame.Rect):
     pattern = [0,1,0,2]
     facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
-    def __init__(self, filename, game):
+    def __init__(self, game, filename): # filename of spritesheet
     
-        self.uid = filename
         self.game = game
+        self.uid = len(game.mob_db)+1
+        self.game.mob_db[self.uid] = self
+        
+        self.sprite = filename
+        if self.sprite not in self.game.sprite_db:
+            sprite.Sprite(self.sprite, game)
+            print("spritesheet '{}' not found; loading".format(self.sprite))
     
-        data = utilities.load_mob(os.path.join(filepaths.image_path, filename))
-        pygame.Rect.__init__(self, data["rect"])
-        self.cols = data["cols"]
-        self.rows = data["rows"]
-        self.cells = data["cells"]
-        self.x_off, self.y_off = data["offsets"]
+        #data = utilities.load_mob(os.path.join(filepaths.image_path, filename))
+        pygame.Rect.__init__(self, self.game.sprite_db[self.sprite])
+        #self.cols = data["cols"]
+        #self.rows = data["rows"]
+        #self.cells = data["cells"]
+        #self.x_off, self.y_off = data["offsets"]
                 
         self.moving = False
         self.facing = "south"
@@ -46,6 +53,7 @@ class Mob(pygame.Rect):
     def spawn(self, filename): # filename = Scene.uid and dict key
     
         self.scene = self.game.scene_db[filename]
+        print(self.scene.defaults)
         col, row = self.scene.defaults[self.uid]
         self.place(col, row)
         self.facing = "south"
@@ -107,9 +115,9 @@ class Mob(pygame.Rect):
         
     def render(self, surface, x_off=0, y_off=0):
 
-        x = (self.x - self.x_off) + x_off
-        y = (self.y - self.y_off) + y_off
+        x = (self.x - self.game.sprite_db[self.sprite].x_off) + x_off
+        y = (self.y - self.game.sprite_db[self.sprite].y_off) + y_off
         frame = self.pattern[self.frame]
         facing = self.facings[self.facing]
-        surface.blit(self.get_cell(frame, facing), (x,y))
+        surface.blit(self.game.sprite_db[self.sprite].get_cell(frame, facing), (x,y))
         

@@ -10,7 +10,7 @@ class Scene:
         self.uid = filename
         self.game = game_obj
         
-        self.mob_filenames = []
+        self.mobs = []
         self.buildings = {}
         self.furniture = {}
         self.loot = {}
@@ -44,19 +44,18 @@ class Scene:
     def get_mobs(self):
     
         l = []
-        for mob_fn in self.mob_filenames:
-            l.append(self.game.mob_db[mob_fn])
+        for mob in self.mobs:
+            l.append(self.game.mob_db[mob])
         return l
             
     def update(self):
 
         if not self.game.fader.fading and not self.paused:
-            for filename in self.mob_filenames:
-                self.game.mob_db[filename].update()
+            for mob in self.mobs:
+                self.game.mob_db[mob].update()
         self.game.camera.update() # this is reeeeeeetarded
         
     def render(self):
-
-
+    
         self.game.camera.render()
 

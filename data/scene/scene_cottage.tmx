@@ -152,7 +152,7 @@
   </object>
   <object id="2" name="Reg" type="mob" x="204.965" y="203.135">
    <properties>
-    <property name="Filename" value="spr_ark3.png"/>
+    <property name="Filename" value="spr_ark2.png"/>
    </properties>
    <point/>
   </object>

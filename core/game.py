@@ -33,7 +33,8 @@ class Game:
         self.scene = None # TODO rename to self.scene; usage: self.scene = scene_obj
         
         self.scene_db = {}
-        self.mob_db = {} # unimplemented
+        self.mob_db = {}
+        self.sprite_db = {} # unimplemented
         
         self.ui = {}
         self.ui_font = pygame.font.Font(None, 24)
@@ -58,7 +59,7 @@ class Game:
         self.camera.blank = pygame.Surface((self.scene.tilesize,self.scene.tilesize)).convert()
         self.camera.blank.fill((0,0,0))
         
-        for mob_fn in self.scene.mob_filenames:
+        for mob_fn in self.scene.mobs:
             self.mob_db[mob_fn].spawn(filename)
         
         self.player.moving = False
@@ -404,7 +405,7 @@ class Camera(pygame.Rect):
         #	for loot in self.scene.loot.values():
         #		loot.render(self.game.display, x_offset = -self.x, y_offset = -self.y)
 
-        if self.game.scene.mob_filenames: # draw the sprites
+        if self.game.scene.mobs: # draw the sprites
             #for sprite in self.scene.sprites.values():
             for sprite in self.y_sort():
                 sprite.render(self.game.display, x_off = -self.x, y_off = -self.y)

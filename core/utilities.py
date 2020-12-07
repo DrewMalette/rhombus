@@ -102,15 +102,16 @@ def get_objects(root, scene):
                     print("exiting")
                     pygame.quit()
                     exit()
-                scene.mob_filenames.append("player")
+                scene.mobs.append("player")
                 scene.defaults["player"] = (col,row)
             elif rectattribs["type"] == "mob":
-                uid = rectattribs["Filename"]
-                if uid not in scene.game.mob_db:
-                    scene.game.mob_db[uid] = mob.Mob(rectattribs["Filename"], scene.game)
-                scene.mob_filenames.append(uid)
-                scene.defaults[uid] = (col,row)
-                print(scene.mob_filenames)
+                #uid = rectattribs["Filename"]
+                #if uid not in scene.game.mob_db:
+                #    scene.game.mob_db[uid] = mob.Mob(scene.game, rectattribs["Filename"])
+                m = mob.Mob(scene.game, rectattribs["Filename"])
+                scene.mobs.append(m.uid)
+                scene.defaults[m.uid] = (col,row)
+                #print(scene.mob_filenames)
                 
             elif rectattribs["type"] == "switch":
                 uid = rectattribs["Filename"]

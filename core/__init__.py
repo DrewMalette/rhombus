@@ -2,6 +2,7 @@
 
 from .game import *
 from .mob import *
+from .sprite import *
 from .player import *
 from .scene import *
 from .tileset import *
