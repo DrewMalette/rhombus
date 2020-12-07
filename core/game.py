@@ -9,12 +9,10 @@ from . import scene
 from . import utilities
 
 class Game:
-
     fps = 60
     display_size = (640,480)
 
-    def __init__(self):
-    
+    def __init__(self):    
         self.display = pygame.display.set_mode(self.display_size)
         self.fader = Fader(self, self.display.get_size())
         self.camera = Camera("camera", self)
@@ -44,8 +42,7 @@ class Game:
         self.debug_info_on = -1
         self.debug_font = pygame.font.Font(None, 20)
 
-    def load_scene(self, filename):
-        
+    def load_scene(self, filename):        
         if filename not in self.scene_db:
             self.scene_db[filename] = scene.Scene(filename, self)
             print("loading '{}'".format(filename))            
@@ -59,32 +56,29 @@ class Game:
         self.camera.blank = pygame.Surface((self.scene.tilesize,self.scene.tilesize)).convert()
         self.camera.blank.fill((0,0,0))
         
+        # set (reset?) all mobs in scene to their default positions and facings
         for mob_fn in self.scene.mobs:
             self.mob_db[mob_fn].spawn(filename)
         
         self.player.moving = False
-        self.camera.update()
+        self.camera.update() # needed to centre the camera on camera.following before fadein begins
     
     def main(self):
-    
         self.running = True
         
         while self.running:
             self.update()
             self.render()
 
-    def exit(self, _):
-            
+    def exit(self, _): # "_" because it *needs* to take an argument
         pygame.quit()
         exit()
 
-    def fade_loop(self, _):
-    
+    def fade_loop(self, _):    
         if self.fader.faded_out or self.fader.faded_in:
             self.script = self.next_script
 
-    def draw_debug_info(self):
-    
+    def draw_debug_info(self):    
         labels = []
         c = r = 0
         
@@ -124,8 +118,7 @@ class Game:
             label.set_alpha(160)
             self.display.blit(label, (10, 10 + (i * self.debug_font.get_height()))) 
 
-    def update(self):
-    
+    def update(self):    
         self.clock.tick(self.fps)
         self.tick = (self.tick + 1) % 4294967296
         
@@ -144,8 +137,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F1: self.debug_info_on = -self.debug_info_on
 
-    def render(self):
-    
+    def render(self):    
         for obj in self.obj_stack:
             if getattr(obj, "render", None):
                 obj.render()
@@ -162,8 +154,7 @@ class Controller:
 
     buttons = ["a", "b", "x"] # ["a","b","x","y"]
 
-    def __init__(self, game):
-    
+    def __init__(self, game):    
         self.game = game
         
         self.x_axis = self.y_axis = 0
@@ -192,22 +183,19 @@ class Controller:
         
         self.pressed_f1 = False
         
-    def press(self, button):
-    
+    def press(self, button):    
         #print("pressing "+button)
     
         attribute = "pressed_"+button
         setattr(self, attribute, 1)
         setattr(self, attribute+"_held", True)
 
-    def flush(self):
-        
+    def flush(self):        
         for button in self.buttons: setattr(self, "pressed_"+button, 0)
         self.exit = 0
         self.y_axis_sr = 0
         
-    def base_update(self):
-    
+    def base_update(self):    
         if self.x_axis != 0 and not self.x_pressed:
             self.x_tick = pygame.time.get_ticks()
             self.x_pressed = True
@@ -241,15 +229,13 @@ class Controller:
 
 class Gamepad(Controller):
 
-    def __init__(self, game_obj):
-    
+    def __init__(self, game_obj):    
         Controller.__init__(self, game_obj)
         
         self.interface = pygame.joystick.Joystick(0)
         self.interface.init()
         
-    def update(self):
-    
+    def update(self):    
         self.x_axis = round(self.interface.get_axis(0))
         self.y_axis = round(self.interface.get_axis(1))
         
@@ -277,13 +263,10 @@ class Gamepad(Controller):
         self.base_update()
 
 class Keyboard(Controller):
-
-    def __init__(self, game):
-    
+    def __init__(self, game):    
         Controller.__init__(self, game)
             
-    def update(self):
-        
+    def update(self):        
         keys = pygame.key.get_pressed()
         
         self.x_axis = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT] 
@@ -314,9 +297,7 @@ class Keyboard(Controller):
         self.base_update()
         
 class Camera(pygame.Rect):
-
-    def __init__(self, uid, game, x=0, y=0):
-    
+    def __init__(self, uid, game, x=0, y=0):    
         self.uid = uid
         self.game = game
         w,h = self.game.display.get_size()
@@ -331,7 +312,6 @@ class Camera(pygame.Rect):
         self.scene = None
         
     def tile_prep(self, layer, col, row):
-
         x_offset = self.x % self.tilesize
         y_offset = self.y % self.tilesize
 
@@ -351,8 +331,7 @@ class Camera(pygame.Rect):
     
     def y_sort(self): return sorted(self.game.scene.get_mobs(), key=operator.attrgetter('y'))
             
-    def update(self):
-    
+    def update(self):    
         x,y = self.following.center
         
         if x > self.w / 2:
@@ -375,8 +354,7 @@ class Camera(pygame.Rect):
         elif self.y < 0:
             self.y = 0
 
-    def render(self):
-    
+    def render(self):    
         for row in range(self.rows): # draw the bottom and middle tile layers
             for col in range(self.cols):
                 x_offset = self.x % self.tilesize
@@ -420,9 +398,7 @@ class Camera(pygame.Rect):
             pygame.draw.rect(self.game.display, (0xff,0,0), r, 1)
                 
 class Fader: # TODO make a white version
-
-    def __init__(self, game, size):
-    
+    def __init__(self, game, size):    
         self.game = game
         self.curtain = pygame.Surface(size)
         self.curtain.fill((0,0,0))
@@ -435,8 +411,11 @@ class Fader: # TODO make a white version
         self.faded_out = False
         self.fading = False
     
-    def fade_out(self, speed=6):
-    
+    def fade_out(self, speed=6, colour=None):
+        if colour != None:
+            self.curtain.fill(colour)
+        else:
+            self.curtain.fill((0,0,0))    
         self.speed = speed
         self.opacity = 0
         self.curtain.set_alpha(self.opacity)
@@ -444,8 +423,11 @@ class Fader: # TODO make a white version
         self.velocity = self.speed
         self.game.script = self.game.fade_loop
         
-    def fade_in(self, speed=6):
-        
+    def fade_in(self, speed=6, colour=None):
+        if colour != None:
+            self.curtain.fill(colour)
+        else:
+            self.curtain.fill((0,0,0))        
         self.speed = speed
         self.opacity = 255
         self.curtain.set_alpha(self.opacity)
@@ -453,8 +435,7 @@ class Fader: # TODO make a white version
         self.velocity = -self.speed
         self.game.script = self.game.fade_loop
         
-    def update(self):
-    
+    def update(self):    
         if self.faded_in:
             self.faded_in = False
         if self.faded_out:
@@ -476,7 +457,6 @@ class Fader: # TODO make a white version
                 self.fading = False
                 if self.game.scene: self.game.scene.paused = False
                 
-    def render(self):
-    
+    def render(self):    
         self.game.display.blit(self.curtain,(0,0))
 

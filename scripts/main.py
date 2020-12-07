@@ -91,7 +91,7 @@ def title_init(game):
     
     game.music_tracks["titletrack"].play(-1)
     game.next_script = None
-    game.fader.fade_in()
+    game.fader.fade_in(colour=(0xff,0xff,0xff))
 
 def title_newgame(game):
 
@@ -129,7 +129,7 @@ def quit_yes(game):
 def start(filename=None):
 
     pygame.init()
-    pygame.display.set_caption("rhombus 1.0.2 (Jul 12 2020, 18:29:46)")
+    pygame.display.set_caption("rhombus 1.0.2 (Dec 7 2020, 10:47:23)")
     game = core.Game()
     
     if filename == None:

@@ -12,6 +12,7 @@ class Player(Mob):
         self.game.mob_db[self.uid] = self
         self.in_dialogue = False
         
+        # drop in mechanics; tailorable to your specifications
         self.action = mechanics.Action(self)
         self.statblock = None
         self.equip = None # need a different name for this; gear?

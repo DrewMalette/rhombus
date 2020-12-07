@@ -4,9 +4,7 @@ from . import filepaths
 from . import utilities
 
 class Scene:
-
     def __init__(self, filename, game_obj):
-
         self.uid = filename
         self.game = game_obj
         
@@ -24,38 +22,32 @@ class Scene:
         
         self.paused = False		
         
-    def add_loot(self, filename, x, y):
-    
+    def add_loot(self, filename, x, y):    
         uid = self.loot_count
         px = x
         py = y - 20
         self.loot[self.loot_count] = sprite.Loot(self, uid, filename, (px,py))
         self.loot_count = (self.loot_count + 1) % 256
         
-    def add_mob(self, mob_obj):
-    
+    def add_mob(self, mob_obj):    
         self.mobs[mob.name] = mob_obj
     
-    def get_tile(self, layername, col, row):
-    
+    def get_tile(self, layername, col, row):    
         index = int((row % self.rows) * self.cols + (col % self.cols))
         return self.layerdata[layername][index]
         
-    def get_mobs(self):
-    
+    def get_mobs(self):    
         l = []
         for mob in self.mobs:
             l.append(self.game.mob_db[mob])
         return l
             
     def update(self):
-
         if not self.game.fader.fading and not self.paused:
             for mob in self.mobs:
                 self.game.mob_db[mob].update()
         self.game.camera.update() # this is reeeeeeetarded
         
-    def render(self):
-    
+    def render(self):    
         self.game.camera.render()
 
