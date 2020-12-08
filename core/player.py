@@ -21,6 +21,6 @@ class Player(Mob):
         self.base_update() # defined in Mob
         self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
         self.move(self.game.controller.x_axis, self.game.controller.y_axis)
-        if self.game.controller.pressed_a == 1:
-            self.action.interact()
+        #if self.game.controller.pressed_a == 1:
+        #    self.action.interact()
 

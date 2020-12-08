@@ -29,7 +29,7 @@ class Action(pygame.Rect):
         for mob in self.mob.scene.mobs:
             if self.colliderect(self.mob.game.mob_db[mob]):
                 if self.mob.game.mob_db[mob] is not self.mob:
-                    print(self.mob.game.mob_db[mob].uid)
+                    self.mob.game.mob_talk = mob
         
     def attack(self, target):	
         # self.w, self.h = self.mob.weapon.get_size()

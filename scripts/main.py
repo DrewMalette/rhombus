@@ -79,7 +79,8 @@ def gameplay_loop(game): # game.script will still exist but only in a minor way
     #    dialogue_init(game, dialogue)
     if game.controller.pressed_x:
         playermenu_init(game)
-        
+    
+    # there's no reason for this not to go into Scene.update    
     for switch in game.scene.switches.values():
         if game.player.colliderect(switch[0]):
             #print(switch[0]) # rect
@@ -89,6 +90,12 @@ def gameplay_loop(game): # game.script will still exist but only in a minor way
             game.next_scene = [switch[1], switch[2], switch[3]]
             game.next_script = switchscene_init
             game.fader.fade_out()
+    
+    if game.controller.pressed_a:
+        game.player.action.interact()
+        if game.mob_talk != None:
+            dialogue_init(game, [game.mob_db[game.mob_talk].dialogue])
+            game.mob_talk = None
             
 def dialogue_init(game, dialogue):
 

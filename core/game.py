@@ -43,6 +43,7 @@ class Game:
         self.debug_font = pygame.font.Font(None, 20)
         
         self.next_scene = None
+        self.mob_talk = None
 
     def load_scene(self, filename):        
         if filename not in self.scene_db:

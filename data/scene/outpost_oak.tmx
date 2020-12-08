@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="3">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="4">
  <tileset firstgid="1" source="earth_tsheet.tsx"/>
  <tileset firstgid="91" source="template_dwelling_sml.tsx"/>
  <layer id="1" name="bottom" width="40" height="40">
@@ -188,6 +188,13 @@
     <property name="col" value="1"/>
     <property name="facing" value="east"/>
     <property name="row" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" name="Ark" type="mob" x="528" y="209.333">
+   <properties>
+    <property name="Filename" value="spr_ark2.png"/>
+    <property name="dialogue" value="Welcome to Oak Outpost!"/>
    </properties>
    <point/>
   </object>
