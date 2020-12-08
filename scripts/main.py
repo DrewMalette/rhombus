@@ -65,10 +65,10 @@ def gameplay_init(game): # returning to gameplay
     
 def gameplay_loop(game): # game.script will still exist but only in a minor way
     
-    if game.controller.pressed_a:# and not game.player.in_dialogue:
-        dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
-        dialogue_init(game, dialogue)
-    elif game.controller.pressed_x:
+    #if game.controller.pressed_a:# and not game.player.in_dialogue:
+    #    dialogue = ["Greetings and welcome", "to a sample scene", "for the rhombus", "framework", " ", " "]
+    #    dialogue_init(game, dialogue)
+    if game.controller.pressed_x:
         playermenu_init(game)
         
 def dialogue_init(game, dialogue):
