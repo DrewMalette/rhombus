@@ -55,8 +55,8 @@ class Seer(pygame.Rect):
                             print("moving north")
                 else:
                     print("target is moving away from you")
-                    if self.fov.colliderect(s):
-                        self.target = None
+                    #if self.fov.colliderect(s):
+                    #    self.target = None
 
 def distance(r1, r2):
     a = abs(r1.center[0] - r2.center[0])
