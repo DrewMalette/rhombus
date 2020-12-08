@@ -41,6 +41,8 @@ class Game:
         
         self.debug_info_on = -1
         self.debug_font = pygame.font.Font(None, 20)
+        
+        self.next_scene = None
 
     def load_scene(self, filename):        
         if filename not in self.scene_db:

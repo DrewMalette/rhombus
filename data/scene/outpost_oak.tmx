@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="2">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="3">
  <tileset firstgid="1" source="earth_tsheet.tsx"/>
  <tileset firstgid="91" source="template_dwelling_sml.tsx"/>
  <layer id="1" name="bottom" width="40" height="40">
@@ -180,6 +180,15 @@
  </layer>
  <objectgroup id="5" name="rects">
   <object id="1" name="$PLAYER" type="player" x="369" y="240">
+   <point/>
+  </object>
+  <object id="2" type="switch" x="685.333" y="173.333">
+   <properties>
+    <property name="Filename" value="outpost_oak.tmx"/>
+    <property name="col" value="1"/>
+    <property name="facing" value="east"/>
+    <property name="row" value="1"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>

@@ -48,6 +48,15 @@ def newgame_init(game):
     game.obj_stack = [ game.scene ]
     game.next_script = gameplay_loop
     game.fader.fade_in()
+    
+def switchscene_init(game):
+
+    game.load_scene(game.next_scene[0])
+    c,r = game.next_scene[1]
+    game.player.place(c,r)
+    game.player.facing = game.next_scene[2]
+    game.next_script = gameplay_loop
+    game.fader.fade_in()
 
 def playermenu_init(game):
 
@@ -71,6 +80,16 @@ def gameplay_loop(game): # game.script will still exist but only in a minor way
     if game.controller.pressed_x:
         playermenu_init(game)
         
+    for switch in game.scene.switches.values():
+        if game.player.colliderect(switch[0]):
+            #print(switch[0]) # rect
+            #print(switch[1]) # filename
+            #print(switch[2]) # (col, row)
+            #print(switch[3]) # facing
+            game.next_scene = [switch[1], switch[2], switch[3]]
+            game.next_script = switchscene_init
+            game.fader.fade_out()
+            
 def dialogue_init(game, dialogue):
 
     game.obj_stack = [ game.scene, game.ui["dialoguebox"] ]
