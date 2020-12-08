@@ -2,7 +2,7 @@ import math
 import pygame
 
 class Seer(pygame.Rect):
-    def __init__(self, x, y, w, h, colour, sarr):
+    def __init__(self, x, y, w, h, colour, mob_t, sarr):
         pygame.Rect.__init__(self, pygame.Rect((x,y,w,h)))
         self.fov = pygame.Rect((0,0,200,200))
         sarr.append(self)
@@ -11,6 +11,7 @@ class Seer(pygame.Rect):
         self.t_last = None # last target position
         self.moving = False
         self.colour = colour
+        self.mob_t = mob_t
         
     def update(self):
         self.fov.x = self.center[0] - (self.fov.w / 2)
@@ -22,7 +23,8 @@ class Seer(pygame.Rect):
                     print("you see a Seer")
                     self.target = s
                     self.t_last = s.copy()
-        if self.target:
+        
+        if self.target and self.mob_t != "player":
             if self.target.moving:
                 d1 = distance(self, self.t_last)
                 d2 = distance(self, self.target)
@@ -37,17 +39,24 @@ class Seer(pygame.Rect):
                     sxgtx = self.center[0] > self.target.center[0]
                     sygty = self.center[1] > self.target.center[1]
                     
-                    if sxgtx and not xnr:
-                        print("moving east")
-                    elif not sxgtx and not xnr:
-                        print("moving west")
-                    
-                    if sygty and not ynr:
-                        print("moving south")
-                    elif not sygty and not ynr:
-                        print("moving north")
+                    if not xnr:
+                        if sxgtx:
+                            self.move_ip(1,0)
+                            print("moving east")
+                        else:
+                            self.move_ip(-1,0)
+                            print("moving west")
+                    if not ynr:
+                        if sygty:
+                            self.move_ip(0,1)
+                            print("moving south")
+                        else:
+                            self.move_ip(0,-1)
+                            print("moving north")
                 else:
                     print("target is moving away from you")
+                    if self.fov.colliderect(s):
+                        self.target = None
 
 def distance(r1, r2):
     a = abs(r1.center[0] - r2.center[0])
@@ -58,22 +67,39 @@ if __name__ == "__main__":
     pygame.init()
 
     display = pygame.display.set_mode((640,480))
-        
+    clock = pygame.time.Clock()
     sarr = []
 
-    s1 = Seer(100,60,10,10, (0,0xff,0), sarr) # green
-    s2 = Seer(60,70,10,10, (0,0,0xff), sarr)
+    s1 = Seer(10,10,10,10, (0,0xff,0), "player", sarr) # green
+    s2 = Seer(300,60,10,10, (0,0,0xff), "mob", sarr)
 
-    s1.update()
-    s2.update()
-
-    s1.x = 98
-    s1.moving = True
-    s2.update()
-
-    for s in sarr:
-        pygame.draw.rect(display, s.colour, s)
-        pygame.draw.rect(display, (0xff,0,0), s.fov, 1)
+    running = True
+    while running:
+        clock.tick(60)
+        pygame.event.pump()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE] == 1:
+            running = False
+        if keys[pygame.K_RIGHT] == 1:
+            s1.move_ip(1,0)
+            s1.moving = True
+        elif keys[pygame.K_LEFT] == 1:
+            s1.move_ip(-1,0)
+            s1.moving = True
+        if keys[pygame.K_DOWN] == 1:
+            s1.move_ip(0,1)
+            s1.moving = True
+        elif keys[pygame.K_UP] == 1:
+            s1.move_ip(0,-1)
+            s1.moving = True
+                
+        s1.update()
+        s2.update()
         
-    pygame.display.flip()
-    pygame.time.wait(4000)
+        for s in sarr:
+            pygame.draw.rect(display, s.colour, s)
+            pygame.draw.rect(display, (0xff,0,0), s.fov, 1)
+            
+        pygame.display.flip()
+        display.fill((0,0,0))
+        s1.moving = False
