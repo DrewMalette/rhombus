@@ -91,7 +91,7 @@ def title_init(game):
     
     game.music_tracks["titletrack"].play(-1)
     game.next_script = None
-    game.fader.fade_in(colour=(0xff,0xff,0xff))
+    game.fader.fade_in()
 
 def title_newgame(game):
 

@@ -1,6 +1,6 @@
 #
 
-import os
+import os, math
 import xml.etree.ElementTree as ET
 
 import pygame
@@ -8,6 +8,11 @@ import pygame
 from . import mob
 from . import filepaths
 from . import tileset
+
+def distance(r1, r2):
+    a = abs(r1.x - r2.x)
+    b = abs(r1.y - r2.y)
+    return int(math.sqrt(a**2 + b**2))
 
 def load_image(filename, colourkey=None):
 

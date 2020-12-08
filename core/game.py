@@ -307,8 +307,7 @@ class Camera(pygame.Rect):
         self.cols = 0
         self.rows = 0
         self.blank = None
-        self.following = None
-        
+        self.following = None        
         self.scene = None
         
     def tile_prep(self, layer, col, row):
@@ -397,7 +396,7 @@ class Camera(pygame.Rect):
             r = (self.game.player.action.x - self.x, self.game.player.action.y - self.y, self.game.player.action.w, self.game.player.action.h)
             pygame.draw.rect(self.game.display, (0xff,0,0), r, 1)
                 
-class Fader: # TODO make a white version
+class Fader:
     def __init__(self, game, size):    
         self.game = game
         self.curtain = pygame.Surface(size)
