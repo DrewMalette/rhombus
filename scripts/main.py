@@ -44,7 +44,7 @@ def draw_quit(pane, surface): draw_wrapper(pane, surface)
 def newgame_init(game):
 
     game.camera.following = game.player # will this eventually move?
-    game.load_scene("scene_cottage.tmx")
+    game.load_scene("outpost_oak.tmx")
     game.obj_stack = [ game.scene ]
     game.next_script = gameplay_loop
     game.fader.fade_in()
