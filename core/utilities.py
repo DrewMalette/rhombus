@@ -30,11 +30,11 @@ def load_image(filename, colourkey=None):
 
     return image
 
-def load_mob(filename):
+def load_mob(filename): # load sprite, Dec '20
 
     image = pygame.image.load(filename)
     image.convert()
-    image.set_colorkey((255,0,255), pygame.RLEACCEL)
+    image.set_colorkey(image.get_at((0,0)), pygame.RLEACCEL)
     cell_w, cell_h = image.get_at((0, image.get_height()-1))[:2]
     rect = pygame.Rect((0,0)+image.get_at((1, image.get_height()-1))[:2])
     offsets = image.get_at((2, image.get_height()-1))[:2]
