@@ -194,7 +194,7 @@
   <object id="3" name="Ark" type="mob" x="528" y="209.333">
    <properties>
     <property name="Filename" value="hero_sprite.png"/>
-    <property name="dialogue" value="Hello, mumsy!"/>
+    <property name="dialogue" value="You're you&gt;&gt; but you're me."/>
    </properties>
    <point/>
   </object>

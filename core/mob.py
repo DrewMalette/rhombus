@@ -6,6 +6,11 @@ from . import filepaths # TODO remove this?
 from . import utilities
 from . import sprite
 
+# i wonder if this will work
+# how about now?
+# what about now?
+# maybe it work now?
+
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
             (-1,-1): "north", (1,1): "south", (-1,1): "west", (1,-1): "east" }
 
