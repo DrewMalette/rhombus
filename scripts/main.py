@@ -142,7 +142,7 @@ def quit_init(game):
 
 def quit_no(game):
 
-    gameplay_init(game)
+    playermenu_init(game)
     game.ui["dialoguebox"].visible = False
     
 def quit_yes(game):

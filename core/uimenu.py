@@ -31,6 +31,7 @@ class UI_PlayerMenu:
 		self.font = pygame.font.Font(None, 24)
 		
 		self.child = None
+		self.submenu = None # 
 				
 	def start(self):
 	
@@ -44,21 +45,23 @@ class UI_PlayerMenu:
 	
 		self.visible = False
 		self._returned = 1
+		self.submenu = None
 		#self.game.controller.flush()
 	
 	def update(self):
 	
-		self._returned = 0
+	    if self.submenu == None:
+		    self._returned = 0
 
-		if self.visible:
-			if self.game.controller.y_axis_sr != 0:			
-				self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
-				self.v_string = list(self.bindings.keys())[self.value]
-			if self.game.controller.pressed_a:
-				self.bindings[self.v_string](self.game)
-			if self.game.controller.pressed_b:
-				self.b_func(self.game)
-				
+		    if self.visible:
+			    if self.game.controller.y_axis_sr != 0:			
+				    self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
+				    self.v_string = list(self.bindings.keys())[self.value]
+			    if self.game.controller.pressed_a:
+				    self.bindings[self.v_string](self.game)
+			    if self.game.controller.pressed_b:
+				    self.b_func(self.game)
+				    
 	def render(self):
 	
 		if self.visible:
