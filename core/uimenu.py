@@ -33,10 +33,10 @@ class UI_PlayerMenu:
 		self.child = None
 		self.submenu = None # 
 				
-	def start(self):
+	def start(self, value=0):
 	
 		self.visible = True
-		self.value = 0
+		self.value = value
 		self.v_string = list(self.bindings.keys())[self.value]
 		self._returned = 0
 		#self.game.controller.flush()

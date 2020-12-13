@@ -2,7 +2,7 @@
 
 import pygame
 
-class UIInventory(object):
+class UIInventory(object): # will bind to a SubMenuPane and draw's relative to the SubMenuPane's x/y coordinates
 
 	def __init__(self, uid, engine, loc, size):
 	

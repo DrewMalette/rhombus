@@ -58,11 +58,11 @@ def switchscene_init(game):
     game.next_script = gameplay_loop
     game.fader.fade_in()
 
-def playermenu_init(game):
+def playermenu_init(game, value=0):
 
     game.scene.paused = True
     game.obj_stack = [ game.scene, game.ui["playermenu"] ]
-    game.ui["playermenu"].start()
+    game.ui["playermenu"].start(value)
     #game.script = playermenu_loop
     game.script = None
 
