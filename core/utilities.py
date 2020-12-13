@@ -110,7 +110,7 @@ def get_objects(root, scene):
                 scene.mobs.append("player")
                 scene.defaults["player"] = (col,row)
             elif rectattribs["type"] == "mob":
-                m = mob.Mob(scene.game, rectattribs["Filename"])
+                m = mob.Mob(scene.game, rectattribs["Filename"], rectattribs["id"])
                 m.dialogue = rectattribs["dialogue"]
                 scene.mobs.append(m.uid)
                 scene.defaults[m.uid] = (col,row)

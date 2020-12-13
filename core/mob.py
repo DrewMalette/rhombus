@@ -6,11 +6,6 @@ from . import filepaths # TODO remove this?
 from . import utilities
 from . import sprite
 
-# i wonder if this will work
-# how about now?
-# what about now?
-# maybe it work now?
-
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
             (-1,-1): "north", (1,1): "south", (-1,1): "west", (1,-1): "east" }
 
@@ -27,10 +22,10 @@ class Mob(pygame.Rect):
     pattern = [0,1,0,2]
     facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
-    def __init__(self, game, filename): # filename of spritesheet
+    def __init__(self, game, filename, uid): # filename of spritesheet
     
         self.game = game
-        self.uid = len(game.mob_db)+1
+        self.uid = uid
         self.game.mob_db[self.uid] = self
         
         self.sprite = filename

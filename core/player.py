@@ -7,8 +7,7 @@ import mechanics
 
 class Player(Mob):
     def __init__(self, game, filename):
-        Mob.__init__(self, game, filename)
-        self.uid = "player" # overrides the uid set by filename
+        Mob.__init__(self, game, filename, "player")
         self.game.mob_db[self.uid] = self
         self.in_dialogue = False
         
