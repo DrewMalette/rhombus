@@ -73,6 +73,9 @@ class Game:
             image = pygame.image.load(os.path.join(filepaths.image_path), filename)
             image.set_colorkey(image.get_at((0,0)), pygame.RLEACCEL)
             self.icon_db[filename] = image
+            print("icon '{}' not found; loading".format(filename))
+        else:
+            print("'{}' is already in icon database".format(filename))
     
     def main(self):
         self.running = True
