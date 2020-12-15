@@ -50,9 +50,9 @@ class UI_PlayerMenu:
     
     def update(self):
     
+        self.returned = 0
+    
         if self.submenu == None:
-            self.returned = 0
-
             if self.visible:
                 if self.game.controller.y_axis_sr != 0:			
                     self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
@@ -105,3 +105,4 @@ class UI_SubMenuPane:
     
         if self.visible:
             self.game.display.blit(self.back, (self.x,self.y))
+            #self.parent.submenu.render()

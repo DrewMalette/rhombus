@@ -15,6 +15,17 @@ class Player(Mob):
         self.action = mechanics.Action(self)
         self.statblock = None
         self.equip = None # need a different name for this; gear?
+        
+        self.inventory = { 0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None }
+    
+    def add_loot(self, slot, loot, quantity=1):
+        if slot >= 0 and slot < len(self.inventory):
+            self.inventory[slot] = [loot, quantity]
+        else:
+            # self.game.script = inventory_full_dialogue
+            # this problem right here is why I need a game.message list
+            # self.game.msg_queue("inventory_full") # "text_list = [ "Your inventory is full", " ", " " ]
+            print("inventory is full")
                 
     def update(self):
         self.base_update() # defined in Mob
