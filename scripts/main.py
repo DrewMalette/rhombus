@@ -106,7 +106,7 @@ def dialogue_init(game, dialogue):
     
 def dialogue_loop(game): # I'll have to bind functions to dialogueboxes too
 
-    if game.ui["dialoguebox"]._returned:
+    if game.ui["dialoguebox"].returned:
         gameplay_init(game)
 
 def title_init(game):

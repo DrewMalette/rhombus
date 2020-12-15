@@ -31,7 +31,7 @@ class UI_Dialogue:
         self.visible = True # visible is needed
         self.waiting = False
         self.eot = False
-        self._returned = False # _returned is also needed; find a better name tho
+        self.returned = False # returned is also needed; find a better name tho
         self.setup()
         self.game.controller.flush() # to prevent any terminate signals from being sent
         
@@ -60,7 +60,7 @@ class UI_Dialogue:
     def stop(self):
     
         self.visible = False
-        self._returned = True
+        self.returned = True
     
     def base_update(self):
     

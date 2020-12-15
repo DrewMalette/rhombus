@@ -14,7 +14,7 @@ class UI_Select:
 		self.value = 0
 		self.v_string = list(self.bindings.keys())[self.value]
 		self.visible = False
-		self._returned = 0
+		self.returned = 0
 
 		self.back = pygame.Surface(rect[2:]).convert_alpha()
 		self.back.fill((0,0,0,127))
@@ -23,19 +23,19 @@ class UI_Select:
 	
 		self.visible = True
 		self.value = 0
-		self._returned = 0
+		self.returned = 0
 		self.game.controller.flush()
 	
 	def stop(self):
 	
 		self.visible = False
-		self._returned = 1
+		self.returned = 1
 		self.game.controller.flush()
 		self.bindings[self.v_string](self.game)
 	
 	def update(self):
 
-		self._returned = 0
+		self.returned = 0
 	
 		if self.visible and not self.game.fader.fading:
 			self.value = (self.value + self.game.controller.y_ax_sr()) % len(self.bindings)

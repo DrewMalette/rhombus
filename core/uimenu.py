@@ -23,7 +23,7 @@ class UI_PlayerMenu:
         self.value = 0
         self.v_string = list(self.bindings.keys())[self.value]
         self.visible = True
-        self._returned = 0
+        self.returned = 0
 
         self.back = pygame.Surface(rect[2:]).convert_alpha()
         self.back.fill((0,0,0,127))
@@ -38,20 +38,20 @@ class UI_PlayerMenu:
         self.visible = True
         self.value = value
         self.v_string = list(self.bindings.keys())[self.value]
-        self._returned = 0
+        self.returned = 0
         #self.game.controller.flush()
     
     def stop(self):
     
         self.visible = False
-        self._returned = 1
+        self.returned = 1
         self.submenu = None
         #self.game.controller.flush()
     
     def update(self):
     
         if self.submenu == None:
-            self._returned = 0
+            self.returned = 0
 
             if self.visible:
                 if self.game.controller.y_axis_sr != 0:			
