@@ -1,5 +1,7 @@
 #
 
+# flush the controller in every UI class' start method
+
 class UI:
 
 	def __init__(self, uid, game_obj):

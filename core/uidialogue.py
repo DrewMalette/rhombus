@@ -33,7 +33,7 @@ class UI_Dialogue:
         self.eot = False
         self._returned = False # _returned is also needed; find a better name tho
         self.setup()
-        self.game.controller.flush()
+        self.game.controller.flush() # to prevent any terminate signals from being sent
         
     def setup(self):
         
