@@ -4,6 +4,7 @@ import operator
 
 import pygame
 
+from . import filepaths
 from . import mob
 from . import scene
 from . import utilities
@@ -26,13 +27,14 @@ class Game:
         
         self.last_script = None # unimplemented
         self.script = None
-        self.next_script = None # will it ever be used internally?
+        self.next_script = None
         self.player = None
-        self.scene = None # TODO rename to self.scene; usage: self.scene = scene_obj
+        self.scene = None
         
         self.scene_db = {}
         self.mob_db = {}
-        self.sprite_db = {} # unimplemented
+        self.sprite_db = {}
+        self.icon_db = {}
         
         self.ui = {}
         self.ui_font = pygame.font.Font(None, 24)
@@ -65,6 +67,12 @@ class Game:
         
         self.player.moving = False
         self.camera.update() # needed to centre the camera on camera.following before fadein begins
+        
+    def load_icon(self, filename):
+        if not filename in self.icon_db:
+            image = pygame.image.load(os.path.join(filepaths.image_path), filename)
+            image.set_colorkey(image.get_at((0,0)), pygame.RLEACCEL)
+            self.icon_db[filename] = image
     
     def main(self):
         self.running = True
