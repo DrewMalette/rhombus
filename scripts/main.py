@@ -173,6 +173,9 @@ def start(filename=None):
         menu_bindings = { "Inventory": draw_inventory, "Status": draw_status, "Gear": draw_gear, "Save": draw_save, "Quit": quit_init }
         game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124), menu_bindings, gameplay_init)
         game.ui["childpane"] = core.UI_SubMenuPane("childpane", game.ui["playermenu"], (300,300))
+        game.ui["inventory"] = core.UI_Inventory(game, "Inventory", game.ui["childpane"])
+                
+        game.load_icon("potion_ico.png")
         
         game.player = core.Player(game, "hero_sprite.png")
                     

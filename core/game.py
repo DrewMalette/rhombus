@@ -1,6 +1,6 @@
 #
 
-import operator
+import os, operator
 
 import pygame
 
@@ -70,7 +70,7 @@ class Game:
         
     def load_icon(self, filename):
         if not filename in self.icon_db:
-            image = pygame.image.load(os.path.join(filepaths.image_path), filename)
+            image = pygame.image.load(os.path.join(filepaths.icon_path, filename))
             image.set_colorkey(image.get_at((0,0)), pygame.RLEACCEL)
             self.icon_db[filename] = image
             print("icon '{}' not found; loading".format(filename))

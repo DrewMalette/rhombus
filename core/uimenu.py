@@ -58,10 +58,16 @@ class UI_PlayerMenu:
                     self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
                     self.v_string = list(self.bindings.keys())[self.value]
                 if self.game.controller.pressed_a:
-                    self.bindings[self.v_string](self.game) #, self.game.display) # this is here just cuz
+                    print("starting submenu")
+                    self.submenu = self.child.submenu_bindings[self.v_string]
+                    self.submenu.start()
+                    self.game.controller.flush()
+                    #self.bindings[self.v_string](self.game) #, self.game.display) # this is here just cuz
                     # TODO put a function here that works properly
                 if self.game.controller.pressed_b:
                     self.b_func(self.game)
+        else:
+            self.submenu.update()
                     
     def render(self):
     
@@ -79,7 +85,7 @@ class UI_PlayerMenu:
                 self.game.display.blit(label_image, (x,y))
                 
             self.child.render()
-            draw_wrapper(self.child, self.game.display)
+            #draw_wrapper(self.child, self.game.display)
 
 # needs a parent (UI_PlayerMenu) to work
 class UI_SubMenuPane:
@@ -101,8 +107,13 @@ class UI_SubMenuPane:
         
         self.visible = True
         
+        self.submenu_bindings = {}
+        
     def render(self):
     
         if self.visible:
             self.game.display.blit(self.back, (self.x,self.y))
-            #self.parent.submenu.render()
+            try:
+                self.submenu_bindings[list(self.parent.bindings.keys())[self.parent.value]].render()
+            except:
+                pass

@@ -5,6 +5,8 @@ import pygame
 from .mob import *
 import mechanics
 
+health_potion = { "icon": "potion_ico.png", "name": "Health Potion", "description": "Heals 50 health" }
+
 class Player(Mob):
     def __init__(self, game, filename):
         Mob.__init__(self, game, filename, "player")
@@ -17,6 +19,9 @@ class Player(Mob):
         self.equip = None # need a different name for this; gear?
         
         self.inventory = { 0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None }
+        
+        # debug
+        self.add_loot(0, health_potion)
     
     def add_loot(self, slot, loot, quantity=1):
         if slot >= 0 and slot < len(self.inventory):
