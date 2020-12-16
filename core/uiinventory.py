@@ -64,12 +64,12 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         if y_axis != 0:
             inv = self.game.player.inventory
             if not self.selected:
-                self.value = (self.value + y_axis) % 8
+                self.value = (self.value + y_axis * self.game.controller.y_axis) % 8
                 while inv[self.value] == None:
-                    self.value = (self.value + y_axis) % 8
+                    self.value = (self.value + y_axis * self.game.controller.y_axis) % 8
                 
             if self.selected:
-                self.sel_value = (self.sel_value + y_axis) % 8
+                self.sel_value = (self.sel_value + y_axis * self.game.controller.y_axis) % 8
         
         if a_button == 1:
             if self.is_empty():
@@ -117,18 +117,19 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         inv = self.game.player.inventory
         for i in range(8): # TODO this is hard coded
             label = ""
+            x = self.childpane.x + 25 # padding
+            y = self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height() # 0:15; 1:40; 2:65
             if inv[i] != None:
                 if i == self.value:	label += ">      "
                 label += inv[i][0]["name"]
-            if self.selected and i == self.sel_value:
-                label = label + "<"
-            if label != "":
-                x = self.childpane.x + 25 # padding
-                y = self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height() # 0:15; 1:40; 2:65
                 icon = self.game.icon_db[inv[i][0]["icon"]]
-                txt_img = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))
                 qty = self.game.ui_font.render(str(inv[i][1]), 0, (0,0xff,0xff))
-                # add the other bits like the icon and quantity
                 self.game.display.blit(icon, (x, y))
-                self.game.display.blit(txt_img, (x-12,y))
                 self.game.display.blit(qty, (x+200,y))
+            if self.selected and i == self.sel_value:
+                label = label + "#&$&%"
+            if label != "":
+                txt_img = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))                
+                self.game.display.blit(txt_img, (x-12,y))
+                # it there's an item in slot i then add this
+                

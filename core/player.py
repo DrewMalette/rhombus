@@ -6,6 +6,7 @@ from .mob import *
 import mechanics
 
 health_potion = { "icon": "potion_ico.png", "name": "Health Potion", "description": "Heals 50 health" }
+strength_potion = { "icon": "potion_ico.png", "name": "Strength Potion", "description": "Increases STR by 5 for 10 mins" }
 
 class Player(Mob):
     def __init__(self, game, filename):
@@ -22,6 +23,7 @@ class Player(Mob):
         
         # debug
         self.add_loot(0, health_potion)
+        self.add_loot(1, strength_potion)
     
     def add_loot(self, slot, loot, quantity=1):
         if slot >= 0 and slot < len(self.inventory):

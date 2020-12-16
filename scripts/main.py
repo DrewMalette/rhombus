@@ -178,6 +178,8 @@ def start(filename=None):
         game.load_icon("potion_ico.png")
         
         game.player = core.Player(game, "hero_sprite.png")
+        
+        print(game.player.inventory)
                     
         title_init(game)
     else:

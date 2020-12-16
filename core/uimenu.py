@@ -114,7 +114,7 @@ class UI_SubMenuPane:
     
         if self.visible:
             self.game.display.blit(self.back, (self.x,self.y))
-            try:
-                self.submenu_bindings[list(self.parent.bindings.keys())[self.parent.value]].render()
-            except:
-                pass
+            key = list(self.parent.bindings.keys())[self.parent.value]
+            if key != "Quit":
+                self.submenu_bindings[key].render()
+            
