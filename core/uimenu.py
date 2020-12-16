@@ -58,12 +58,13 @@ class UI_PlayerMenu:
                     self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
                     self.v_string = list(self.bindings.keys())[self.value]
                 if self.game.controller.pressed_a:
-                    print("starting submenu")
-                    self.submenu = self.child.submenu_bindings[self.v_string]
-                    self.submenu.start()
-                    self.game.controller.flush()
-                    #self.bindings[self.v_string](self.game) #, self.game.display) # this is here just cuz
-                    # TODO put a function here that works properly
+                    if self.v_string != "Quit":
+                        self.submenu = self.child.submenu_bindings[self.v_string]
+                        self.submenu.start()
+                        self.game.controller.flush()
+                    else:
+                        self.bindings[self.v_string](self.game) #, self.game.display) # this is here just cuz
+                        # TODO put a function here that works properly
                 if self.game.controller.pressed_b:
                     self.b_func(self.game)
         else:

@@ -56,7 +56,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
     
     def update(self):
     
-        y_axis = self.game.controller.y_axis
+        y_axis = self.game.controller.y_axis_sr
         
         a_button = self.game.controller.pressed_a
         b_button = self.game.controller.pressed_b
