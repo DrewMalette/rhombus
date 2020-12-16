@@ -179,7 +179,7 @@ def start(filename=None):
         
         game.player = core.Player(game, "hero_sprite.png")
         
-        print(game.player.inventory)
+        print(game.ui["childpane"].bindings)
                     
         title_init(game)
     else:

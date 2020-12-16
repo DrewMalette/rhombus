@@ -9,7 +9,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         self.game = game
         self.uid = uid
         self.childpane = childpane # this is only used for rendering
-        self.childpane.submenu_bindings[uid] = self
+        self.childpane.bindings[uid] = self
         #self.x, self.y = loc
         #self.w, self.h = size
         

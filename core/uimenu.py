@@ -58,8 +58,8 @@ class UI_PlayerMenu:
                     self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
                     self.v_string = list(self.bindings.keys())[self.value]
                 if self.game.controller.pressed_a:
-                    if self.v_string != "Quit":
-                        self.submenu = self.child.submenu_bindings[self.v_string]
+                    if self.v_string in self.child.bindings:
+                        self.submenu = self.child.bindings[self.v_string]
                         self.submenu.start()
                         self.game.controller.flush()
                     else:
@@ -108,13 +108,13 @@ class UI_SubMenuPane:
         
         self.visible = True
         
-        self.submenu_bindings = {}
+        self.bindings = {}
         
     def render(self):
     
         if self.visible:
             self.game.display.blit(self.back, (self.x,self.y))
             key = list(self.parent.bindings.keys())[self.parent.value]
-            if key != "Quit":
-                self.submenu_bindings[key].render()
+            if key in self.bindings:
+                self.bindings[key].render()
             
