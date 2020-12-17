@@ -4,32 +4,18 @@ import pygame
 
 class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to the SubMenuPane's x/y coordinates
 
-    def __init__(self, game, uid, childpane):
-    
+    def __init__(self, game, uid, childpane):    
         self.game = game
         self.uid = uid
-        self.childpane = childpane # this is only used for rendering
+        self.childpane = childpane # childpane.parent is UI_PlayerMenu
         self.childpane.bindings[uid] = self
-        #self.x, self.y = loc
-        #self.w, self.h = size
-        
-        #self.back = pygame.Surface((self.w, self.h)).convert_alpha()
-        #self.back.fill((0,0,0,127))
-    
-        #self.visible = False
-        
         self.cursor = ">"
-    
         self.value = 0
         self.sel_value = 0
         self.selected = False
-        
         self.font_colour = (0xc0,0xc0,0xc0)
-        
-        print("UIInventory initialized")
     
-    def normalize_cursor(self): # what does this do again?
-    
+    def normalize_cursor(self):
         inv = self.game.player.inventory
         count = 0
         while inv[count] == None and count < 7:
@@ -37,31 +23,21 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         self.value = count
     
     def start(self):
-    
         self.selected = False
         self.normalize_cursor()
         self.cursor = ">"
-        
-        #self.game.uiQueue.append(self)
-        #self.game.controlFocus = self
-        #self.visible = True
                 
     def stop(self):
-    
-        #self.visible = False
-        #self.game.ui_pop() # change this to self.game.ui_pop()
         self.childpane.parent.submenu = None
         self.cursor = ">"
         
     def is_empty(self):
-    
         for i in range(8):
             if self.game.player.inventory[i] != None:
                 return False
         return True
     
     def update(self):
-    
         y_axis = self.game.controller.y_axis_sr
         
         a_button = self.game.controller.pressed_a
@@ -121,15 +97,10 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                 self.cursor = ">"
             
     def render(self):
-        #if self.childpane.parent.submenu == self:
-        #    self.font_colour = (0xff,0xff,0xff)
-        #else:
-        #    self.font_colour = (0xc0,0xc0,0xc0)
-            
         inv = self.game.player.inventory # <-- you realize this is being called every tick, right?
         for i in range(8): # TODO this is hard coded
             x = self.childpane.x + 25 # padding
-            y = self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height() # 0:15; 1:40; 2:65
+            y = (self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height()) + 25 # 0:15; 1:40; 2:65
             if inv[i] != None: # blit in order, from left to right
                 if i == self.value:
                     cursor = self.game.ui_font.render(self.cursor, 0, self.childpane.parent.colours[int(self.childpane.parent.submenu!=None)])

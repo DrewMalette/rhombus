@@ -32,18 +32,15 @@ class Mob(pygame.Rect):
         if self.sprite not in self.game.sprite_db:
             sprite.Sprite(self.sprite, game)
             print("spritesheet '{}' not found; loading".format(self.sprite))
-    
         pygame.Rect.__init__(self, self.game.sprite_db[self.sprite].rect)
                 
         self.moving = False
         self.facing = "south"
         self.frame = 0
         self.speed = 2
-
         self.alive = True # going to StatBlock?
         self.dying = False
         self.opacity = 255
-        
         self.scene = None
                         
     def spawn(self, filename): # filename = Scene.uid and dict key    
