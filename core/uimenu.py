@@ -31,7 +31,8 @@ class UI_PlayerMenu:
         self.font = pygame.font.Font(None, 24)
         
         self.child = None
-        self.submenu = None # 
+        self.submenu = None #
+        self.font_colour = (0xc0,0xc0,0xc0)
                 
     def start(self, value=0):
     
@@ -75,6 +76,11 @@ class UI_PlayerMenu:
         if self.visible:
             self.game.display.blit(self.back, (self.x, self.y))
             
+            if self.submenu == None:
+                self.font_colour = (0xff,0xff,0xff)
+            else:
+                self.font_colour = (0xc0,0xc0,0xc0)
+
             for b in range(len(self.bindings)):	
                 text = list(self.bindings.keys())[b] + " <" * (b == self.value)
                 x = self.x + 5 # padding
@@ -82,7 +88,7 @@ class UI_PlayerMenu:
                 #self.submenu.render()  *** OR ***
                 # list(self.bindings.keys())[self.value].render()
                 #label_image = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))
-                label_image = self.font.render(text, 0, (0xff,0xff,0xff))
+                label_image = self.font.render(text, 0, self.font_colour)
                 self.game.display.blit(label_image, (x,y))
                 
             self.child.render()

@@ -17,10 +17,14 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         #self.back.fill((0,0,0,127))
     
         #self.visible = False
+        
+        self.cursor = ">"
     
         self.value = 0
         self.sel_value = 0
         self.selected = False
+        
+        self.font_colour = (0xc0,0xc0,0xc0)
         
         print("UIInventory initialized")
     
@@ -36,6 +40,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
     
         self.selected = False
         self.normalize_cursor()
+        self.cursor = ">"
         
         #self.game.uiQueue.append(self)
         #self.game.controlFocus = self
@@ -46,6 +51,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         #self.visible = False
         #self.game.ui_pop() # change this to self.game.ui_pop()
         self.childpane.parent.submenu = None
+        self.cursor = ">"
         
     def is_empty(self):
     
@@ -87,6 +93,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                         inv[self.value] = None
                         self.normalize_cursor()
                     self.selected = False
+                    self.cursor = ">"
                     return
                 elif self.value != self.sel_value:
                     inv = self.game.player.inventory
@@ -97,11 +104,13 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                         inv[i] = a[i]
                     self.value = self.sel_value
                     self.selected = False
+                    self.cursor = ">"
                     return
                     
             if not self.selected:
                 self.selected = True
                 self.sel_value = self.value
+                self.cursor = "|"
             
         elif b_button == 1:
             if not self.selected:
@@ -109,27 +118,32 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                 return
             if self.selected:
                 self.selected = False
+                self.cursor = ">"
             
     def render(self):
-    
-        #self.game.canvas.blit(self.back, (self.x, self.y))
-    
-        inv = self.game.player.inventory
+        if self.childpane.parent.submenu == self:
+            self.font_colour = (0xff,0xff,0xff)
+        else:
+            self.font_colour = (0xc0,0xc0,0xc0)
+            
+        inv = self.game.player.inventory # <-- you realize this is being called every tick, right?
         for i in range(8): # TODO this is hard coded
-            label = ""
             x = self.childpane.x + 25 # padding
             y = self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height() # 0:15; 1:40; 2:65
-            if inv[i] != None:
-                if i == self.value:	label += ">      "
-                label += inv[i][0]["name"]
+            if inv[i] != None: # blit in order, from left to right
+                if i == self.value:
+                    cursor = self.game.ui_font.render(self.cursor, 0, self.font_colour)
+                    self.game.display.blit(cursor, (x+15,y))
+                #
                 icon = self.game.icon_db[inv[i][0]["icon"]]
-                qty = self.game.ui_font.render(str(inv[i][1]), 0, (0,0xff,0xff))
-                self.game.display.blit(icon, (x, y))
-                self.game.display.blit(qty, (x+200,y))
+                self.game.display.blit(icon, (x+30, y))
+                #
+                label = inv[i][0]["name"]
+                txt_img = self.game.ui_font.render(label, 0, self.font_colour)
+                self.game.display.blit(txt_img, (x+60,y))
+                #
+                qty = self.game.ui_font.render(str(inv[i][1]), 0, self.font_colour)
+                self.game.display.blit(qty, (x+230,y))
             if self.selected and i == self.sel_value:
-                label = label + "#&$&%"
-            if label != "":
-                txt_img = self.game.ui_font.render(label, 0, (0xff,0xff,0xff))                
-                self.game.display.blit(txt_img, (x-12,y))
-                # it there's an item in slot i then add this
-                
+                sel_cursor = self.game.ui_font.render(">", 0, self.font_colour)
+                self.game.display.blit(sel_cursor, (x,y))

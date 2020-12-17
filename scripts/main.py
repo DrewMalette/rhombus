@@ -179,8 +179,6 @@ def start(filename=None):
         
         game.player = core.Player(game, "hero_sprite.png")
         
-        print(game.ui["childpane"].bindings)
-                    
         title_init(game)
     else:
         test_tmx_init(game, filename)
