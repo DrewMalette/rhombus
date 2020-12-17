@@ -116,17 +116,18 @@ def get_objects(root, scene):
                 scene.defaults[m.uid] = (col,row)
                 
             elif rectattribs["type"] == "switch":
-                uid = rectattribs["Filename"]
+                uid = rectattribs["id"]
+                scenefile = rectattribs["Filename"]
                 x = int(float(rectattribs["x"]) / scene.tile_w) * scene.tile_w
                 y = int(float(rectattribs["y"]) / scene.tile_h) * scene.tile_h
                 facing = rectattribs["facing"] # TODO
-                try:
-                    c = int(rectattribs["col"])
-                    r = int(rectattribs["row"])
-                    scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), uid, (c,r), facing]
-                except:
+ #               try:
+                c = int(rectattribs["col"])
+                r = int(rectattribs["row"])
+                scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), scenefile, (c,r), facing]
+#                except:
                     #print("defaulting to map defined placement position")
-                    scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), uid, None, facing]
+#                    scene.switches[uid] = [pygame.Rect((x,y,scene.tile_w,scene.tile_h)), uid, None, facing]
             #elif rectattribs["type"] == "static":
             #	filepath = "content/image/" + rectattribs["Filename"]
             #	name = rectattribs["name"]
