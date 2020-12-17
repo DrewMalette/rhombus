@@ -2,7 +2,13 @@
 
 	rhombus - an action rpg framework written in python
 	
-	this is a prototype, version 0.0.2
+	this is a prototype, version 1.1.1
+	
+	Keyboard Controls
+	Right CTRL("A"): Accept/Ok, Talk
+	Right Shift("B"): Back/Cancel
+	Enter/Return("X"): Menu
+	Arrow keys to navigate
 	
 	included is some sample content for demonstration
 	
