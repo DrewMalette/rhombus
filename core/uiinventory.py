@@ -121,10 +121,10 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                 self.cursor = ">"
             
     def render(self):
-        if self.childpane.parent.submenu == self:
-            self.font_colour = (0xff,0xff,0xff)
-        else:
-            self.font_colour = (0xc0,0xc0,0xc0)
+        #if self.childpane.parent.submenu == self:
+        #    self.font_colour = (0xff,0xff,0xff)
+        #else:
+        #    self.font_colour = (0xc0,0xc0,0xc0)
             
         inv = self.game.player.inventory # <-- you realize this is being called every tick, right?
         for i in range(8): # TODO this is hard coded
@@ -132,18 +132,18 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
             y = self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height() # 0:15; 1:40; 2:65
             if inv[i] != None: # blit in order, from left to right
                 if i == self.value:
-                    cursor = self.game.ui_font.render(self.cursor, 0, self.font_colour)
+                    cursor = self.game.ui_font.render(self.cursor, 0, self.childpane.parent.colours[int(self.childpane.parent.submenu!=None)])
                     self.game.display.blit(cursor, (x+15,y))
                 #
                 icon = self.game.icon_db[inv[i][0]["icon"]]
                 self.game.display.blit(icon, (x+30, y))
                 #
                 label = inv[i][0]["name"]
-                txt_img = self.game.ui_font.render(label, 0, self.font_colour)
+                txt_img = self.game.ui_font.render(label, 0, self.childpane.parent.colours[int(self.childpane.parent.submenu!=None)])
                 self.game.display.blit(txt_img, (x+60,y))
                 #
-                qty = self.game.ui_font.render(str(inv[i][1]), 0, self.font_colour)
+                qty = self.game.ui_font.render(str(inv[i][1]), 0, self.childpane.parent.colours[int(self.childpane.parent.submenu!=None)])
                 self.game.display.blit(qty, (x+230,y))
             if self.selected and i == self.sel_value:
-                sel_cursor = self.game.ui_font.render(">", 0, self.font_colour)
+                sel_cursor = self.game.ui_font.render(">", 0, self.childpane.parent.colours[int(self.childpane.parent.submenu!=None)])
                 self.game.display.blit(sel_cursor, (x,y))
