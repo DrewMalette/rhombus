@@ -12,7 +12,9 @@ def draw_wrapper(pane, surface):
 # declare a UI_PlayerMenu before declaring UI_SubMenuPane
 class UI_PlayerMenu:
 
-    colours = { 0: (0xc0,0xc0,0xc0), 1: (0xff,0xff,0xff) }
+    white = { 0: (0xc0,0xc0,0xc0), 1: (0xff,0xff,0xff) }
+    cyan = { 0: (0,0xc0,0xc0), 1: (0,0xff,0xff) }
+    
 
     def __init__(self, uid, game_obj, rect, bindings, b_func):
     
@@ -60,7 +62,7 @@ class UI_PlayerMenu:
                 if self.game.controller.y_axis_sr != 0:			
                     self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
                     self.v_string = list(self.bindings.keys())[self.value]
-                if self.game.controller.pressed_a:
+                if self.game.controller.pressed_a and self.v_string not in ["Status"]:
                     if self.v_string in self.child.bindings:
                         self.submenu = self.child.bindings[self.v_string]
                         self.submenu.start()
@@ -81,7 +83,7 @@ class UI_PlayerMenu:
                 text = list(self.bindings.keys())[b] + " <" * (b == self.value)
                 x = self.x + 5 # padding
                 y = self.y + 7 * (b+1) + b * self.font.get_height() # 0:15; 1:40; 2:65
-                label_image = self.font.render(text, 0, self.colours[int(self.submenu==None)])
+                label_image = self.font.render(text, 0, self.white[int(self.submenu==None)])
                 self.game.display.blit(label_image, (x,y))
             self.child.render()
 

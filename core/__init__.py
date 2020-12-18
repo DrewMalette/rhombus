@@ -10,5 +10,6 @@ from .uidialogue import *
 from .uimenu import *
 from .uiselect import *
 from .uiinventory import *
+from .uistatus import *
 
 from . import filepaths

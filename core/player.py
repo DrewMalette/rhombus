@@ -14,9 +14,11 @@ class Player(Mob):
         self.game.mob_db[self.uid] = self
         self.in_dialogue = False
         
+        self.name = "Drew" # obviously will be changed
+        
         # drop in mechanics; tailorable to your specifications
         self.action = mechanics.Action(self)
-        self.statblock = None
+        self.statblock = mechanics.StatBlock(10,12,12,11,11,10)
         self.equip = None # need a different name for this; gear?
         
         self.inventory = { 0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None }

@@ -174,6 +174,7 @@ def start(filename=None):
         game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124), menu_bindings, gameplay_init)
         game.ui["childpane"] = core.UI_SubMenuPane("childpane", game.ui["playermenu"], (300,300))
         game.ui["inventory"] = core.UI_Inventory(game, "Inventory", game.ui["childpane"])
+        game.ui["status"] = core.UI_Status(game, "Status", game.ui["childpane"])
                 
         game.load_icon("potion_ico.png")
         
@@ -182,6 +183,8 @@ def start(filename=None):
         title_init(game)
     else:
         test_tmx_init(game, filename)
+        
+    #print(game.sprite_db[game.player.sprite].cells)
 
     game.main()
 
