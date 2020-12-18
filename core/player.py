@@ -28,14 +28,16 @@ class Player(Mob):
         self.add_loot(1, strength_potion)
     
     def add_loot(self, slot, loot, quantity=1):
-        if slot >= 0 and slot < len(self.inventory):
+        if slot >= 0 and slot < len(self.inventory): # assert?
             self.inventory[slot] = [loot, quantity]
         else:
             # self.game.script = inventory_full_dialogue
             # this problem right here is why I need a game.message list
             # self.game.msg_queue("inventory_full") # "text_list = [ "Your inventory is full", " ", " " ]
             print("inventory is full")
-                
+    
+    def check_quests(self): pass
+    
     def update(self):
         self.base_update() # defined in Mob
         self.moving = bool(self.game.controller.x_axis or self.game.controller.y_axis)	
