@@ -24,13 +24,13 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
     
     def start(self):
         self.selected = False
-        self.normalize_cursor()
+        #self.normalize_cursor()
         self.cursor = ">"
                 
     def stop(self):
         self.childpane.parent.submenu = None
         self.cursor = ">"
-        self.value = 0
+        #self.value = 0
         
     def is_empty(self):
         for i in range(8):
@@ -64,11 +64,11 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                     #print("Item is doing a thing")
                     inv = self.game.player.inventory
                     item, quantity = inv[self.value]
-                    item.effect()
-                    if item.consumable: inv[self.value][1] -= 1
-                    if item.consumable and inv[self.value][1] == 0:
-                        inv[self.value] = None
-                        self.normalize_cursor()
+                    #item.effect()
+                    #if item.consumable: inv[self.value][1] -= 1
+                    #if item.consumable and inv[self.value][1] == 0:
+                    #    inv[self.value] = None
+                    #    self.normalize_cursor()
                     self.selected = False
                     self.cursor = ">"
                     return
@@ -99,7 +99,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
             
     def render(self):
         inv = self.game.player.inventory # <-- you realize this is being called every tick, right?
-        for i in range(8): # TODO this is hard coded
+        for i in range(8): # TODO the 8 hard coded
             x = self.childpane.x + 25 # padding
             y = (self.childpane.y + 10 * (i+1) + i * self.game.ui_font.get_height()) + 25 # 0:15; 1:40; 2:65
             if inv[i] != None: # blit in order, from left to right
@@ -119,6 +119,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                 qty = self.game.ui_font.render(str(inv[i][1]), 0, colour)
                 self.game.display.blit(qty, (x+230,y))
             if self.selected and i == self.sel_value:
-                sel_cursor = self.game.ui_font.render(">", 0, self.childpane.parent.white[int(self.childpane.parent.submenu!=None)])
+                colour = self.childpane.parent.white[int(self.childpane.parent.submenu!=None)]
+                sel_cursor = self.game.ui_font.render(">", 0, colour)
                 self.game.display.blit(sel_cursor, (x,y))
                 
