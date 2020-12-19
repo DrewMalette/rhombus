@@ -4,9 +4,8 @@ import pygame
 
 from .mob import *
 import mechanics
-
-health_potion = { "icon": "potion_ico.png", "name": "Health Potion", "description": "Heals 50 health" }
-strength_potion = { "icon": "potion_ico.png", "name": "Strength Potion", "description": "Increases STR by 5 for 10 mins" }
+import data
+from data.items import potions
 
 class Player(Mob):
     def __init__(self, game, filename):
@@ -21,11 +20,18 @@ class Player(Mob):
         self.statblock = mechanics.StatBlock(10,12,12,11,11,10)
         self.equip = None # need a different name for this; gear?
         
-        self.inventory = { 0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None }
+        self.inventory = { 0: None, 
+                           1: None, 
+                           2: None, 
+                           3: None, 
+                           4: None, 
+                           5: None, 
+                           6: None, 
+                           7: None }
         
         # debug
-        self.add_loot(0, health_potion)
-        self.add_loot(1, strength_potion)
+        self.add_loot(0, potions.health_potion)
+        self.add_loot(1, potions.strength_potion)
     
     def add_loot(self, slot, loot, quantity=1):
         if slot >= 0 and slot < len(self.inventory): # assert?
