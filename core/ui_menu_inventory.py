@@ -30,6 +30,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
     def stop(self):
         self.childpane.parent.submenu = None
         self.cursor = ">"
+        self.value = 0
         
     def is_empty(self):
         for i in range(8):

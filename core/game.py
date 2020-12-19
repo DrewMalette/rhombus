@@ -5,9 +5,9 @@ import os, operator
 import pygame
 
 from . import filepaths
-from . import mob
-from . import scene
 from . import utilities
+from . import mob_main
+from . import scene_main
 
 class Game:
     fps = 60
@@ -49,7 +49,7 @@ class Game:
 
     def load_scene(self, filename):        
         if filename not in self.scene_db:
-            self.scene_db[filename] = scene.Scene(filename, self)
+            self.scene_db[filename] = scene_main.Scene(filename, self)
             print("loading '{}'".format(filename))            
         self.scene = self.scene_db[filename]
         self.camera.scene = self.scene

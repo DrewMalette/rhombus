@@ -9,7 +9,7 @@ class Sprite:
         self.filename = filename
         self.game = game
         self.game.sprite_db[self.filename] = self        
-        data = utilities.load_mob(os.path.join(filepaths.image_path, filename))        
+        data = utilities.load_sprite(os.path.join(filepaths.image_path, filename))        
         ###
         # Mob inherits from pygame.Rect;
         # pygame.Rect is instantiated using self.rect

@@ -4,7 +4,7 @@ import os
 import pygame
 from . import filepaths # TODO remove this?
 from . import utilities
-from . import sprite
+from . import scene_sprite
 
 heading = { (0,-1): "north", (0,1): "south", (-1,0): "west", (1,0): "east",
             (-1,-1): "north", (1,1): "south", (-1,1): "west", (1,-1): "east" }
@@ -30,7 +30,7 @@ class Mob(pygame.Rect):
         
         self.sprite = filename
         if self.sprite not in self.game.sprite_db:
-            sprite.Sprite(self.sprite, game)
+            scene_sprite.Sprite(self.sprite, game)
             print("spritesheet '{}' not found; loading".format(self.sprite))
         pygame.Rect.__init__(self, self.game.sprite_db[self.sprite].rect)
                 
@@ -87,9 +87,9 @@ class Mob(pygame.Rect):
         self.base_update()
         
     def render(self, surface, x_off=0, y_off=0):
-        x = (self.x - self.game.sprite_db[self.sprite].x_off) + x_off
-        y = (self.y - self.game.sprite_db[self.sprite].y_off) + y_off
         frame = self.pattern[self.frame]
         facing = self.facings[self.facing]
+        x = (self.x - self.game.sprite_db[self.sprite].x_off) + x_off
+        y = (self.y - self.game.sprite_db[self.sprite].y_off) + y_off
         surface.blit(self.game.sprite_db[self.sprite].get_cell(frame, facing), (x,y))
         

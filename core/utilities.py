@@ -5,9 +5,9 @@ import xml.etree.ElementTree as ET
 
 import pygame
 
-from . import mob
 from . import filepaths
-from . import tileset
+from . import mob_main
+from . import scene_tileset
 
 def distance(r1, r2):
     a = abs(r1.x - r2.x)
@@ -15,7 +15,6 @@ def distance(r1, r2):
     return int(math.sqrt(a**2 + b**2))
 
 def load_image(filename, colourkey=None):
-
     try:
         image = pygame.image.load(filename)
     except:
@@ -30,8 +29,7 @@ def load_image(filename, colourkey=None):
 
     return image
 
-def load_mob(filename): # load sprite, Dec '20
-
+def load_sprite(filename): # load sprite, Dec '20
     image = pygame.image.load(filename)
     image.convert()
     image.set_colorkey(image.get_at((0,0)), pygame.RLEACCEL)
@@ -49,7 +47,6 @@ def load_mob(filename): # load sprite, Dec '20
     return { "cols": cols, "rows": rows, "cells": cells, "rect": rect, "offsets": offsets }
 
 def load_tileset(filename, width, height, firstgid=1):
-
     image = load_image(filename)
     image.set_colorkey((255,0,255), pygame.RLEACCEL)
     
@@ -110,7 +107,7 @@ def get_objects(root, scene):
                 scene.mobs.append("player")
                 scene.defaults["player"] = (col,row)
             elif rectattribs["type"] == "mob":
-                m = mob.Mob(scene.game, rectattribs["Filename"], rectattribs["id"])
+                m = mob_main.Mob(scene.game, rectattribs["Filename"], rectattribs["id"])
                 m.dialogue = rectattribs["dialogue"]
                 scene.mobs.append(m.uid)
                 scene.defaults[m.uid] = (col,row)
@@ -143,7 +140,7 @@ def load_tmx(filename, scene):
     scene.tile_w = int(root.attrib["tilewidth"])
     scene.tile_h = int(root.attrib["tileheight"])
     scene.tilesize = scene.tile_w # assumes a square tile
-    scene.tileset = tileset.Tileset(scene.tile_w, scene.tile_h)
+    scene.tileset = scene_tileset.Tileset(scene.tile_w, scene.tile_h)
     get_tileset(root, scene)
     get_layers(root, scene)
     get_objects(root, scene)

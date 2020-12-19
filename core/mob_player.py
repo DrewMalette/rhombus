@@ -2,14 +2,14 @@
 
 import pygame
 
-from .mob import *
+from . import mob_main
 import mechanics
 import data
 from data.items import potions
 
-class Player(Mob):
+class Player(mob_main.Mob):
     def __init__(self, game, filename):
-        Mob.__init__(self, game, filename, "player")
+        mob_main.Mob.__init__(self, game, filename, "player")
         self.game.mob_db[self.uid] = self
         self.in_dialogue = False
         
