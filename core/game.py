@@ -32,7 +32,6 @@ class Game:
         self.script = None
         self.next_script = None
         self.player = None
-        self.scene = None
         
         self.scene_db = {}
         self.mob_db = {}
@@ -53,19 +52,18 @@ class Game:
     def load_scene(self, filename):        
         if filename not in self.scene_db:
             self.scene_db[filename] = scene.Scene(filename, self)
-            print("loading '{}'".format(filename))            
-        self.scene = self.scene_db[filename]
-        self.camera.scene = self.scene
+            print("loading '{}'".format(filename))
+        self.camera.scene = self.scene_db[filename]
         self.camera.following = self.player
         # assumes tile is square
-        self.camera.tilesize = self.scene.tile_w
-        self.camera.cols = int(self.camera.w / self.scene.tilesize + 2)
-        self.camera.rows = int(self.camera.h / self.scene.tilesize + 2)
-        self.camera.blank = pygame.Surface((self.scene.tilesize,self.scene.tilesize)).convert()
+        self.camera.tilesize = self.camera.scene.tile_w
+        self.camera.cols = int(self.camera.w / self.camera.scene.tilesize + 2)
+        self.camera.rows = int(self.camera.h / self.camera.scene.tilesize + 2)
+        self.camera.blank = pygame.Surface((self.camera.scene.tilesize,self.camera.scene.tilesize)).convert()
         self.camera.blank.fill((0,0,0))
         
         # reset mobs in scene to default positions and facings
-        for mob_fn in self.scene.mobs:
+        for mob_fn in self.camera.scene.mobs:
             self.mob_db[mob_fn].spawn(filename)
         
         self.player.moving = False
@@ -154,7 +152,7 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F1: self.debug_info_on = -self.debug_info_on
 
-    def render(self):    
+    def render(self):
         for obj in self.obj_stack:
             if getattr(obj, "render", None):
                 obj.render()

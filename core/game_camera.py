@@ -35,7 +35,8 @@ class Camera(pygame.Rect):
         else:			
             return ("0", x, y)
     
-    def y_sort(self): return sorted(self.game.scene.get_mobs(), key=operator.attrgetter('y'))
+    def y_sort(self):
+        return sorted(self.scene.get_mobs(), key=operator.attrgetter('y'))
             
     def update(self):    
         x,y = self.following.center
@@ -50,13 +51,13 @@ class Camera(pygame.Rect):
         elif y <= self.h / 2:
             self.y = 0
     
-        if self.x + self.w > self.game.scene.cols * self.tilesize:
-            self.x = self.game.scene.cols * self.tilesize - self.w
+        if self.x + self.w > self.scene.cols * self.tilesize:
+            self.x = self.scene.cols * self.tilesize - self.w
         elif self.x < 0:
             self.x = 0
             
-        if self.y + self.h > self.game.scene.rows * self.tilesize:
-            self.y = self.game.scene.rows * self.tilesize - self.h
+        if self.y + self.h > self.scene.rows * self.tilesize:
+            self.y = self.scene.rows * self.tilesize - self.h
         elif self.y < 0:
             self.y = 0
 
@@ -89,7 +90,7 @@ class Camera(pygame.Rect):
         #	for loot in self.scene.loot.values():
         #		loot.render(self.game.display, x_offset = -self.x, y_offset = -self.y)
 
-        if self.game.scene.mobs: # draw the sprites
+        if self.scene.mobs: # draw the sprites
             #for sprite in self.scene.sprites.values():
             for sprite in self.y_sort():
                 sprite.render(self.game.display, x_off = -self.x, y_off = -self.y)

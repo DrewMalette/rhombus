@@ -57,8 +57,8 @@ class Fader:
 
             if self.faded_in or self.faded_out:
                 self.fading = False
-                if self.game.scene:
-                    self.game.scene.paused = False
+                if self.game.camera.scene:
+                    self.game.camera.scene.paused = False
                 
     def render(self):    
         self.game.display.blit(self.curtain,(0,0))

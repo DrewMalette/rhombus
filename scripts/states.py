@@ -9,8 +9,8 @@ def test_tmx_init(game, filename):
     game.camera.following = game.player
     game.debug_info_on = 1
     
-    game.obj_stack = [ game.scene ]
-    game.scene.paused = False
+    game.obj_stack = [ game.camera.scene ]
+    game.camera.scene.paused = False
     game.next_script = test_tmx_loop
     game.fader.fade_in()
     
@@ -39,7 +39,7 @@ def draw_quit(pane, surface): draw_wrapper(pane, surface)
 def newgame_init(game):
     game.camera.following = game.player # will this eventually move?
     game.load_scene("outpost_oak.tmx")
-    game.obj_stack = [ game.scene ]
+    game.obj_stack = [ game.camera.scene ]
     game.next_script = gameplay_loop
     game.fader.fade_in()
     
@@ -52,23 +52,23 @@ def switchscene_init(game):
     game.fader.fade_in()
 
 def playermenu_init(game, value=0):
-    game.scene.paused = True
-    game.obj_stack = [ game.scene, game.ui["playermenu"] ]
+    game.camera.scene.paused = True
+    game.obj_stack = [ game.camera.scene, game.ui["playermenu"] ]
     game.ui["playermenu"].start(value)
     #game.script = playermenu_loop
     game.script = None # the player menu doesn't need a script; everything is handled internally
 
 ###
 def gameplay_init(game): # returning to gameplay
-    game.obj_stack = [ game.scene ]
+    game.obj_stack = [ game.camera.scene ]
     game.script = gameplay_loop
-    game.scene.paused = False
+    game.camera.scene.paused = False
     
 def gameplay_loop(game): # game.script will still exist but only in a minor way
     if game.controller.pressed_x:
         playermenu_init(game)
     
-    for switch in game.scene.switches.values():
+    for switch in game.camera.scene.switches.values():
         if game.player.colliderect(switch[0]):
             # 0: rect; 1: filename; 2: (col, row); 3: facing
             game.next_scene = [switch[1], switch[2], switch[3]]
@@ -84,7 +84,7 @@ def gameplay_loop(game): # game.script will still exist but only in a minor way
 
 ###         
 def dialogue_init(game, dialogue):
-    game.obj_stack = [ game.scene, game.ui["dialoguebox"] ]
+    game.obj_stack = [ game.camera.scene, game.ui["dialoguebox"] ]
     game.ui["dialoguebox"].text_list = dialogue
     game.ui["dialoguebox"].start()
     game.script = dialogue_loop
@@ -118,8 +118,8 @@ def title_quit(game):
 
 def quit_init(game):
 
-    game.obj_stack = [ game.scene, game.ui["dialoguebox"], game.ui["yesnobox"] ]
-    game.scene.paused = True
+    game.obj_stack = [ game.camera.scene, game.ui["dialoguebox"], game.ui["yesnobox"] ]
+    game.camera.scene.paused = True
     
     game.ui["dialoguebox"].text_list = ["Quit to menu?", " ", " "]
     game.ui["dialoguebox"].start(wait_for=game.ui["yesnobox"])
