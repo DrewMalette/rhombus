@@ -424,16 +424,13 @@ class Fader:
         self.faded_out = False
         self.fading = False
     
-    def fade_out(self, speed=6, colour=None):
-        if colour != None:
-            self.curtain.fill(colour)
-        else:
-            self.curtain.fill((0,0,0))    
-        self.speed = speed
+    def fade_out(self, speed=6, colour=(0,0,0)):
         self.opacity = 0
+        self.curtain.fill(colour)
         self.curtain.set_alpha(self.opacity)
-        self.fading = True
+        self.speed = speed
         self.velocity = self.speed
+        self.fading = True
         self.game.script = self.game.fade_loop
         
     def fade_in(self, speed=6, colour=None):
@@ -468,7 +465,8 @@ class Fader:
 
             if self.faded_in or self.faded_out:
                 self.fading = False
-                if self.game.scene: self.game.scene.paused = False
+                if self.game.scene:
+                    self.game.scene.paused = False
                 
     def render(self):    
         self.game.display.blit(self.curtain,(0,0))

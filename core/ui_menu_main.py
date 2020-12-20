@@ -60,7 +60,7 @@ class UI_PlayerMenu:
         if self.submenu == None:
             if self.visible:
                 if self.game.controller.y_axis_sr != 0:			
-                    self.value = (self.value + self.game.controller.y_axis_sr * self.game.controller.y_axis) % len(self.bindings)
+                    self.value = (self.value + self.game.controller.y_ax_sr()) % len(self.bindings)
                     self.v_string = list(self.bindings.keys())[self.value]
                 if self.game.controller.pressed_a and self.v_string not in ["Status"]:
                     if self.v_string in self.child.bindings:

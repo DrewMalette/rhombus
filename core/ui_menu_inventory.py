@@ -15,7 +15,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         self.selected = False
         self.font_colour = (0xc0,0xc0,0xc0)
     
-    def normalize_cursor(self):
+    def normalize_cursor(self): # need a better word than 'normalize'
         inv = self.game.player.inventory
         count = 0
         while inv[count] == None and count < 7:
@@ -39,7 +39,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         return True
     
     def update(self):
-        y_axis = self.game.controller.y_axis_sr
+        y_axis = self.game.controller.y_ax_sr()
         
         a_button = self.game.controller.pressed_a
         b_button = self.game.controller.pressed_b
@@ -47,12 +47,12 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
         if y_axis != 0:
             inv = self.game.player.inventory
             if not self.selected:
-                self.value = (self.value + y_axis * self.game.controller.y_axis) % 8
+                self.value = (self.value + y_axis) % 8
                 while inv[self.value] == None:
-                    self.value = (self.value + y_axis * self.game.controller.y_axis) % 8
+                    self.value = (self.value + y_axis) % 8
                 
             if self.selected:
-                self.sel_value = (self.sel_value + y_axis * self.game.controller.y_axis) % 8
+                self.sel_value = (self.sel_value + y_axis) % 8
         
         if a_button == 1:
             if self.is_empty():
