@@ -1,6 +1,11 @@
 # 
 
 from .game import *
+from .game_camera import *
+from .game_controller import *
+from .game_fader import *
+from .game_gamepad import *
+from .game_keyboard import *
 from .scene_main import *
 from .scene_sprite import *
 from .scene_tileset import *

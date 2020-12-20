@@ -2,7 +2,6 @@
 
 import os
 import pygame
-from . import filepaths # TODO remove this?
 from . import utilities
 from . import scene_sprite
 

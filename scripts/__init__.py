@@ -2,5 +2,6 @@
 
 # the default script the application will look for
 from . import main
+from . import states
 #from . import entrytemplate
 

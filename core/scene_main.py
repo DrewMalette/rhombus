@@ -46,13 +46,7 @@ class Scene:
         if not self.game.fader.fading and not self.paused:
             for mob in self.mobs:
                 self.game.mob_db[mob].update()
-        #for switch in self.switches.values():
-        #    if self.game.player.colliderect(switch[0]):
-                #print(switch[0]) # rect
-                #print(switch[1]) # filename
-                #print(switch[2]) # (col, row)
-                #print(switch[3]) # facing
-        #        self.game.next_scene = [switch[1], switch[2], switch[3]]
+        
         self.game.camera.update() # this is reeeeeeetarded
         
     def render(self):    
