@@ -1,11 +1,16 @@
 # states.py:
 
+import os
+import pygame
+import core
+from core import filepaths
+
 ###
 def test_tmx_init(game, filename):
     # eventually I want to replace this with a generic onion sprite
     pygame.display.set_caption(filename)
-    game.player = core.Player("Ark", game, os.path.join(filepaths.image_path, "spr_ark2.png"))
-    game.load_scene(filename, os.path.join(filepaths.scene_path, filename))
+    game.player = core.Player(game, "hero_sprite.png")
+    game.load_scene(filename)
     game.camera.following = game.player
     game.debug_info_on = 1
     

@@ -97,10 +97,10 @@ class Game:
         labels = []
         c = r = 0
         
-        if self.scene:
-            labels.append(self.debug_font.render("Scene: "+self.scene.uid, 0, (0xff,0xff,0xff)))
-            c = int(self.player.x / self.scene.tilesize)
-            r = int(self.player.y / self.scene.tilesize)
+        if self.camera.scene:
+            labels.append(self.debug_font.render("Scene: "+self.camera.scene.uid, 0, (0xff,0xff,0xff)))
+            c = int(self.player.x / self.camera.scene.tilesize)
+            r = int(self.player.y / self.camera.scene.tilesize)
         else:
             labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
             
@@ -116,11 +116,11 @@ class Game:
             labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
             labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
         
-        if self.scene: labels.append(self.debug_font.render("paused: "+str(self.scene.paused), 0, (0xff,0xff,0xff)))
+        if self.camera.scene: labels.append(self.debug_font.render("paused: "+str(self.camera.scene.paused), 0, (0xff,0xff,0xff)))
         labels.append(self.debug_font.render("obj_stack: "+str(self.obj_stack), 0, (0xff,0xff,0xff)))
         labels.append(self.debug_font.render("fading: "+str(self.fader.fading), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("player: "+str(self.player), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("scene: "+str(self.scene), 0, (0xff,0xff,0xff)))
+        #labels.append(self.debug_font.render("scene: "+str(self.camera.scene), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("camera.following: "+str(self.camera.following), 0, (0xff,0xff,0xff)))    
         #labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
         #labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
