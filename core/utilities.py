@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import pygame
 
 from . import filepaths
-from . import mob_main
+from . import mob
 from . import scene_tileset
 
 def distance(r1, r2):
@@ -107,7 +107,7 @@ def get_objects(root, scene):
                 scene.mobs.append("player")
                 scene.defaults["player"] = (col,row)
             elif rectattribs["type"] == "mob":
-                m = mob_main.Mob(scene.game, rectattribs["Filename"], rectattribs["id"])
+                m = mob.Mob(scene.game, rectattribs["Filename"], rectattribs["id"])
                 m.dialogue = rectattribs["dialogue"]
                 scene.mobs.append(m.uid)
                 scene.defaults[m.uid] = (col,row)
