@@ -8,13 +8,10 @@ from core import filepaths
 
 from . import states
 
-#import states
-#from states import *
-
 def start(filename=None):
 
     pygame.init()
-    pygame.display.set_caption("rhombus 1.0.2 (Dec 7 2020, 10:47:23)")
+    pygame.display.set_caption("rhombus 1.1.0 (Dec 19 2020, 22:05:11)")
     game = core.Game()
     
     if filename == None:
@@ -27,7 +24,8 @@ def start(filename=None):
                            "Quit to Desktop": states.title_quit }
         game.ui["titleselect"] = core.UI_Select("titleselect", game, (245,300,150,54), title_bindings)
         
-        quit_bindings = { "No": states.quit_no, "Yes": states.quit_yes }
+        quit_bindings = { "No": states.quit_no,
+                          "Yes": states.quit_yes }
         game.ui["yesnobox"] = core.UI_Select("yesnobox", game, (170,296,54,54), quit_bindings)
         
         menu_bindings = { "Inventory": states.draw_inventory,
@@ -35,7 +33,8 @@ def start(filename=None):
                           "Gear": states.draw_gear,
                           "Save": states.draw_save,
                           "Quit": states.quit_init }
-        game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124), menu_bindings, states.gameplay_init)
+        game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124),
+                                                   menu_bindings, states.gameplay_init)
         game.ui["childpane"] = core.UI_SubMenuPane("childpane", game.ui["playermenu"], (300,300))
         game.ui["inventory"] = core.UI_Inventory(game, "Inventory", game.ui["childpane"])
         game.ui["status"] = core.UI_Status(game, "Status", game.ui["childpane"])
