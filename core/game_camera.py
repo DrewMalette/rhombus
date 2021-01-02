@@ -64,27 +64,18 @@ class Camera(pygame.Rect):
     def render(self):    
         for row in range(self.rows): # draw the bottom and middle tile layers
             for col in range(self.cols):
-                x_offset = self.x % self.tilesize
-                y_offset = self.y % self.tilesize
-
-                c_index = int(self.x / self.tilesize + col)
-                r_index = int(self.y / self.tilesize + row)
-        
-                bottom_i = self.scene.get_tile("bottom", c_index, r_index)
-                middle_i = self.scene.get_tile("middle", c_index, r_index)
-
-                c = col * self.tilesize - x_offset
-                r = row * self.tilesize - y_offset
+                bottom_t, x, y = self.tile_prep("bottom", col, row)
+                middle_t, x, y = self.tile_prep("middle", col, row)
+                # yes, the above line overrides the x and y values
+                #  in the line above it
                 
-                if bottom_i != "0":
-                    bottom_t = self.scene.tileset[bottom_i]
-                    self.game.display.blit(bottom_t, (c,r))
-                elif bottom_i == "0":
-                    self.game.display.blit(self.blank, (c,r))
+                if bottom_t != "0":
+                    self.game.display.blit(bottom_t, (x,y))
+                elif bottom_t == "0":
+                    self.game.display.blit(self.blank, (x,y))
 
-                if middle_i != "0":
-                    middle_t = self.scene.tileset[middle_i]
-                    self.game.display.blit(middle_t, (c,r))
+                if middle_t != "0":
+                    self.game.display.blit(middle_t, (x,y))
 
         #if self.scene.loot: # TODO merge this with sprites for the y_sort
         #	for loot in self.scene.loot.values():
