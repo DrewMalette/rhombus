@@ -2,6 +2,8 @@
 
 import pygame
 
+from . import utilities
+
 class Fader:
     def __init__(self, game, size):    
         self.game = game
@@ -45,20 +47,13 @@ class Fader:
         
         if self.fading:		
             self.opacity += self.velocity
-            
-            if self.opacity <= 0:
-                self.opacity = 0
-                self.faded_in = True
-            elif self.opacity >= 255:
-                self.opacity = 255
-                self.faded_out = True
-            
+            self.opacity = utilities.clamp(self.opacity, 0, 255)
             self.curtain.set_alpha(self.opacity)
-
-            if self.faded_in or self.faded_out:
-                self.fading = False
-                if self.game.camera.scene:
-                    self.game.camera.scene.paused = False
+            self.faded_in = self.opacity == 0
+            self.faded_out = self.opacity == 255
+            self.fading = not (self.faded_in or self.faded_out)            
+            if self.game.camera.scene:
+                self.game.camera.scene.paused = False
                 
     def render(self):    
         self.game.display.blit(self.curtain,(0,0))

@@ -9,6 +9,8 @@ from . import filepaths
 from . import mob
 from . import scene_tileset
 
+clamp = lambda n, minn, maxn: max(min(maxn,n), minn)
+
 def distance(r1, r2):
     a = abs(r1.x - r2.x)
     b = abs(r1.y - r2.y)
