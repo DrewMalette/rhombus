@@ -134,13 +134,13 @@ def quit_init(game):
 def quit_no(game):
 
     playermenu_init(game)
-    game.ui["dialoguebox"].visible = False
+    game.ui["dialoguebox"].stop()
     
 def quit_yes(game):
 
     game.next_script = title_init
     game.music_tracks["titletrack"].fadeout(1000)
     game.fader.fade_out()
-    game.ui["dialoguebox"].visible = False
+    game.ui["dialoguebox"].stop()
             
 
