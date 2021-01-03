@@ -17,6 +17,7 @@ class Game:
     display_size = (640,480)
 
     def __init__(self):
+        # this is going to be replaced/modified
         self.obj_stack = [] # active objects; updated and rendered in order of iteration
         
         self.scene_db = {}
@@ -112,7 +113,7 @@ class Game:
         if self.script:
             self.script(self)
         
-        self.fader.update()
+        self.fader.update() # this will be removed
         
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
