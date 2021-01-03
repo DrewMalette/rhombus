@@ -16,39 +16,42 @@ class Game:
     fps = 60
     display_size = (640,480)
 
-    def __init__(self):    
-        self.display = pygame.display.set_mode(self.display_size)
-        self.fader = game_fader.Fader(self, self.display.get_size())
-        self.camera = game_camera.Camera("camera", self)
-        
-        self.controller = game_keyboard.Keyboard(self)
-                
-        self.clock = pygame.time.Clock()
-        self.tick = 0
-        
+    def __init__(self):
         self.obj_stack = [] # active objects; updated and rendered in order of iteration
-        
-        self.last_script = None # unimplemented
-        self.script = None
-        self.next_script = None
-        self.player = None
         
         self.scene_db = {}
         self.mob_db = {}
         self.sprite_db = {}
         self.icon_db = {}
-        
-        self.ui = {}
-        self.ui_font = pygame.font.Font(None, 24)
-        self.title_card = None
-        self.music_tracks = {}
-        
-        self.debug_info_on = -1
-        self.debug_font = pygame.font.Font(None, 20)
-        
+        self.music_tracks = {} # sound_db
+                
+        self.last_script = None # unimplemented
+        self.script = None
+        self.next_script = None
+        self.player = None
         self.next_scene = None
         self.mob_talk = None
-
+        #self.next_mode = None
+        
+        self.display = pygame.display.set_mode(self.display_size)
+        self.fader = game_fader.Fader(self, self.display.get_size())
+        self.camera = game_camera.Camera(self)
+        
+        self.controller = game_keyboard.Keyboard(self)
+                
+        self.clock = pygame.time.Clock()
+        self.tick = 0
+                
+        # incoming ui subsystem (Jan 3, 2021)
+        self.ui = {}
+        self.ui_font = pygame.font.Font(None, 24)
+        self.debug_font = pygame.font.Font(None, 20)
+        
+        self.title_card = None
+        
+        self.debug_info_on = -1
+        
+        
     def load_scene(self, filename):        
         if filename not in self.scene_db:
             self.scene_db[filename] = scene.Scene(filename, self)
@@ -78,6 +81,10 @@ class Game:
         else:
             print("'{}' is already in icon database".format(filename))
     
+    def add_mode(self, id_str, obj_list, script):
+        self.modes[id_str] = obj_list
+        self.scripts[id_str] = script
+    
     def main(self):
         self.running = True
         
@@ -93,7 +100,7 @@ class Game:
         if self.fader.faded_out or self.fader.faded_in:
             self.script = self.next_script
 
-    def draw_debug_info(self):    
+    def draw_debug_info(self): # move this monstrosity to utilities or something
         labels = []
         c = r = 0
         

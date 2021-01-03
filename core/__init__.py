@@ -11,6 +11,7 @@ from .scene_sprite import *
 from .scene_tileset import *
 from .mob import *
 from .mob_player import *
+from .ui import *
 from .ui_dialogue import *
 from .ui_menu import *
 from .ui_menu_inventory import *

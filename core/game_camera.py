@@ -4,13 +4,13 @@ import operator
 import pygame
 
 class Camera(pygame.Rect):
-    def __init__(self, uid, game, x=0, y=0):    
-        self.uid = uid
+    def __init__(self, game, x=0, y=0):
         self.game = game
+        self.display = self.game.display
         w,h = self.game.display.get_size()
         pygame.Rect.__init__(self, (x,y,w,h))
         
-        self.tilesize = 0 # TODO where does this get set?
+        self.tilesize = 0 # where is this set? core/utilities.py, line 74 (get_metadata)
         self.cols = 0
         self.rows = 0
         self.blank = None

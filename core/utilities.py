@@ -65,6 +65,14 @@ def load_tileset(filename, width, height, firstgid=1):
     
     return textures
 
+def get_metadata(root, scene):
+    scene.cols = int(root.attrib["width"])
+    scene.rows = int(root.attrib["height"])
+    scene.tile_w = int(root.attrib["tilewidth"])
+    scene.tile_h = int(root.attrib["tileheight"])
+    scene.tilesize = scene.tile_w # assumes a square tile
+    scene.tileset = scene_tileset.Tileset(scene.tilesize, scene.tilesize)
+
 def get_tileset(root, scene):
     for tilesettag in root.iter("tileset"):
         filename = tilesettag.attrib["source"]
@@ -137,12 +145,7 @@ def get_objects(root, scene):
 def load_tmx(filename, scene):
     tree = ET.parse(os.path.join(filepaths.scene_path, filename))
     root = tree.getroot()
-    scene.cols = int(root.attrib["width"])
-    scene.rows = int(root.attrib["height"])
-    scene.tile_w = int(root.attrib["tilewidth"])
-    scene.tile_h = int(root.attrib["tileheight"])
-    scene.tilesize = scene.tile_w # assumes a square tile
-    scene.tileset = scene_tileset.Tileset(scene.tile_w, scene.tile_h)
+    get_metadata(root, scene)
     get_tileset(root, scene)
     get_layers(root, scene)
     get_objects(root, scene)
