@@ -150,3 +150,43 @@ def load_tmx(filename, scene):
     get_layers(root, scene)
     get_objects(root, scene)
 
+def draw_debug_info(game): # move this monstrosity to utilities or something
+    labels = []
+    c = r = 0
+    
+    if game.camera.scene:
+        labels.append(game.debug_font.render("Scene: "+game.camera.scene.uid, 0, (0xff,0xff,0xff)))
+        c = int(game.player.x / game.camera.scene.tilesize)
+        r = int(game.player.y / game.camera.scene.tilesize)
+    else:
+        labels.append(game.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
+        
+    if game.script: labels.append(game.debug_font.render("Script: "+game.script.__name__, 0, (0xff,0xff,0xff)))
+    
+    if game.player:
+        labels.append(game.debug_font.render("player.in_dialogue: "+str(game.player.in_dialogue), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("player.x (pixel): "+str(game.player.x), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("player.y (pixel): "+str(game.player.y), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("player.r (tile): "+str(r), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("action.x: "+str(game.player.action.x), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("action.y: "+str(game.player.action.y), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("facing: "+game.player.facing, 0, (0xff,0xff,0xff)))
+    
+    if game.camera.scene:
+        labels.append(game.debug_font.render("paused: "+str(game.camera.scene.paused), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("obj_stack: "+str(game.obj_stack), 0, (0xff,0xff,0xff)))
+        labels.append(game.debug_font.render("fading: "+str(game.fader.fading), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("player: "+str(game.player), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("scene: "+str(game.camera.scene), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("camera.following: "+str(game.camera.following), 0, (0xff,0xff,0xff)))    
+        #labels.append(game.debug_font.render("pressed_a: "+str(game.controller.pressed_a), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("held_a: "+str(game.controller.held_a), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("pressed_b: "+str(game.controller.pressed_b), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("held_b: "+str(game.controller.held_b), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("pressed_x: "+str(game.controller.pressed_x), 0, (0xff,0xff,0xff)))
+        #labels.append(game.debug_font.render("held_x: "+str(game.controller.held_x), 0, (0xff,0xff,0xff)))
+    
+    for i, label in enumerate(labels):
+        label.set_alpha(160)
+        game.display.blit(label, (10, 10 + (i * game.debug_font.get_height())))

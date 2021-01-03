@@ -11,6 +11,7 @@ class Camera(pygame.Rect):
         pygame.Rect.__init__(self, (x,y,w,h))
         
         self.tilesize = 0 # where is this set? core/utilities.py, line 74 (get_metadata)
+                          #                    core/game.py, line 61 (Game.load_scene)
         self.cols = 0
         self.rows = 0
         self.blank = None

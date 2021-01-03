@@ -31,28 +31,27 @@ class Game:
         self.player = None
         self.next_scene = None
         self.mob_talk = None
-        #self.next_mode = None
+        self.next_mode = None
+        
+        self.title_card = None
         
         self.display = pygame.display.set_mode(self.display_size)
         self.fader = game_fader.Fader(self, self.display.get_size())
         self.camera = game_camera.Camera(self)
         
-        self.controller = game_keyboard.Keyboard(self)
-                
-        self.clock = pygame.time.Clock()
-        self.tick = 0
-                
         # incoming ui subsystem (Jan 3, 2021)
         self.ui = {}
         self.ui_font = pygame.font.Font(None, 24)
         self.debug_font = pygame.font.Font(None, 20)
         
-        self.title_card = None
+        self.controller = game_keyboard.Keyboard(self)
+                
+        self.clock = pygame.time.Clock()
+        self.tick = 0
         
         self.debug_info_on = -1
         
-        
-    def load_scene(self, filename):        
+    def load_scene(self, filename): # setup_scene
         if filename not in self.scene_db:
             self.scene_db[filename] = scene.Scene(filename, self)
             print("loading '{}'".format(filename))
@@ -100,46 +99,6 @@ class Game:
         if self.fader.faded_out or self.fader.faded_in:
             self.script = self.next_script
 
-    def draw_debug_info(self): # move this monstrosity to utilities or something
-        labels = []
-        c = r = 0
-        
-        if self.camera.scene:
-            labels.append(self.debug_font.render("Scene: "+self.camera.scene.uid, 0, (0xff,0xff,0xff)))
-            c = int(self.player.x / self.camera.scene.tilesize)
-            r = int(self.player.y / self.camera.scene.tilesize)
-        else:
-            labels.append(self.debug_font.render("no scene is loaded", 0, (0xff,0xff,0xff)))
-            
-        if self.script: labels.append(self.debug_font.render("Script: "+self.script.__name__, 0, (0xff,0xff,0xff)))
-        
-        if self.player:
-            labels.append(self.debug_font.render("player.in_dialogue: "+str(self.player.in_dialogue), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("player.x (pixel): "+str(self.player.x), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("player.y (pixel): "+str(self.player.y), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("player.c (tile): "+str(c), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("player.r (tile): "+str(r), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("action.x: "+str(self.player.action.x), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("action.y: "+str(self.player.action.y), 0, (0xff,0xff,0xff)))
-            labels.append(self.debug_font.render("facing: "+self.player.facing, 0, (0xff,0xff,0xff)))
-        
-        if self.camera.scene: labels.append(self.debug_font.render("paused: "+str(self.camera.scene.paused), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("obj_stack: "+str(self.obj_stack), 0, (0xff,0xff,0xff)))
-        labels.append(self.debug_font.render("fading: "+str(self.fader.fading), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("player: "+str(self.player), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("scene: "+str(self.camera.scene), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("camera.following: "+str(self.camera.following), 0, (0xff,0xff,0xff)))    
-        #labels.append(self.debug_font.render("pressed_a: "+str(self.controller.pressed_a), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("held_a: "+str(self.controller.held_a), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("pressed_b: "+str(self.controller.pressed_b), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("held_b: "+str(self.controller.held_b), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("pressed_x: "+str(self.controller.pressed_x), 0, (0xff,0xff,0xff)))
-        #labels.append(self.debug_font.render("held_x: "+str(self.controller.held_x), 0, (0xff,0xff,0xff)))
-        
-        for i, label in enumerate(labels):
-            label.set_alpha(160)
-            self.display.blit(label, (10, 10 + (i * self.debug_font.get_height()))) 
-
     def update(self):    
         self.clock.tick(self.fps)
         self.tick = (self.tick + 1) % 4294967296
@@ -168,7 +127,7 @@ class Game:
                 
         self.fader.render()
         
-        if self.debug_info_on == 1: self.draw_debug_info()
+        if self.debug_info_on == 1: utilities.draw_debug_info(self)
         
         pygame.display.flip()
 
