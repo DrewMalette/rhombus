@@ -10,7 +10,7 @@ def test_tmx_init(game, filename):
     # eventually I want to replace this with a generic onion sprite
     pygame.display.set_caption(filename)
     game.player = core.Player(game, "hero_sprite.png")
-    game.load_scene(filename)
+    game.setup_scene(filename)
     game.camera.following = game.player
     game.debug_info_on = 1
     
@@ -43,13 +43,13 @@ def draw_quit(pane, surface): draw_wrapper(pane, surface)
 
 def newgame_init(game):
     game.camera.following = game.player # will this eventually move?
-    game.load_scene("outpost_oak.tmx")
+    game.setup_scene("outpost_oak.tmx")
     game.obj_stack = [ game.camera.scene ]
     game.next_script = gameplay_loop
     game.fader.fade_in()
     
 def switchscene_init(game):
-    game.load_scene(game.next_scene[0])
+    game.setup_scene(game.next_scene[0])
     c,r = game.next_scene[1]
     game.player.place(c,r)
     game.player.facing = game.next_scene[2]

@@ -56,6 +56,9 @@ class Game:
         if filename not in self.scene_db:
             self.scene_db[filename] = scene.Scene(filename, self)
             print("loading '{}'".format(filename))
+    
+    def setup_scene(self, filename):
+        if filename not in self.scene_db: self.load_scene(filename)
         self.camera.scene = self.scene_db[filename]
         self.camera.following = self.player
         # assumes tile is square
@@ -64,7 +67,7 @@ class Game:
         self.camera.rows = int(self.camera.h / self.camera.scene.tilesize + 2)
         self.camera.blank = pygame.Surface((self.camera.scene.tilesize,self.camera.scene.tilesize)).convert()
         self.camera.blank.fill((0,0,0))
-        
+                
         # reset mobs in scene to default positions and facings
         for mob_fn in self.camera.scene.mobs:
             self.mob_db[mob_fn].spawn(filename)
