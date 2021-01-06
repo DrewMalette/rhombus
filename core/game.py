@@ -107,7 +107,6 @@ class Game:
         self.clock.tick(self.fps)
         self.tick = (self.tick + 1) % 4294967296
         
-        pygame.event.pump()
         self.controller.update()
         
         for obj in self.obj_stack:

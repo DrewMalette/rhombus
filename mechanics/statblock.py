@@ -5,26 +5,34 @@ mod = lambda stat: int((stat-10)/2)
 
 class StatBlock:
 
-    def __init__(self, Str, Agi, Vit, Mnd, Spi, hit_die, level=1):
-    
-        self.level = level
+    def __init__(self, Str, Agi, Vit, Mind): # Based on a Rogue for some reason
         self.Str = Str # Strength
         self.Agi = Agi # Agility
         self.Vit = Vit # Vitality
-        self.Mnd = Mnd # Mind
-        self.Spi = Spi # Spirit
+        self.Mnd = Mnd # Mind; Intellect and Wisdom rolled into one
         
-        self.hit_die = hit_die
+        self.max_hp = self.cur_hp = 100
         
-        self.max_hp = self.hit_die
-        for lvl in range(level-1):
-            self.max_hp += dice(self.hit_die)
-        self.cur_hp = self.max_hp
+        self.evade = 10 + mod(self.Agi) + int(self.evade_level / 3) # + self.armour + self.buffs + self.nerfs
         
-        self.evade = 10 + mod(self.Agi) + int(self.level / 3) # + self.armour + self.buffs + self.nerfs
-                
-        self.exp = 0
-        self.next = 500
+        self.reflex = 2 * mod(self.Agi)
+        self.fortitude = 2 * mod(self.Vit)
+        self.will = 2 * mod(self.Mnd)
+        
+        self.combat_exp = 0
+        self.craft_exp = 0
+        
+        self.axe_level = 0 # level += 1 * (level != 9)
+        self.blade_level = 0
+        self.firearm_level = 0
+        self.spear_level = 0
+        self.evade_level = 0
+        
+        self.axe_exp = 0
+        self.blade_exp = 0
+        self.firearm_exp = 0
+        self.spear_exp = 0
+        self.eva_exp = 0
         
     def melee_hit(self, target):
         return dice(20) + mod(self.Str) + int(self.level / 2) >= target.evade
@@ -32,32 +40,8 @@ class StatBlock:
     def ranged_hit(self, target):
         return dice(20) + mod(self.Agi) + int(self.level / 2) >= target.evade
         
-    def level_up(self):
-    
-        self.level += 1
-        
-        # can you take a stat boost?
-        if self.level % 3 == 0:
-            print("Which stat would you like to boost?")
-        if self.level % 4 == 0:
-            print("Which new special skill would you like?")
-                
-        #self.fortitude = int((self.body+self.spirit) / 2)
-        #self.reflex = int((self.mind+self.body) / 2)
-        #self.will = int((self.spirit+self.mind) / 2)
-        
-        self.max_hp += dice(self.hit_die) + mod(self.Vit) # body
-        self.cur_hp = self.max_hp
-        self.evade = 10 + self.reflex + int(self.level / 3)
-        
-        self.exp = 0
-        self.next = self.level * 500
-        
-    def add_exp(self, amount):
-    
-        self.exp += amount
-        
-        if self.exp >= self.next: self.level_up()
+    #def add_exp(self, amount, exp_type): # (self, int, str)
+    #    self.__setattr__(exp_type, amount)
 
 if __name__ == "__main__":
 

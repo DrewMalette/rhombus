@@ -47,7 +47,8 @@ class Controller:
         self.exit = 0
         self.y_axis_sr = 0
         
-    def base_update(self):    
+    def base_update(self):
+        pygame.event.pump()
         if self.x_axis != 0 and not self.x_pressed:
             self.x_tick = pygame.time.get_ticks()
             self.x_pressed = True
