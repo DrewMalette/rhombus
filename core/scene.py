@@ -4,9 +4,9 @@ from . import filepaths
 from . import utilities
 
 class Scene:
-    def __init__(self, filename, game_obj):
+    def __init__(self, filename, game):
         self.uid = filename
-        self.game = game_obj
+        self.game = game
         
         self.mobs = []
         self.buildings = {}

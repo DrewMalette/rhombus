@@ -5,9 +5,10 @@ import pygame
 from . import utilities
 
 class Fader:
-    def __init__(self, game, size):    
+    def __init__(self, game):    
         self.game = game
-        self.curtain = pygame.Surface(size)
+        self.display = self.game.display
+        self.curtain = pygame.Surface(self.display.get_size())
         self.curtain.fill((0,0,0))
         self.opacity = 0
         self.curtain.set_alpha(self.opacity)
@@ -56,5 +57,5 @@ class Fader:
                 self.game.camera.scene.paused = False
                 
     def render(self):    
-        self.game.display.blit(self.curtain,(0,0))
+        self.display.blit(self.curtain,(0,0))
 

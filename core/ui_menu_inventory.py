@@ -6,6 +6,7 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
 
     def __init__(self, game, uid, childpane):    
         self.game = game
+        self.display = self.game.display
         self.uid = uid
         self.childpane = childpane # childpane.parent is UI_PlayerMenu
         self.childpane.bindings[uid] = self
@@ -106,20 +107,20 @@ class UI_Inventory(object): # will bind to a SubMenuPane and draw's relative to 
                 colour = self.childpane.parent.white[int(self.childpane.parent.submenu!=None)]
                 if i == self.value:
                     cursor = self.game.ui_font.render(self.cursor, 0, colour)
-                    self.game.display.blit(cursor, (x+15,y))
+                    self.display.blit(cursor, (x+15,y))
                 #
                 icon = self.game.icon_db[inv[i][0]["icon"]]
-                self.game.display.blit(icon, (x+30, y))
+                self.display.blit(icon, (x+30, y))
                 #
                 label = inv[i][0]["name"]
                 txt_img = self.game.ui_font.render(label, 0, colour)
-                self.game.display.blit(txt_img, (x+60,y))
+                self.display.blit(txt_img, (x+60,y))
                 #
                 colour = self.childpane.parent.cyan[int(self.childpane.parent.submenu!=None)]
                 qty = self.game.ui_font.render(str(inv[i][1]), 0, colour)
-                self.game.display.blit(qty, (x+230,y))
+                self.display.blit(qty, (x+230,y))
             if self.selected and i == self.sel_value:
                 colour = self.childpane.parent.white[int(self.childpane.parent.submenu!=None)]
                 sel_cursor = self.game.ui_font.render(">", 0, colour)
-                self.game.display.blit(sel_cursor, (x,y))
+                self.display.blit(sel_cursor, (x,y))
                 

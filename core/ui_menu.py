@@ -16,10 +16,11 @@ class UI_PlayerMenu:
     cyan = { 0: (0,0xc0,0xc0), 1: (0,0xff,0xff) }
     
 
-    def __init__(self, uid, game_obj, rect, bindings, b_func):
+    def __init__(self, uid, game, rect, bindings, b_func):
     
         self.uid = uid
-        self.game = game_obj
+        self.game = game
+        self.display = self.game.display
         self.x, self.y = rect[:2]
         self.bindings = bindings # []
         self.b_func = b_func # called when the B button is pressed
@@ -78,21 +79,22 @@ class UI_PlayerMenu:
     def render(self):
     
         if self.visible:
-            self.game.display.blit(self.back, (self.x, self.y))
+            self.display.blit(self.back, (self.x, self.y))
             for b in range(len(self.bindings)):	
                 text = list(self.bindings.keys())[b] + " <" * (b == self.value)
                 x = self.x + 5 # padding
                 y = self.y + 7 * (b+1) + b * self.font.get_height() # 0:15; 1:40; 2:65
                 label_image = self.font.render(text, 0, self.white[int(self.submenu==None)])
-                self.game.display.blit(label_image, (x,y))
+                self.display.blit(label_image, (x,y))
             self.child.render()
 
 # needs a parent (UI_PlayerMenu) to work
 class UI_SubMenuPane:
 
-    def __init__(self, uid, parent, size):
+    def __init__(self, uid, game, parent, size):
     
         self.uid = uid
+        self.display = game.display
         self.parent = parent
         self.game = parent.game
         self.x = self.y = 0
@@ -112,7 +114,7 @@ class UI_SubMenuPane:
     def render(self):
     
         if self.visible:
-            self.game.display.blit(self.back, (self.x,self.y))
+            self.display.blit(self.back, (self.x,self.y))
             key = list(self.parent.bindings.keys())[self.parent.value]
             if key in self.bindings:
                 self.bindings[key].render()

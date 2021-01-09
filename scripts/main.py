@@ -35,9 +35,9 @@ def start(filename=None):
                           "Quit": states.quit_init }
         game.ui["playermenu"] = core.UI_PlayerMenu("playermenu", game, (105,90,120,124),
                                                    menu_bindings, states.gameplay_init)
-        game.ui["childpane"] = core.UI_SubMenuPane("childpane", game.ui["playermenu"], (300,300))
+        game.ui["childpane"] = core.UI_SubMenuPane("childpane", game, game.ui["playermenu"], (300,300))
         game.ui["inventory"] = core.UI_Inventory(game, "Inventory", game.ui["childpane"])
-        game.ui["status"] = core.UI_Status(game, "Status", game.ui["childpane"])
+        game.ui["status"] = core.UI_Status("status", game, game.ui["childpane"])
                 
         game.load_icon("potion_ico.png")
         

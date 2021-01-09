@@ -6,10 +6,11 @@ import pygame
 
 class UI_Dialogue:
 
-    def __init__(self, uid, game_obj, rect):
+    def __init__(self, uid, game, rect):
         
         self.uid = uid
-        self.game = game_obj
+        self.game = game
+        self.display = self.game.display
         self.x, self.y, self.w, self.h = rect
         
         self.back = pygame.Surface((self.w,self.h)).convert_alpha()
@@ -126,7 +127,7 @@ class UI_Dialogue:
     
         if self.visible:
         
-            self.game.display.blit(self.back, (self.x, self.y))
+            self.display.blit(self.back, (self.x, self.y))
     
             for i, l in enumerate(self.text_queue):
                 text = l[:self.text_cursors[i]]
@@ -135,4 +136,4 @@ class UI_Dialogue:
                 
                 x = self.x + 5 # padding
                 y = self.y + 5 * (i+1) + i * self.game.ui_font.get_height()
-                self.game.display.blit(rText, (x,y))
+                self.display.blit(rText, (x,y))

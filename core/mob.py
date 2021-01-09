@@ -22,7 +22,6 @@ class Mob(pygame.Rect):
     facings = { "south": 0, "north": 1, "east": 2, "west": 3 }
 
     def __init__(self, game, filename, uid): # filename of spritesheet
-    
         self.game = game
         self.uid = uid
         self.game.mob_db[self.uid] = self

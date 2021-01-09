@@ -37,7 +37,7 @@ class Game:
         self.title_card = None
         
         self.display = pygame.display.set_mode(self.display_size)
-        self.fader = game_fader.Fader(self, self.display.get_size())
+        self.fader = game_fader.Fader(self)
         self.camera = game_camera.Camera(self)
         
         # incoming ui subsystem (Jan 3, 2021)
@@ -46,11 +46,18 @@ class Game:
         self.debug_font = pygame.font.Font(None, 20)
         
         self.controller = game_keyboard.Keyboard(self)
-                
         self.clock = pygame.time.Clock()
         self.tick = 0
         
+        self.mode = ""
+        self.modes = {} # modes and scripts have matching keys
+        self.scripts = {}
+        
         self.debug_info_on = -1
+    
+    def add_mode(self, id_str, obj_list, script):
+        self.modes[id_str] = obj_list
+        self.scripts[id_str] = script
         
     def load_scene(self, filename): # setup_scene
         if filename not in self.scene_db:
@@ -84,10 +91,6 @@ class Game:
         else:
             print("'{}' is already in icon database".format(filename))
     
-    def add_mode(self, id_str, obj_list, script):
-        self.modes[id_str] = obj_list
-        self.scripts[id_str] = script
-    
     def main(self):
         self.running = True
         
@@ -111,6 +114,11 @@ class Game:
         
         for obj in self.obj_stack:
             if getattr(obj, "update", None): obj.update()
+            
+        # if self.mode != "": #?
+        #for obj in self.modes[self.mode]:
+        #    if getattr(obj, "update", None):obj.update()
+        #    obj.render()
         
         if self.script:
             self.script(self)

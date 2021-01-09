@@ -71,12 +71,12 @@ class Camera(pygame.Rect):
                 #  in the line above it
                 
                 if bottom_t != "0":
-                    self.game.display.blit(bottom_t, (x,y))
+                    self.display.blit(bottom_t, (x,y))
                 elif bottom_t == "0":
-                    self.game.display.blit(self.blank, (x,y))
+                    self.display.blit(self.blank, (x,y))
 
                 if middle_t != "0":
-                    self.game.display.blit(middle_t, (x,y))
+                    self.display.blit(middle_t, (x,y))
 
         #if self.scene.loot: # TODO merge this with sprites for the y_sort
         #	for loot in self.scene.loot.values():
@@ -90,7 +90,7 @@ class Camera(pygame.Rect):
         for row in range(self.rows): # draw the top layer
             for col in range(self.cols):
                 tile, x, y = self.tile_prep("top", col, row)
-                if tile != "0": self.game.display.blit(tile, (x, y))
+                if tile != "0": self.display.blit(tile, (x, y))
         
         if self.game.debug_info_on == 1:
             x = self.game.player.action.x - self.x
