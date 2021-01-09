@@ -13,7 +13,7 @@ class Player(mob.Mob):
         self.game.mob_db[self.uid] = self
         self.in_dialogue = False
         
-        self.name = "Drew" # obviously will be changed
+        self.name = "Ark" # obviously will be changed
         
         # drop in mechanics; tailorable to your specifications
         self.action = mechanics.Action(self)
