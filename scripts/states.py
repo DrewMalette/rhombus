@@ -25,7 +25,7 @@ def test_tmx_loop(game):
         game.fader.fade_out()
 ###
 
-###
+### TODO I don't really need this block of code anymore; get rid of it at some point
 def draw_wrapper(pane, surface):
     label = pane.parent.font.render(pane.parent.v_string, 0, (0xff,0xff,0xff))
     
@@ -74,11 +74,13 @@ def gameplay_loop(game): # game.script will still exist but only in a minor way
         playermenu_init(game)
     
     for switch in game.camera.scene.switches.values():
+        # if player mob collides with a switch,
+        #  game will prepare the next scene specified by the switch
         if game.player.colliderect(switch[0]):
             # 0: rect; 1: filename; 2: (col, row); 3: facing
             game.next_scene = [switch[1], switch[2], switch[3]]
             game.next_script = switchscene_init
-            game.fader.fade_out()
+            game.fader.fade_out() # game.next_script is executed when game.fader.fadedout
     
     if game.controller.pressed_a:
         game.player.action.interact()
@@ -95,13 +97,11 @@ def dialogue_init(game, dialogue):
     game.script = dialogue_loop
     
 def dialogue_loop(game): # I'll have to bind functions to dialogueboxes too
-
     if game.ui["dialoguebox"].returned:
         gameplay_init(game)
 ###
 
 def title_init(game):
-
     game.obj_stack = [ game.title_card, game.ui["titleselect"] ]
     
     game.ui["titleselect"].start()
@@ -111,18 +111,17 @@ def title_init(game):
     game.fader.fade_in()
 
 def title_newgame(game):
-
     game.next_script = newgame_init
     game.fader.fade_out()
+
     
 def title_quit(game):
-
     game.music_tracks["titletrack"].fadeout(1000)
     game.next_script = game.exit
     game.fader.fade_out()
 
+# starts the dialogue that asks the player if they want to quit to the title screen
 def quit_init(game):
-
     game.obj_stack = [ game.camera.scene, game.ui["dialoguebox"], game.ui["yesnobox"] ]
     game.camera.scene.paused = True
     
@@ -131,16 +130,15 @@ def quit_init(game):
     
     game.script = None
 
+# are executed when the "A" button is pressed in game.ui["yesnobox"]
 def quit_no(game):
-
     playermenu_init(game)
     game.ui["dialoguebox"].stop()
     
 def quit_yes(game):
-
     game.next_script = title_init
     game.music_tracks["titletrack"].fadeout(1000)
     game.fader.fade_out()
     game.ui["dialoguebox"].stop()
-            
+##            
 

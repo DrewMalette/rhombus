@@ -15,9 +15,11 @@ def start(filename=None):
     game = core.Game()
     
     if filename == None:
+        # setup the title menu
         game.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
         game.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
-    
+        
+        # setup the interface objects
         game.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game, (170,360,300,100))
         
         title_bindings = { "New Game": states.title_newgame,
@@ -38,11 +40,14 @@ def start(filename=None):
         game.ui["childpane"] = core.UI_SubMenuPane("childpane", game, game.ui["playermenu"], (300,300))
         game.ui["inventory"] = core.UI_Inventory(game, "Inventory", game.ui["childpane"])
         game.ui["status"] = core.UI_Status("status", game, game.ui["childpane"])
-                
+        
+        # load item icons
         game.load_icon("potion_ico.png")
         
+        # setup the player mob
         game.player = core.Player(game, "hero_sprite.png")
         
+        # initialize to title screen and start game program
         states.title_init(game)
     else:
         states.test_tmx_init(game, filename)
