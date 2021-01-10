@@ -1,0 +1,9 @@
+text
+rnd
+drewmalette.github.io
+entrytemplate.py
+headers.py
+documentation.txt
+*.pyc
+*.tar.xz
+*.tar.gz
