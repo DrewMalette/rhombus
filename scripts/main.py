@@ -17,7 +17,7 @@ def start(filename=None):
     if filename == None:
         # setup the title menu
         game.title_card = pygame.image.load(os.path.join(filepaths.image_path, "titlecard.png"))
-        game.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "titlemusic.ogg"))
+        game.music_tracks["titletrack"] = pygame.mixer.Sound(os.path.join(filepaths.sound_path, "rstheme.ogg"))
         
         # setup the interface objects
         game.ui["dialoguebox"] = core.UI_Dialogue("dialoguebox", game, (170,360,300,100))
