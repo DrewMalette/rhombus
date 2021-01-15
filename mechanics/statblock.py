@@ -5,16 +5,14 @@ mod = lambda stat: int((stat-10)/2)
 
 class StatBlock:
 
-    def __init__(self, Str, Agi, Vit, Mind): # Based on a Rogue for some reason
+    def __init__(self, Str, Agi, Vit, Mnd): # Based on a Rogue for some reason
         self.Str = Str # Strength
         self.Agi = Agi # Agility
         self.Vit = Vit # Vitality
         self.Mnd = Mnd # Mind; Intellect and Wisdom rolled into one
         
         self.max_hp = self.cur_hp = 100
-        
-        self.evade = 10 + mod(self.Agi) + int(self.evade_level / 3) # + self.armour + self.buffs + self.nerfs
-        
+                
         self.reflex = 2 * mod(self.Agi)
         self.fortitude = 2 * mod(self.Vit)
         self.will = 2 * mod(self.Mnd)
@@ -34,6 +32,8 @@ class StatBlock:
         self.spear_exp = 0
         self.eva_exp = 0
         
+        self.evade = 10 + mod(self.Agi) + int(self.evade_level / 3) # + self.armour + self.buffs + self.nerfs
+                
     def melee_hit(self, target):
         return dice(20) + mod(self.Str) + int(self.level / 2) >= target.evade
     

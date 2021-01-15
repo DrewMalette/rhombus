@@ -17,7 +17,7 @@ class Player(mob.Mob):
         
         # drop in mechanics; tailorable to your specifications
         self.action = mechanics.Action(self)
-        #self.statblock = mechanics.StatBlock(10,12,12,11,11,10)
+        self.statblock = mechanics.StatBlock(10,12,8,14)
         self.equip = None # need a different name for this; gear?
         
         self.inventory = { 0: None, 
