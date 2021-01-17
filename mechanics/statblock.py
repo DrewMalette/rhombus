@@ -4,19 +4,7 @@ dice = lambda d: int(rnd() * d) + 1
 mod = lambda stat: int((stat-10)/2)
 
 class StatBlock:
-
     def __init__(self, Str, Agi, Vit, Mnd): # Based on a Rogue for some reason
-        self.Str = Str # Strength
-        self.Agi = Agi # Agility
-        self.Vit = Vit # Vitality
-        self.Mnd = Mnd # Mind; Intellect and Wisdom rolled into one
-        
-        self.max_hp = self.cur_hp = 100
-                
-        self.reflex = 2 * mod(self.Agi)
-        self.fortitude = 2 * mod(self.Vit)
-        self.will = 2 * mod(self.Mnd)
-        
         self.combat_exp = 0
         self.craft_exp = 0
         
@@ -32,7 +20,18 @@ class StatBlock:
         self.spear_exp = 0
         self.eva_exp = 0
         
-        self.evade = 10 + mod(self.Agi) + int(self.evade_level / 3) # + self.armour + self.buffs + self.nerfs
+        self.max_hp = 100
+        
+        self.stats = {}
+        self.stats["hp"] = self.max_hp
+        self.stats["str"] = Str # Strength
+        self.stats["agi"] = Agi # Agility
+        self.stats["vit"] = Vit # Vitality
+        self.stats["mnd"] = Mnd # Mind; Intellect and Wisdom rolled into one
+                
+        self.stats["evade"] = 10 + mod(self.stats["agi"]) + int(self.evade_level / 3) # + self.armour + self.buffs + self.nerfs
+        self.stats["immunity"] = 2 + mod(self.stats["vit"])
+        self.stats["will"] = 2 + mod(self.stats["mnd"])
                 
     def melee_hit(self, target):
         return dice(20) + mod(self.Str) + int(self.level / 2) >= target.evade
@@ -43,19 +42,3 @@ class StatBlock:
     #def add_exp(self, amount, exp_type): # (self, int, str)
     #    self.__setattr__(exp_type, amount)
 
-if __name__ == "__main__":
-
-    player = StatBlock(13,10,12,12,10,10)
-    wolf = StatBlock(14,12,12,5,12,8)
-
-    hit = 0
-    miss = 0
-
-    for i in range(100):
-        result = wolf.melee_hit(player)
-        if result == True:
-            hit += 1
-        else:
-            miss += 1
-    print(hit)
-    print(miss)

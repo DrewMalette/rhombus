@@ -18,9 +18,12 @@ class UI_Status:
         name_label = self.game.ui_font.render(self.game.player.name, 0, (0xff,0xff,0xff))
         self.display.blit(name_label, (x+40,y))
         
-        str_label = self.game.ui_font.render("STR:", 0, (0,0xff,0xff))
-        str_str = str(self.game.player.statblock.Str)+"("
-        str_str += str(int(self.game.player.statblock.Str - 10)/2)+")"
-        str_value = self.game.ui_font.render(str_str, 0, (0xff,0xff,0xff))
-        self.display.blit(str_label, (x+200,y))
-        self.display.blit(str_value, (x+200+str_label.get_width(),y))
+        for i, label in enumerate(self.game.player.statblock.stats):
+            stat_label = self.game.ui_font.render("{}:".format(label.upper()), 0, (0,0xff,0xff))
+            value = str(self.game.player.statblock.stats[label])
+            if label in ("str","vit","agi","mnd"):
+                value += " ("
+                value += str(int((self.game.player.statblock.stats[label] - 10)/2))+")"
+            val_label = self.game.ui_font.render(value, 0, (0xff,0xff,0xff))
+            self.display.blit(stat_label, (x+40,y+self.game.ui_font.get_height()*(i+1)))
+            self.display.blit(val_label, (x+40+stat_label.get_width(),y+self.game.ui_font.get_height()*(i+1)))
