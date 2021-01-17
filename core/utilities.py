@@ -48,9 +48,9 @@ def load_sprite(filename): # load sprite, Dec '20
 
     return { "cols": cols, "rows": rows, "cells": cells, "rect": rect, "offsets": offsets }
 
-def load_tileset(filename, width, height, firstgid=1):
+def load_tileset(filename, width, height, colourkey, firstgid=1):
     image = load_image(filename)
-    image.set_colorkey((255,0,255), pygame.RLEACCEL)
+    image.set_colorkey(colourkey, pygame.RLEACCEL)
     
     gid = int(firstgid)
     textures = {}
@@ -73,6 +73,12 @@ def get_metadata(root, scene):
     scene.tilesize = scene.tile_w # assumes a square tile
     scene.tileset = scene_tileset.Tileset(scene.tilesize, scene.tilesize)
 
+def get_colourkey(hex_string): # format: "ffffff"
+    r = int(hex_string[:2],16)
+    g = int(hex_string[2:4],16)
+    b = int(hex_string[4:6],16)
+    return (r,g,b)
+
 def get_tileset(root, scene):
     for tilesettag in root.iter("tileset"):
         filename = tilesettag.attrib["source"]
@@ -81,8 +87,9 @@ def get_tileset(root, scene):
         for tsx in tsxroot.iter("tileset"):
             for i in tsx.iter("image"):
                 filename = i.attrib["source"]
+                colourkey = get_colourkey(i.attrib["trans"])
                 firstgid = tilesettag.attrib["firstgid"]
-                scene.tileset.update(filename, firstgid)
+                scene.tileset.update(filename, colourkey, firstgid)
 
 def get_layers(root, scene):
     for layer in root.iter("layer"):

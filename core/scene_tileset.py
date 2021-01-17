@@ -16,9 +16,9 @@ class Tileset:
 					
 		self.textures = {}
 		
-	def update(self, filename, firstgid=1):
+	def update(self, filename, colourkey, firstgid=1):
 		
-		textures = utilities.load_tileset(os.path.join(filepaths.scene_path, filename), self.width, self.height, firstgid)
+		textures = utilities.load_tileset(os.path.join(filepaths.scene_path, filename), self.width, self.height, colourkey, firstgid)
 		self.textures.update(textures)
 				
 	def __getitem__(self, key=-1):
