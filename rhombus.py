@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Artix Linux: drew@Eros
+
 import sys
 sys.path.append("./")
 import importlib
