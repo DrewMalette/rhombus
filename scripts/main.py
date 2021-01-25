@@ -45,7 +45,7 @@ def start(filename=None):
         game.load_icon("potion_ico.png")
         
         # setup the player mob
-        game.player = core.Player(game, "hero_sprite.png")
+        game.player = core.Player(game, "klia_sprite.png")
         
         # initialize to title screen and start game program
         states.title_init(game)
