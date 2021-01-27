@@ -90,4 +90,4 @@ class Mob(pygame.Rect):
         x = (self.x - self.game.sprite_db[self.sprite].x_off) + x_off
         y = (self.y - self.game.sprite_db[self.sprite].y_off) + y_off
         surface.blit(self.game.sprite_db[self.sprite].get_cell(frame, facing), (x,y))
-        
+        #pygame.draw.rect(surface, (0xff,0,0), (self.x+x_off,self.y+y_off,self.w,self.h))

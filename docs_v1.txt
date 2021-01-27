@@ -1,0 +1,18 @@
+Rhombus Documentation
+by Drew
+Wednesday, January 27, 2021
+
+On drawing and formatting a spritesheet for use with
+the Sprite object, an instance of which is a member
+of Mob.
+
+Make the cells uniform (ie. make every sprite
+16x16 or 32x48, or whatever dimensions you're using)
+
+Leave one extra width of pixels at the bottom for
+the size of the spritesheet's cells, its rectangle
+dimensions, and its x and y offsets for rendering
+
+from the parent directory (rhombus/)
+$ grep -in "\[sprite format\]" core/*.py
+this will grab the format in case you're stuck
