@@ -34,4 +34,10 @@ class UI_Merchant(UI_Group):
         
         self.selector = UI_Selector(self.game)
         self.currency_display = UI_CurrencyDisplay(self.game)
-        self.item_display = UI_ItemDisplay(self.game)
+        self.buy_display = UI_BuyDisplay(self.game)
+        self.sell_display = UI_SellDisplay(self.game)
+        
+    def update(self):
+        self.selector.update()
+        self.merc_display.update()
+        # after each transaction: self.currency_display.update()
